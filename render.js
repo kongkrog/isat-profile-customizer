@@ -49,38 +49,50 @@ function updateProfile() {
     document.getElementById("grayText").innerText = "(" + charPronoun + ")";
     document.getElementById("descriptionText").innerText = charDesc;
 
+    function capitalize(str) {
+        if (str.includes('_')) {
+            return str.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        } else {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    }
+    
     if (charCraft1 !== "none") {
         document.getElementById("imageCraft1").src = './assets/' + charCraft1 + 'craft.png';
     } else {
         document.getElementById("imageCraft1").src = '';
     }
+    
     if (charCraft2 !== "none") {
         document.getElementById("imageCraft2").src = './assets/' + charCraft2 + 'craft.png';
     } else {
         document.getElementById("imageCraft2").src = '';
     }
-
+    
     if (charWeakness !== "none") {
-        document.getElementById("weakImage").innerHTML = '<span style="color: white;">&emsp;&emsp;&emsp;<img src="./assets/' + charWeakness + 'craft.png">' + charWeakness.charAt(0).toUpperCase() + charWeakness.slice(1) + '</span>';
+        document.getElementById("weakImage").innerHTML = '<span style="color: white;">&emsp;&emsp;&emsp;<img src="./assets/' + charWeakness + 'craft.png">' + capitalize(charWeakness) + '</span>';
     } else {
-        document.getElementById("weakImage").innerHTML = ''
+        document.getElementById("weakImage").innerHTML = '';
     }
+    
     if (charResist1 !== "none") {
-        document.getElementById("resistImage1").innerHTML = '<span style="color: white;"><img src="./assets/' + charResist1 + 'craft.png">' + charResist1.charAt(0).toUpperCase() + charResist1.slice(1) + '</span>';
+        document.getElementById("resistImage1").innerHTML = '<span style="color: white;"><img src="./assets/' + charResist1 + 'craft.png">' + capitalize(charResist1) + '</span>';
     } else {
-        document.getElementById("resistImage1").innerHTML = ''
+        document.getElementById("resistImage1").innerHTML = '';
     }
+    
     if (charResist2 !== "none") {
-        document.getElementById("resistImage2").innerHTML = '<span style="color: white;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./assets/' + charResist2 + 'craft.png">' + charResist2.charAt(0).toUpperCase() + charResist2.slice(1) + '</span>';
+        document.getElementById("resistImage2").innerHTML = '<span style="color: white;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./assets/' + charResist2 + 'craft.png">' + capitalize(charResist2) + '</span>';
     } else {
-        document.getElementById("resistImage2").innerHTML = ''
+        document.getElementById("resistImage2").innerHTML = '';
     }
+    
     if (charImmune !== "none") {
-        document.getElementById("immuneImage").innerHTML = '<span style="color: white;">&nbsp;&nbsp;&nbsp;&nbsp;<img src="./assets/' + charImmune + 'craft.png">' + charImmune.charAt(0).toUpperCase() + charImmune.slice(1) + '</span>';
-        document.getElementById("immunePart").style.display = 'block'
+        document.getElementById("immuneImage").innerHTML = '<span style="color: white;">&nbsp;&nbsp;&nbsp;&nbsp;<img src="./assets/' + charImmune + 'craft.png">' + capitalize(charImmune) + '</span>';
+        document.getElementById("immunePart").style.display = 'block';
     } else {
-        document.getElementById("immuneImage").innerHTML = ''
-        document.getElementById("immunePart").style.display = 'none'
+        document.getElementById("immuneImage").innerHTML = '';
+        document.getElementById("immunePart").style.display = 'none';
     }
 
     document.getElementById("statIntroduction").innerHTML = '<p>' + charNickname + '</p> <p style="color: gray;">LVL <span style="color: white;" id="lvlStat">' + charLevel + '</span>&emsp;&emsp;HP <span style="color: white;" id="hpStat">' + charHP + '/' + charHP + '</span></p>';
