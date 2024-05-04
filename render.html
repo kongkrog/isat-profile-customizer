@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="render.css">
+    <title>ISAT Character Profile Customizer</title>
+</head>
+<body>
+    <main id="mainMenu">
+        <header id="nameUI">
+            <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+            <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+            <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+            <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+            <div id="topUIBar"></div>
+            <div id="bottomUIBar"></div>
+            <div id="leftUIBar"></div>
+            <div id="rightUIBar"></div>
+            <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <div id="leftButton">
+                <img id="repeatButton" src="./assets/pageDown.png" />
+                <img src="./assets/pageDownHold.png" />
+            </div>
+            <p id="characterMainName">Garedbi</p>
+            <div id="rightButton">
+                <img id="repeatButton" src="./assets/pageUp.png" />
+                <img src="./assets/pageUpHold.png" />
+            </div>
+        </header>
+        <div id="characterImgUI">
+            <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+            <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+            <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+            <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+            <div id="topUIBar"></div>
+            <div id="bottomUIBar"></div>
+            <div id="leftUIBar"></div>
+            <div id="rightUIBar"></div>
+            <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <div id="profileImage" style="background-image: url('./assets/profileImage.png');"></div>
+        </div>
+        <div id="characterInfoUI">
+            <nav id="navigationUI">
+                <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <div id="topUIBar"></div>
+                <div id="bottomUIBar"></div>
+                <div id="leftUIBar"></div>
+                <div id="rightUIBar"></div>
+                <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <button class="uiButton" id="profileButton" onclick="switchToProfile()">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    <img src="./assets/sparkleicon.png"> Profile
+                </button>
+                <button class="uiButton" id="statsButton" onclick="switchToStat()">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    <img src="./assets/staticon.png"> Stats
+                </button>
+            </nav>
+            <div id="infoUI">
+                <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <div id="topUIBar"></div>
+                <div id="bottomUIBar"></div>
+                <div id="leftUIBar"></div>
+                <div id="rightUIBar"></div>
+                <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <div id="characterCraft">
+                    <img id="imageCraft1" src="./assets/scissorcraft.png">
+                    <img id="imageCraft2" src="./assets/scissorcraft.png">
+                </div>
+                <div id="introductionText">
+                    <p id="characterName">Garedbi</p>
+                    <p id="grayText">(he/him)</p>
+                </div>
+                    <p id="descriptionText">You are the beloved of a certain someone!</p>
+                <div id="weaknessText">
+                    <p id="grayText">WEAK TO: <span style="color: white" id="weakImage">&emsp;&emsp;&emsp;<img src="./assets/rockcraft.png">Rock</span></p>
+                    <p id="grayText">RESISTANT TO: <span style="color: white" id="resistImage1"><img src="./assets/papercraft.png">Paper</span></p>
+                    <p id="grayText"><span style="color: white" id="resistImage2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./assets/papercraft.png">Paper</span></p>
+                    <div id="immunePart"><p id="grayText">IMMUNE TO:<span style="color: white" id="immuneImage">&nbsp;&nbsp;&nbsp;&nbsp;<img src="./assets/papercraft.png">Paper</span></p></div>
+                </div>
+                <div id="statPage">
+                    <div id="statIntroduction">
+                        <p>The Traveler</p>
+                        <p style="color: gray;">LVL
+                            <span style="color: white;" id="lvlStat">75</span> 
+                            &emsp;
+                            HP
+                            <span style="color: white;" id="hpStat">995/995</span>
+                        </p>
+                    </div>
+                    <div id="statStats">
+                        <div id="statStatsName">
+                            <p>Attack</p>
+                            <p>Defense</p>
+                            <p>Atk Speed</p>
+                            <p>Luck</p>
+                        </div>
+                        <div id="statStatsNumber">
+                            <p id="atkStat">75</p>
+                            <p id="defStat">75</p>
+                            <p id="atkspdStat">75</p>
+                            <p id="lukStat">75</p>
+                        </div>
+                    </div>
+                    <div id="statExp">
+                        <div id="statExpName">
+                            <p>Current EXP</p>
+                            <p>To Next Level</p>
+                        </div>
+                        <div id="statExpNumber">
+                            <p id="curExp">75</p>
+                            <p id="nextExp">75</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <button class="uiButton" onclick="openSetting()">
+        <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+        <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+        <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+        <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+        <img src="./assets/settingicon.png"> Setting
+    </button>
+    <form id="settingPanel" onsubmit="updateProfile();">
+        <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <div id="topUIBar"></div>
+        <div id="bottomUIBar"></div>
+        <div id="leftUIBar"></div>
+        <div id="rightUIBar"></div>
+        <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <div id="nameInput">
+            <label for="charName">Name:</label>
+            <input type="text" id="charName" fname="charName">
+            <label for="charPronoun">Pronoun:</label>
+            <input type="text" id="charPronoun" fname="charPronoun">
+        </div>
+        <label for="charDesc">Description:</label>
+        <input type="text" id="charDesc" fname="charDesc">
+        <div id="craftInput">
+            <label for="charCraft1">Craft 1:
+                <select id="charCraft1" fname="charCraft1">
+                    <option value="none">None</option>
+                    <option value="scissor">Scissor</option>
+                    <option value="rock">Rock</option>
+                    <option value="paper">Paper</option>
+                </select>
+            </label>
+            <label for="charCraft2">Craft 2:
+                <select id="charCraft2" fname="charCraft2">
+                    <option value="none">None</option>
+                    <option value="scissor">Scissor</option>
+                    <option value="rock">Rock</option>
+                    <option value="paper">Paper</option>
+                </select>
+            </label>
+            <label for="charWeakness">Weak:
+                <select id="charWeakness" fname="charWeakness">
+                    <option value="none">None</option>
+                    <option value="scissor">Scissor</option>
+                    <option value="rock">Rock</option>
+                    <option value="paper">Paper</option>
+                </select>
+            </label>
+            <label for="charResist1">Resist 1:
+                <select id="charResist1" fname="charResist1">
+                    <option value="none">None</option>
+                    <option value="scissor">Scissor</option>
+                    <option value="rock">Rock</option>
+                    <option value="paper">Paper</option>
+                </select>
+            </label>
+            <label for="charResist2">Resist 2:
+                <select id="charResist2" fname="charResist2">
+                    <option value="none">None</option>
+                    <option value="scissor">Scissor</option>
+                    <option value="rock">Rock</option>
+                    <option value="paper">Paper</option>
+                </select>
+            </label>
+            <label for="charImmune">Immune:
+                <select id="charImmune" fname="charImmune">
+                    <option value="none">None</option>
+                    <option value="scissor">Scissor</option>
+                    <option value="rock">Rock</option>
+                    <option value="paper">Paper</option>
+                </select>
+            </label>
+        </div>
+
+        <label for="charNickname">Character Nickname:</label>
+        <input type="text" id="charNickname" fname="charNickname">
+        
+        <div id="statInput">
+            <label for="charLevel">LVL:</label>
+            <input type="number" id="charLevel" fname="charLevel">
+            <label for="charHP">HP:</label>
+            <input type="number" id="charHP" fname="charHP">
+            <label for="charAttack">Attack:</label>
+            <input type="number" id="charAttack" fname="charAttack">
+            <label for="charDefense">Defense:</label>
+            <input type="number" id="charDefense" fname="charDefense">
+            <label for="charAtkSpd">Atk Speed:</label>
+            <input type="number" id="charAtkSpd" fname="charAtkSpd">
+            <label for="charLuck">Luck:</label>
+            <input type="number" id="charLuck" fname="charLuck">
+        </div>
+
+        <div id="expInput">
+            <label for="charEXP">Current EXP:</label>
+            <input type="number" id="charEXP" fname="charEXP">
+            <label for="charNextLevel">To Next Level:</label>
+            <input type="number" id="charNextLevel" fname="charNextLevel">
+        </div>
+
+        <div style="display: flex; flex-direction: row;">
+            <button class="uiButton" id="saveButton">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/saveicon.png"> Save
+            </button>
+            <button class="uiButton" type="button" onclick="exitSetting()">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/quiticon.png"> Exit
+            </button>
+
+        <div style="display: flex; flex-direction: row;">
+            <input type="file" id="fileInput" accept="image/*">
+            <button class="uiButton" type="button" onclick="updateProfileImage()">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                Image Upload</button> 
+        </div>
+    </form>
+    <script src="render.js"></script> 
+</body>
+</html>
