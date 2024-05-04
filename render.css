@@ -145,6 +145,10 @@ body {
     background-size: cover;
 }
 
+#immunePart {
+    display: none;
+}
+
 .uiButton {
     position: relative;
 
@@ -502,6 +506,16 @@ input, select {
     animation-timing-function: linear;
 }
 
+#arrowUI {
+    position: absolute;
+    margin: auto 0;
+    bottom: 0;
+
+    animation-name: arrowanimation;
+    animation-iteration-count: infinite;
+    animation-duration: 0.7s;
+}
+
 @keyframes moveupleft {
     0% {
         top: -10px;
@@ -568,4 +582,22 @@ input, select {
         bottom: -10px;
         right: -10px;
     }
+}
+
+@keyframes arrowanimation {
+    0% {
+        bottom: 4px;
+    }
+
+    49% {
+        bottom: 4px;
+    }
+
+    50% {
+        bottom: 0px;
+    }
+
+    100% {
+        bottom: 0px;
+  }
 }

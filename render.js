@@ -52,12 +52,12 @@ function updateProfile() {
     if (charCraft1 !== "none") {
         document.getElementById("imageCraft1").src = './assets/' + charCraft1 + 'craft.png';
     } else {
-        document.getElementById("imageCraft1").src = '#';
+        document.getElementById("imageCraft1").src = '';
     }
     if (charCraft2 !== "none") {
         document.getElementById("imageCraft2").src = './assets/' + charCraft2 + 'craft.png';
     } else {
-        document.getElementById("imageCraft2").src = '#';
+        document.getElementById("imageCraft2").src = '';
     }
 
     if (charWeakness !== "none") {
