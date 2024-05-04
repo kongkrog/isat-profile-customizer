@@ -98,7 +98,7 @@ body {
     display: grid;
     position: relative;
 
-    grid-template-rows: 14% 60.5% 25.5%;
+    grid-template-rows: 14% 56% 30%;
 }
 
 #introductionText {
