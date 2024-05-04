@@ -166,6 +166,7 @@
         <img src="./assets/settingicon.png"> Setting
     </button>
     <p style="font-size: 1rem;">Preferred Image Size: Aspect Ratio 0.55:1 (Ex: 278x506)</p>
+    <p style="font-size: 1rem;">In Stars And Time Profile Customizer - made by kongkrog(lea) - all assets belong to insertdisc5</p>
     <form id="settingPanel" onsubmit="updateProfile();">
         <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
         <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
@@ -288,15 +289,7 @@
                 <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
                 <img src="./assets/quiticon.png"> Exit
             </button>
-
-        <div style="display: flex; flex-direction: row;">
-            <input type="file" id="fileInput" accept="image/*">
-            <button class="uiButton" type="button" onclick="updateProfileImage()">
-                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                Image Upload</button> 
+            Image: <input type="file" id="fileInput" accept="image/*"> 
         </div>
     </form>
     <script src="render.js"></script> 

@@ -98,7 +98,7 @@ body {
     display: grid;
     position: relative;
 
-    grid-template-rows: 14% 56% 30%;
+    grid-template-rows: 14% 60.5% 25.5%;
 }
 
 #introductionText {
@@ -193,7 +193,7 @@ body {
 #repeatButton {
     position: absolute;
 
-    top: 1px;
+    top: 0;
     left: 0;
     animation-name: imageswitch;
     animation-iteration-count: infinite;
@@ -262,7 +262,6 @@ body {
     z-index: 2;
 
     background-color: black;
-
     flex-direction: column;
 }
 

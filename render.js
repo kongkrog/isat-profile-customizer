@@ -105,6 +105,7 @@ function updateProfile() {
 
     // Prevent form submission
     document.getElementById("settingPanel").style.display = "none";
+    updateProfileImage()
     return false;
 }
 
