@@ -5,3 +5,5 @@ It also doesn't auto-save because that would involve local saving andddd I'm als
 
 There's no built-in recording stuff so please use your own recording software if you want to.
 The input for image does support gif files so, go wild with it.
+
+Fork this repo if you want to. My code is sloppy as crab and I lost my willpower to fix it.
