@@ -3,7 +3,12 @@ You can run the page directly using this link: https://kongkrog.github.io/isat-p
 HTML App for customizing ISAT profile.
 
 ### Usage
+Please use the above link to avoid downloading this repo.
+Else
 Download this repo and run the html file for usage.
+
+### Notes
+If you want to improve/modify this project, feel free to clone/fork it. My code is sloppy and I already lost my will to fix it.
 
 ### Details
 Just finished this project in 7 hours. Doesn't support mobile since I'm too lazy to do so.
@@ -11,6 +16,3 @@ It also doesn't auto-save because that would involve local saving andddd I'm als
 
 There's no built-in recording stuff so please use your own recording software if you want to.
 The image input does support .gif files so.... go wild with it.
-
-### Addition
-Fork this repo if you want to. My code is sloppy as crab and I already lost my willpower to fix it.
