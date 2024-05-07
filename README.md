@@ -1,4 +1,4 @@
-USE THE LIVE WEBSITE HERE: https://kongkrog.github.io/isat-profile-customizer/render.html
+You can run the page directly using this link: https://kongkrog.github.io/isat-profile-customizer/render.html
 
 HTML App for customizing ISAT profile.
 
