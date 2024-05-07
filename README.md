@@ -4,8 +4,7 @@ HTML App for customizing ISAT profile.
 
 ### Usage
 Please use the above link to avoid downloading this repo.
-Else
-Download this repo and run the html file for usage.
+Else download this repo and run the html file for usage.
 
 ### Notes
 If you want to improve/modify this project, feel free to clone/fork it. My code is sloppy and I already lost my will to fix it.
