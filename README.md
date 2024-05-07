@@ -3,7 +3,7 @@ You can run the page directly using this link: https://kongkrog.github.io/isat-p
 HTML App for customizing ISAT profile.
 
 ### Usage
-Please use the above link to avoid downloading this repo.
+Please use the link above to avoid downloading this repo.
 Else download this repo and run the html file for usage.
 
 ### Notes
