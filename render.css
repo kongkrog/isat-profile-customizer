@@ -172,6 +172,7 @@ body {
 
 }
 
+.uiButton.active,
 .uiButton:hover {
     border: white 2px solid;
 }
@@ -450,59 +451,42 @@ input, select {
     display: none;
 }
 
+.uiButton.active #cornerUpLeft,
 .uiButton:hover #cornerUpLeft {
     display: block;
-
     position: absolute;
     top: -10px;
     left: -10px;
-
-    animation-name: moveupleft;
-    animation-iteration-count: infinite;
-    animation-duration: 1s;
-    animation-timing-function: linear;
+    animation: moveupleft 1s infinite linear;
 }
 
+.uiButton.active #cornerUpRight,
 .uiButton:hover #cornerUpRight {
     display: block;
-
     position: absolute;
     top: -10px;
     right: -10px;
-
     transform: scale(-1);
-
-    animation-name: moveupright;
-    animation-iteration-count: infinite;
-    animation-duration: 1s;
-    animation-timing-function: linear;
+    animation: moveupright 1s infinite linear;
 }
 
+.uiButton.active #cornerDownLeft,
 .uiButton:hover #cornerDownLeft {
     display: block;
-
     position: absolute;
     bottom: -10px;
     left: -10px;
-
-    animation-name: movedownleft;
-    animation-iteration-count: infinite;
-    animation-duration: 1s;
-    animation-timing-function: linear;
+    animation: movedownleft 1s infinite linear;
 }
 
+.uiButton.active #cornerDownRight,
 .uiButton:hover #cornerDownRight {
     display: block;
     position: absolute;
     bottom: -10px;
     right: -10px;
-
     transform: scale(-1);
-
-    animation-name: movedownright;
-    animation-iteration-count: infinite;
-    animation-duration: 1s;
-    animation-timing-function: linear;
+    animation: movedownright 1s infinite linear;
 }
 
 #arrowUI {

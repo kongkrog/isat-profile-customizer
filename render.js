@@ -4,6 +4,8 @@ function switchToProfile() {
     document.getElementById("weaknessText").style.display = "block";
     document.getElementById("characterCraft").style.display = "block";
     document.getElementById("statPage").style.display = "none";
+    document.getElementById("profileButton").classList.add("active");
+    document.getElementById("statsButton").classList.remove("active");
 }
 
 function switchToStat() {  
@@ -12,6 +14,8 @@ function switchToStat() {
     document.getElementById("weaknessText").style.display = "none";
     document.getElementById("characterCraft").style.display = "none";
     document.getElementById("statPage").style.display = "flex";
+    document.getElementById("statsButton").classList.add("active");
+    document.getElementById("profileButton").classList.remove("active");
 }
 
 function exitSetting() {
