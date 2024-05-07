@@ -227,15 +227,19 @@ body {
     display: none;
 }
 
-#statStats {
+#personalIntroduction {
+    display: none;
+}
+
+#statStats, #personalIntroduction {
     position: relative;
 }
 
-#statStatsName {
+#statStatsName,#personalName {
     color: gray;
 }
 
-#statStatsNumber {
+#statStatsNumber,#personalNumber {
     position: absolute;
     top: 0;
     left: 45%;

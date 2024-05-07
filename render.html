@@ -130,6 +130,16 @@
                             <span style="color: white;" id="hpStat">995/995</span>
                         </p>
                     </div>
+                    <div id="personalIntroduction">
+                        <div id="personalName">
+                            <p id="ageName"></p>
+                            <p id="heightName"></p>
+                        </div>
+                        <div id="personalNumber">
+                            <p id="ageStat"></p>
+                            <p id="heightStat"></p>
+                        </div>
+                    </div>
                     <div id="statStats">
                         <div id="statStatsName">
                             <p>Attack</p>
@@ -184,6 +194,8 @@
         <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <p>All input can be either number or text.</p>
+        <p>Height and Age will only appear when inputted with a value.</p>
         <div id="nameInput">
             <label for="charName">Name:</label>
             <input type="text" id="charName" fname="charName">
@@ -252,26 +264,33 @@
         <label for="charNickname">Character Nickname:</label>
         <input type="text" id="charNickname" fname="charNickname">
         
+        <div id="expInput">
+            <label for="charAge">Age (Optional):</label>
+            <input type="text" id="charAge" fname="charAge">
+            <label for="charHeight">Height (Optional):</label>
+            <input type="text" id="charHeight" fname="charHeight">
+        </div>
+
         <div id="statInput">
             <label for="charLevel">LVL:</label>
-            <input type="number" id="charLevel" fname="charLevel">
+            <input type="text" id="charLevel" fname="charLevel">
             <label for="charHP">HP:</label>
-            <input type="number" id="charHP" fname="charHP">
+            <input type="text" id="charHP" fname="charHP">
             <label for="charAttack">Attack:</label>
-            <input type="number" id="charAttack" fname="charAttack">
+            <input type="text" id="charAttack" fname="charAttack">
             <label for="charDefense">Defense:</label>
-            <input type="number" id="charDefense" fname="charDefense">
+            <input type="text" id="charDefense" fname="charDefense">
             <label for="charAtkSpd">Atk Speed:</label>
-            <input type="number" id="charAtkSpd" fname="charAtkSpd">
+            <input type="text" id="charAtkSpd" fname="charAtkSpd">
             <label for="charLuck">Luck:</label>
-            <input type="number" id="charLuck" fname="charLuck">
+            <input type="text" id="charLuck" fname="charLuck">
         </div>
 
         <div id="expInput">
             <label for="charEXP">Current EXP:</label>
-            <input type="number" id="charEXP" fname="charEXP">
+            <input type="text" id="charEXP" fname="charEXP">
             <label for="charNextLevel">To Next Level:</label>
-            <input type="number" id="charNextLevel" fname="charNextLevel">
+            <input type="text" id="charNextLevel" fname="charNextLevel">
         </div>
 
         <div style="display: flex; flex-direction: row;">

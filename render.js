@@ -26,6 +26,10 @@ function openSetting() {
     document.getElementById("settingPanel").style.display = "flex"; 
 }
 
+function isNumeric(input) {
+    return !isNaN(parseFloat(input)) && isFinite(input);
+}
+
 function updateProfile() {
     // Read values from form inputs
     var charName = document.getElementById("charName").value;
@@ -46,6 +50,8 @@ function updateProfile() {
     var charLuck = document.getElementById("charLuck").value;
     var charEXP = document.getElementById("charEXP").value;
     var charNextLevel = document.getElementById("charNextLevel").value;
+    var charAge = document.getElementById("charAge").value;
+    var charHeight = document.getElementById("charHeight").value;
 
     // Update elements in the document with new values
     document.getElementById("characterMainName").innerText = charName;
@@ -99,7 +105,36 @@ function updateProfile() {
         document.getElementById("immunePart").style.display = 'none';
     }
 
-    document.getElementById("statIntroduction").innerHTML = '<p>' + charNickname + '</p> <p style="color: gray;">LVL <span style="color: white;" id="lvlStat">' + charLevel + '</span>&emsp;&emsp;HP <span style="color: white;" id="hpStat">' + charHP + '/' + charHP + '</span></p>';
+    if (charAge !== "") {
+        document.getElementById("ageStat").innerHTML = charAge;
+        document.getElementById("ageName").innerHTML = 'Age';
+    } else {
+        document.getElementById("ageStat").innerHTML = '';
+        document.getElementById("ageName").innerHTML = '';
+    }
+
+    if (charHeight == "" && charAge == "") {
+        document.getElementById("personalIntroduction").style.display = "none";
+    } else {
+        document.getElementById("personalIntroduction").style.display = "block";
+    }
+    
+    if (charHeight !== "") {
+        document.getElementById("heightStat").innerHTML = charHeight;
+        document.getElementById("heightName").innerHTML = 'Height';
+    } else {
+        document.getElementById("heightStat").innerHTML = '';
+        document.getElementById("heightName").innerHTML = '';
+    }
+
+    if (isNumeric(charHP) == true) {
+        console.log("charHP is numeric.");
+        document.getElementById("statIntroduction").innerHTML = '<p>' + charNickname + '</p> <p style="color: gray;">LVL <span style="color: white;" id="lvlStat">' + charLevel + '</span>&emsp;&emsp;HP <span style="color: white;" id="hpStat">' + charHP + '/' + charHP + '</span></p>';
+    } else {
+        console.log("charHP is not numeric.");
+        document.getElementById("statIntroduction").innerHTML = '<p>' + charNickname + '</p> <p style="color: gray;">LVL <span style="color: white;" id="lvlStat">' + charLevel + '</span>&emsp;&emsp;HP <span style="color: white;" id="hpStat">' + charHP + '</span></p>';
+    }
+
     document.getElementById("atkStat").innerText = charAttack;
     document.getElementById("defStat").innerText = charDefense;
     document.getElementById("atkspdStat").innerText = charAtkSpd;
