@@ -168,13 +168,22 @@
             </div>
         </div>
     </main>
-    <button class="uiButton" style="margin-top: 20px;" onclick="openSetting()">
-        <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-        <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-        <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-        <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-        <img src="./assets/settingicon.png"> Setting
-    </button>
+    <div style="display: flex; flex-direction: row;">
+        <button class="uiButton" style="margin-top: 20px;" onclick="openSetting()">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Setting
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./mainmenu.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Party
+        </button>
+    </div>
     <p style="font-size: 1rem;">Preferred Image Size: Aspect Ratio 0.55:1 (Ex: 278x506)</p>
     <p style="font-size: 1rem;">In Stars And Time Profile Customizer - made by kongkrog(lea) - all assets belong to insertdisc5</p>
     <form id="settingPanel" onsubmit="updateProfile();">

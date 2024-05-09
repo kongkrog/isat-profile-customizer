@@ -8,6 +8,8 @@ html {
 
     top: 0;
     left: 0;
+    padding: 0;
+    margin: 0;
 }
 
 p {
@@ -114,8 +116,9 @@ body {
 
     grid-row: 2 / 2;
 
-    word-break: keep-all;
-    word-wrap: normal;
+    white-space: pre-wrap; 
+    overflow-wrap: break-word;
+    
 }
 
 #weaknessText {
@@ -242,7 +245,7 @@ body {
 #statStatsNumber,#personalNumber {
     position: absolute;
     top: 0;
-    left: 45%;
+    left: 43%;
 }
 
 #statExpName {
@@ -256,7 +259,7 @@ body {
 #statExpNumber {
     position: absolute;
     top: 0;
-    left: 65%;
+    left: 60%;
 }
 
 #settingPanel {
@@ -587,4 +590,240 @@ input, select {
     100% {
         bottom: 0px;
   }
+}
+
+#gameMainMenu {
+    position: relative;
+
+    width: 810px;
+    height: 620px;
+
+    background-image: url(./assets/mainBgImage.png);
+
+    background-repeat: no-repeat;
+    background-position: center center; 
+    background-size: cover;
+}
+
+#frameMenu {
+    position: absolute;
+
+    width: 810px;
+    height: 620px;
+
+    z-index: 2;
+    background-color: transparent;
+    color: transparent;
+}
+#gameMenuText {
+    position: absolute;
+
+    top: 15px;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    margin: auto;
+
+    width: 251px;
+    height: 56px;
+
+    background-color: black;
+    z-index: 3;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 6px;
+}
+
+#gameMenuItem {
+    position: absolute;
+
+    top: 75px;
+    
+    left: 50%;
+    transform: translateX(-50%);
+
+    margin: auto;
+
+    width: 480px;
+    height: 83px;
+    
+    background-color: black;
+    z-index: 3;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 6px;
+}
+
+#healthBackground {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+
+    position: absolute;
+    bottom: 92px;
+
+    height: 120px;
+    width: 800px;
+
+    margin-left: 8px;
+    margin-right: 8px;
+
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1;
+}
+
+.statusGroup {
+    position: relative;
+
+    width: 129px;
+    height: 93px;
+}
+
+#layoutStatus {
+    position: absolute;
+
+    bottom: 0;
+
+    width: 129px;
+    height: 62px;
+}
+
+.healthNumber {
+    position: absolute;
+
+    bottom: 11px;
+    right: 5px;
+
+    font-size: 1.15rem;
+}
+
+.levelNumber {
+    position: absolute;
+
+    bottom: 38px;
+    right: 5px;
+
+    font-size: 1.15rem;
+}
+
+.statusName {
+    position: absolute;
+
+    top: -5px;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    text-shadow: 2px 0 rgba(0,0,0,0.5), -2px 0 rgba(0,0,0,0.5), 0 2px rgba(0,0,0,0.5), 0 -2px rgba(0,0,0,0.5),
+             1px 1px rgba(0,0,0,0.5), -1px -1px rgba(0,0,0,0.5), 1px -1px rgba(0,0,0,0.5), -1px 1px rgba(0,0,0,0.5);
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+
+.actorImage {
+    position: absolute;
+    
+    bottom: 0;
+    z-index: 0;
+
+    height: 90%;
+    margin-bottom: 8px;
+
+    text-align: center;
+}
+
+#actorBackground {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+.imageContainer {
+    display: flex;
+
+    width: 204px;
+
+    justify-content: center;
+}
+
+.hideBlobLeft {
+    position: absolute;
+
+    width: calc(50vw - 390px);
+    height: 100%;
+
+    z-index: 2;
+
+    background-color: black;
+}
+
+.hideBlobRight {
+    position: absolute;
+
+    width: calc(50vw - 406px);
+    height: 100%;
+
+    z-index: 2;
+
+    background-color: black;
+}
+
+.iconMainMenu {
+    position: relative;
+    
+    width: 58px;
+    height: 59px;
+
+    opacity: 0.3;
+
+    transition: opacity 0.1s ease-in-out;
+}
+
+.iconMainMenu:hover {
+    width: 58px;
+    height: 59px;
+
+    opacity: 1;
+}
+
+#hoverText {
+    font-size: 1.3rem;
+}
+
+#settingMainMenu {
+    display: none;
+    position: absolute;
+    
+    padding: 24px;
+    z-index: 3;
+
+    background-color: black;
+    flex-direction: column;
+}
+
+#actor1 {
+    margin-left: 20px;
+}
+
+#actor4 {
+    margin-left: 20px;
 }
