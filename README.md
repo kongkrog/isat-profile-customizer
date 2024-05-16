@@ -1,4 +1,4 @@
-###Update
+### Update
 I'm working on an ISAT dialogue maker right now but the project is on hold because I got burnout for a bit. Feel free to request features by pinging me in the ISAT server (@kongkrog).
 
 You can run the page directly using this link: https://kongkrog.github.io/isat-profile-customizer/render.html
