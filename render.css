@@ -3,6 +3,11 @@
     src: url("./assets/VCR_OSD_MONO.ttf");
 }
 
+@font-face {
+    font-family: "BESTTEN_CRT";
+    src: url("./assets/BestTen-CRT.ttf");
+}
+
 html {
     background-color: black;
 
@@ -49,6 +54,10 @@ body {
 
     grid-template-columns: 40% 60%;
     grid-template-rows: 11.3% 88.7%;
+}
+
+#dialogueMain {
+    background-color: black;
 }
 
 #nameUI, #infoUI, #characterImgUI {
@@ -827,3 +836,129 @@ input, select {
 #actor4 {
     margin-left: 20px;
 }
+
+#dialogueUI {
+    position: relative;
+
+    width: 790px;
+    height: 148px;
+    
+    padding: 16px 16px;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#dialogueText {
+    font-size: 1.45rem;
+}
+
+#dialogueImage {
+    width: 267px;
+    height: 318px;
+
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+
+    object-fit: cover;
+    object-position: 120% 0;
+}
+
+#dialogueArrow {
+    position: absolute;
+
+    bottom: 16px;
+    right: 22px;
+}
+
+#extraDialogueUI {
+    font-size: 1.45rem;
+
+    display: flex;
+    position: absolute;
+
+    bottom: 100%;
+    left: 0;
+
+    padding: 18px;
+
+    width: auto;
+    height: 36px;
+
+    align-items: center;
+    justify-content: center;
+
+    color: lightgray;
+}
+
+#battleUI {
+    position: relative;
+
+    width: 154px;
+    height: 178px;
+}
+
+#battleThymeBar {
+    position: absolute;
+
+    width: 140px;
+    height: 8px;
+
+    background-image: linear-gradient(to right, rgba(59,59,59,255), rgba(127,127,127,255)); 
+
+    bottom: 7px;
+    left: 7px;
+}
+
+#battleHPBar {
+    position: absolute;
+    
+    width: 140px;
+    height: 22px;
+
+    background-image: linear-gradient(to right, rgba(195,195,195,255), rgba(254,254,254,255)); 
+
+    bottom: 16px;
+    left: 7px;
+}
+
+#battleProtrait {
+    position: absolute;
+
+    width: 140px;
+    height: 132px;
+
+    background-color: darkgray;
+
+    bottom: 39px;
+    left: 7px;
+
+    background-repeat: no-repeat;
+    background-position: center center; 
+    background-size: cover;
+}
+
+#battleHPText {
+    position: absolute;
+
+    font-size: 16px;
+    text-shadow: -1px -1px 1px rgba(106,106,106,255), 1px -1px 1px rgba(106,106,106,255), -1px 1px 1px rgba(106,106,106,255), 1px 1px 1px rgba(106,106,106,255),
+                -1px -1px 1px rgba(106,106,106,255),1px -1px 1px rgba(106,106,106,255), -1px 1px 1px rgba(106,106,106,255), 1px 1px 1px rgba(106,106,106,255);
+
+    bottom: 18px;
+    left: 10px;
+}
+
+#battleHPNumberText {
+    position: absolute;
+
+    font-size: 16px;
+    text-shadow: -1px -1px 1px rgba(106,106,106,255), 1px -1px 1px rgba(106,106,106,255), -1px 1px 1px rgba(106,106,106,255), 1px 1px 1px rgba(106,106,106,255),
+                -1px -1px 1px rgba(106,106,106,255),1px -1px 1px rgba(106,106,106,255), -1px 1px 1px rgba(106,106,106,255), 1px 1px 1px rgba(106,106,106,255);
+
+    bottom: 18px;
+    right: 10px;
+}
+

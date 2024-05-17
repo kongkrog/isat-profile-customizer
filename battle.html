@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="render.css">
+    <title>ISAT Character Profile Customizer</title>
+</head>
+<body>
+    <main id="battleUI">
+        <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <div id="topUIBar"></div>
+        <div id="bottomUIBar"></div>
+        <div id="leftUIBar"></div>
+        <div id="rightUIBar"></div>
+        <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <div id="battleThymeBar"></div>
+        <div id="battleHPBar"></div>
+        <p id="battleHPText">HP</p>
+        <p id="battleHPNumberText">277</p>
+        <div id="battleProtrait"></div>
+        <!-- <div id="profileImage" style="background-image: url('./assets/profileImage.png');"></div> -->
+    </main>
+    <div style="display: flex; flex-direction: row;">
+        <button class="uiButton" style="margin-top: 20px;" onclick="openSetting()">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Setting
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./mainmenu.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Party
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./render.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Profile
+        </button>
+    </div>
+    <p style="font-size: 1rem;">Preferred Image Size: Aspect Ratio 0.55:1 (Ex: 278x506)</p>
+    <p style="font-size: 1rem;">Simple Battle Protrait Maker - made by kongkrog(lea) - all assets belong to insertdisc5</p>
+    <form id="settingPanel" onsubmit="updateProfile();">
+        <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <div id="topUIBar"></div>
+        <div id="bottomUIBar"></div>
+        <div id="leftUIBar"></div>
+        <div id="rightUIBar"></div>
+        <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <p>Enter Character Name to replace "HP"</p>
+        <div>
+            <label for="charHP">HP:</label>
+            <input type="number" id="charHP" fname="charHP">
+        </div>
+        <div>
+            <label for="charMaxHP">Max HP:</label>
+            <input type="number" id="charMaxHP" fname="charMaxHP">
+        </div>
+        <div>
+            <label for="charName">Character Name:</label>
+            <input type="text" id="charName" fname="charName">
+        </div>
+        <div>
+            <label for="checkMaxHP">Show Max HP?</label>
+            <input type="checkbox" id="checkMaxHP" fname="checkMaxHP">
+        </div>
+        Image: <input type="file" id="fileInput" accept="image/*"> 
+        <div style="display: flex; flex-direction: row;">
+            <button class="uiButton" id="saveButton">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/saveicon.png"> Save
+            </button>
+            <button class="uiButton" type="button" onclick="exitSetting()">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/quiticon.png"> Exit
+            </button>
+        </div>
+    </form>
+    <script src="battle.js"></script> 
+</body>
+</html>

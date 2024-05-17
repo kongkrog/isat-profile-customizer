@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="render.css">
+    <title>ISAT Dialogue Maker</title>
+</head>
+<body>
+    <main id="dialogueMain">
+        <header id="dialogueUI">
+            <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+            <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+            <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+            <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+            <div id="topUIBar"></div>
+            <div id="bottomUIBar"></div>
+            <div id="leftUIBar"></div>
+            <div id="rightUIBar"></div>
+            <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+            <p id="dialogueText" style="padding-left: 234px;">I don't think that's how dialogue but... okay? [PS=500] I [PS=250] guess????? [PS=500] Well fuck me then. [PS=500] [ZOOM=24-26-15]yippppp[/ZOOM][PS=250][ZOOM=26-30-10]EEEEEEEEEEE[/ZOOM][PS=250][FS=30]!!!![/FS]</p>
+            <!-- <img id="dialogueImage" src="./faces/B_ew_1[BUST].png"> -->
+            <img id="dialogueArrow" width="10px" height="20px" src="./assets/dialogueArrow.png">
+            <div id="extraDialogueUI">
+                <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <div id="topUIBar"></div>
+                <div id="bottomUIBar"></div>
+                <div id="leftUIBar"></div>
+                <div id="rightUIBar"></div>
+                <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <p id="dialogueName">The Anxious One</p>
+            </div>
+        </header>
+    </main>
+    <div style="display: flex; flex-direction: row;">
+        <button class="uiButton" style="margin-top: 20px;" onclick="openSetting()">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Setting
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./mainmenu.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Party
+        </button>
+    </div>
+    <p style="font-size: 1rem;">Preferred Image Size: Aspect Ratio 0.55:1 (Ex: 278x506)</p>
+    <p style="font-size: 1rem;">In Stars And Time Profile Customizer - made by kongkrog(lea) - all assets belong to insertdisc5</p>
+    <form id="settingPanel" onsubmit="">
+        <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <div id="topUIBar"></div>
+        <div id="bottomUIBar"></div>
+        <div id="leftUIBar"></div>
+        <div id="rightUIBar"></div>
+        <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <label for="charDialogue">Dialogue:</label>
+        <textarea id="charDialogue" fname="charDialogue">Input your dialogue here.</textarea>
+        <label for="charDialogueImg">Character Image:</label>
+        <input type="file" id="fileInput" accept="image/*"> 
+        <button class="uiButton" id="saveButton">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Clear Image
+        </button>
+        <label for="charDialogueImg">Character Name:</label>
+        <input type="text" id="charDialogueName" fname="charDialogueName">
+        <label for="dialogueSpeed">Dialogue Speed:
+            <select id="dialogueSpeed" fname="dialogueSpeed">
+                <option value="veryslow">Very Slow</option>
+                <option value="slow">Slow</option>
+                <option value="medium">Medium</option>
+                <option value="fast">Fast</option>
+                <option value="veryfast">Very Fast</option>
+            </select>
+        </label>
+        <div style="display: flex; flex-direction: row;">
+            <button class="uiButton" id="saveButton">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/saveicon.png"> Save
+            </button>
+            <button class="uiButton" type="button" onclick="exitSetting()">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/quiticon.png"> Exit
+            </button>
+        </div>
+    </form>
+    <script src="dialogue.js"></script> 
+</body>
+</html>
