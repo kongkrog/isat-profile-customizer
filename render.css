@@ -4,6 +4,12 @@
 }
 
 @font-face {
+    font-family: "VCR_OSD_MONO_CONDENSED";
+    font-stretch: 50% 200%;
+    src: url("./assets/VCR_OSD_MONO.ttf");
+}
+
+@font-face {
     font-family: "BESTTEN_CRT";
     src: url("./assets/BestTen-CRT.ttf");
 }
@@ -838,18 +844,22 @@ input, select {
 }
 
 #dialogueUI {
+    display: flex;
+    flex-wrap: wrap;
+
     position: relative;
 
     width: 790px;
     height: 148px;
     
     padding: 16px 16px;
-
-    display: flex;
-    flex-wrap: wrap;
 }
 
 #dialogueText {
+    white-space: normal; 
+    overflow-wrap: break-word;
+    overflow: hidden;
+
     font-size: 1.45rem;
 }
 
@@ -871,7 +881,48 @@ input, select {
 
     bottom: 16px;
     right: 22px;
+
+    transition: opacity 0.2s ease-in-out;
+
+    animation-name: dialoguearrowanimation;
+    animation-iteration-count: infinite;
+    animation-duration: 0.8s;
 }
+
+@keyframes dialoguearrowanimation {
+0% {
+    right: 22px;
+}
+
+24% {
+    right: 22px;
+}
+
+25% {
+    right: 24px;
+}
+
+49% {
+    right: 24px;
+}
+
+50% {
+    right: 26px;
+}
+
+74% {
+    right: 26px;
+}
+
+75% {
+    right: 24px;
+}
+
+100% {
+    right: 24px;
+}
+}
+
 
 #extraDialogueUI {
     font-size: 1.45rem;
@@ -930,7 +981,7 @@ input, select {
     width: 140px;
     height: 132px;
 
-    background-color: black;
+    background-color: darkgray;
 
     bottom: 39px;
     left: 7px;
@@ -962,3 +1013,23 @@ input, select {
     right: 10px;
 }
 
+#charDialogue {
+    height: 200px;
+}
+
+.thin {
+    font-stretch: condensed; /* This is an example; adjust as necessary */
+}
+
+.sine-wave {
+    display: inline-block;
+}
+
+.shake {
+    display: inline-block; 
+    transition: transform 0.03s ease-in-out; 
+}
+
+div {
+    display: inline-block;
+}
