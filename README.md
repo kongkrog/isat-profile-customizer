@@ -1,7 +1,6 @@
 You can run the page directly using this link: https://kongkrog.github.io/isat-profile-customizer/render.html
 
-HTML App for customizing ISAT profile.
-New: Now with customizing the Party Member menu!
+HTML App for customizing ISAT profile / party / (simple) battle / (in alpha) dialogue.
 
 ### Usage
 Please use the link above to avoid downloading this repo.
