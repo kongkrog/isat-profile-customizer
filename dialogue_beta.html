@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="render.css">
+    <title>ISAT Dialogue Maker</title>
+    <script src="gif.js"></script>
+    <script src="gif.worker.js"></script>
+</head>
+<body>
+    <main id="dialogueMain">
+        <canvas id="dialogueCanvas" width="816" height="180" style="border:1px solid #000000;">
+        </canvas>
+        <div id="gifImage"></div>
+    </main>
+    <button id="downloadButton" class="uiButton" style="margin-top: 20px; width: 250px;">
+        <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+        <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+        <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+        <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+        <img src="./assets/settingicon.png"> Download GIF
+    </button>
+    <div style="display: flex; flex-direction: row;">
+        <button class="uiButton" style="margin-top: 20px;" onclick="openSetting()">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Setting
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./mainmenu.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Party
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./render.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Profile
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./battle.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Battle
+        </button>
+    </div>
+    <button class="uiButton" style="margin-top: 20px; width: 250px;" onclick="location.href='./dialogue_static.html'">
+        <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+        <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+        <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+        <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+        <img src="./assets/settingicon.png"> Static Mode
+    </button>
+    <p style="font-size: 1rem;">I couldn't implement GIF features, it was too hard...</p>
+    <p style="font-size: 1rem;">ISAT Prologue Maker (Alpha) - made by kongkrog(lea) - all assets belong to insertdisc5</p>
+    <p style="font-size: 1.5rem; padding-top: 20px;">Tag guide: </p>
+    <p style="font-size: 1rem;">
+        <strong>[FS=x]...[/FS]</strong>: Changes the font size. The <em>x</em> specifies the font size.<br>
+    </p>
+    <p style="font-size: 1rem;">
+        <strong>[SW]...[/SW]</strong>: Applies a wave effect.<br>
+    </p>
+    <p style="font-size: 1rem;">
+        <strong>[ZOOM=x-y-z]...[/ZOOM]</strong>: Applies a zoom effect. The <em>x</em> is the starting zoom level, <em>y</em> is the ending zoom level, and <em>z</em> is the speed of the zoom.<br>
+    </p>
+    <p style="font-size: 1rem;">
+        <strong>[PS=x]</strong>: Introduces a pause. The <em>x</em> specifies the duration of the pause.<br>
+    </p>
+    <p style="font-size: 1rem;">
+        <strong>[SPD=x]...[/SPD]</strong>: Changes the speed animation. The <em>x</em> specifies the speed.<br>
+    </p>
+    <p style="font-size: 1rem;">
+        <strong>[SHAKE]...[/SHAKE]</strong>: Applies a shake effect.<br>
+    </p>
+    <p style="font-size: 1rem; padding-top: 20px;">Font in px | Delay in miliseconds | Tags are not combinable.</p>
+    <p style="font-size: 1rem;">Default dialogue speed is 25.</p>
+    <form id="settingPanel" onsubmit="updateProfile()">
+        <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <div id="topUIBar"></div>
+        <div id="bottomUIBar"></div>
+        <div id="leftUIBar"></div>
+        <div id="rightUIBar"></div>
+        <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <label for="charDialogue">Dialogue:</label>
+        <textarea id="charDialogue" fname="charDialogue">normal text [SHAKE]shaking text[/SHAKE] [SW]wavey text[/SW] [ZOOM=16-24-25]zooooooooooooming text[/ZOOM] pauses 1s[PS=1000] [SPD=10]fast text[/SPD] [FS=40]LARGE TEXT[/FS]</textarea>
+        <label for="charDialogueImg">Character Image:</label>
+        <p style="font-size: 1.2rem;">Character's face should be in: In Stars And Time/www/img/faces</p>
+        <input type="file" id="fileInput" accept="image/*"> 
+        <button class="uiButton" id="clearButton">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Clear Image
+        </button>
+        <label for="charDialogueImg">Character Name:</label>
+        <input type="text" id="charDialogueName" fname="charDialogueName">
+        <label for="dialogueSpeed">Dialogue Speed:
+            <select id="dialogueSpeed" fname="dialogueSpeed" default="veryfast">
+                <option value="veryslow">Very Slow</option>
+                <option value="slow">Slow</option>
+                <option value="medium">Medium</option>
+                <option value="fast">Fast</option>
+                <option value="veryfast">Very Fast</option>
+                <option value="nearinstant">Near Instant</option>
+            </select>
+        </label>
+        <div style="display: flex; flex-direction: row;">
+            <button class="uiButton" id="saveButton">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/saveicon.png"> Save
+            </button>
+            <button class="uiButton" type="button" onclick="exitSetting()">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/quiticon.png"> Exit
+            </button>
+        </div>
+    </form>
+    <script src="dialogue_beta.js"></script> 
+</body>
+</html>
