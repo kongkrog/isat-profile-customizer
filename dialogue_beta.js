@@ -485,5 +485,5 @@ function typewriterAnimation() {
         animateCharacters();
     }
 
-    // gif.render();
+    gif.render();
 }
