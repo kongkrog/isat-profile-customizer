@@ -1,5 +1,6 @@
 var textString = '';
 var globalImageOffset = 263;
+var isTransparent = false;
 
 function exitSetting() {
     document.getElementById("settingPanel").style.display = "none";
@@ -40,6 +41,7 @@ function updateProfile() {
     const dialogueSpeed = document.getElementById('dialogueSpeed').value;
     const offsetValue = document.getElementById('dialogueImageOffset').value;
     const fileInput = document.getElementById('fileInput');
+    const checkTransparent = document.querySelector('#checkTransparent').checked;
 
     switch (dialogueSpeed) {
         case 'veryslow':
@@ -64,6 +66,7 @@ function updateProfile() {
 
     textString = dialogueText;
     globalImageOffset = offsetValue;
+    isTransparent = checkTransparent;
     document.getElementById('dName').innerText = dialogueName;
 
     if (fileInput.files.length > 0) {
@@ -245,10 +248,13 @@ function typewriterAnimation() {
 
     function drawNameBox(nameText) {
         ctx.font = '23px VCR_OSD_MONO';
+        const charWidth = ctx.measureText(nameText).width;
+
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 65, 44 + charWidth + 6, myCanvas.height - 188);
+
         ctx.fillStyle = 'gray';
         ctx.fillText(nameText, 25, 110);
-
-        const charWidth = ctx.measureText(nameText).width;
 
         ctx.fillStyle = 'white';
         drawCorner(1, 66);
@@ -263,8 +269,16 @@ function typewriterAnimation() {
         drawLineVertical(44 + charWidth + 1, 73, myCanvas.height - 261);
     }
     
+    if (isTransparent) {
+        ctx.fillStyle = 'green';
+        ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+    } else {
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+    }
+
     ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+    ctx.fillRect(0, 137, myCanvas.width, myCanvas.height);
 
     if (dName != '') {
         drawNameBox(dName);
@@ -418,10 +432,10 @@ function typewriterAnimation() {
         }
     }
 
-    function animateCharacters() {
+    function animateCharacters() {       
         ctx.fillStyle = 'black';
-        ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
-        
+        ctx.fillRect(0, 137, myCanvas.width, myCanvas.height);
+
         if (dName != '') {
             drawNameBox(dName);
         }
@@ -545,9 +559,10 @@ function typewriterAnimation() {
 
     const gif = new GIF({
         workers: 4,
-        quality: 20,
+        quality: 15,
         width: canvasWidth,
-        height: targetHeight
+        height: targetHeight,
+        transparent: "0x00FF00"
     });
 
     gif.on('finished', function(blob) {

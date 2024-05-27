@@ -128,6 +128,12 @@
         </label>
         <label for="dialogueImageOffset">Dialogue Image Offset:</label>
         <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="250" max="280" value="263">
+        <div>
+            <label for="dialogueImageOffset">Transparency?</label>
+            <input type="checkbox" id="checkTransparent" name="checkTransparent">
+        </div>
+        <p style="font-size: 1.2rem;">Transparent rendering will only work on Chromium browers, not Firefox.</p>
+        <p style="font-size: 1.2rem;">If there are artifacts, re-offset the dialogue image might work.</p>
         <div style="display: flex; flex-direction: row;">
             <button class="uiButton" id="saveButton">
                 <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
@@ -141,7 +147,7 @@
                 <img id="cornerDownRight" src="./assets/cursorBorderA.png">
                 <img id="cornerUpRight" src="./assets/cursorBorderB.png">
                 <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                <img src="./assets/quiticon.png"> Exit
+                <img src="./assets/quiticon.png"> Exit  
             </button>
         </div>
     </form>
