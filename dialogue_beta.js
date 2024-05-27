@@ -442,13 +442,15 @@ function typewriterAnimation(textString) {
             drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
         }
 
-        gif.addFrame(myCanvas, { delay: 20 });
+        gif.addFrame(ctx, { copy: true, delay: 20 });
         requestAnimationFrame(animateCharacters);
     }
 
     const gif = new GIF({
         workers: 2,
-        quality: 10
+        quality: 10,
+        width: canvasWidth,
+        height: canvasHeight,
     });
 
     gif.on('finished', function(blob) {
@@ -478,5 +480,7 @@ function typewriterAnimation(textString) {
         animateCharacters();
     }
 
-    gif.render();
+    setTimeout(() => {
+        gif.render();
+    }, 5000);
 }
