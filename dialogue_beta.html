@@ -9,13 +9,14 @@
     <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.worker.js"></script>
 </head>
 <body>
-    <!-- 180 -->
     <main id="dialogueMain"> 
-        <canvas id="dialogueCanvas" width="816" height="317"></canvas>
-        <img src='' width="816" height="317" id="gifResult">
+        <canvas id="dialogueCanvas" width="816" height="317" style="display: none"></canvas>
+        <img src='./assets/displayGif.gif' width="816" height="317" id="gifDisplay">
+        <img src='' width="816" height="317" id="gifResult" style="display: none">
         <img src='' style='display: none;' id="dialogueImage">
         <p id="dName" style='display: none;'></p>
     </main>
+    <p id="debug"></p>
     <a id="downloadLink" href = "">
         <button id="downloadButton" class="uiButton" style="margin-top: 20px; width: 250px; display: none;">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
@@ -62,23 +63,14 @@
         <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
         <img src="./assets/settingicon.png"> Static Mode
     </button>
-    <p style="font-size: 1rem;">I couldn't implement GIF features, it was too hard...</p>
-    <p style="font-size: 1rem;">ISAT Prologue Maker (Alpha) - made by kongkrog(lea) - all assets belong to insertdisc5</p>
+    <p style="font-size: 1rem;">ISAT Prologue Maker - made by kongkrog(lea) - all assets belong to insertdisc5</p>
+    <p style="font-size: 1rem;">Image should be roughly the same size as ISAT's face sprite. [PS] tag is a bit buggy right now.</p>
     <p style="font-size: 1.5rem; padding-top: 20px;">Tag guide: </p>
-    <p style="font-size: 1rem;">
-        <strong>[FS=x]...[/FS]</strong>: Changes the font size. The <em>x</em> specifies the font size.<br>
-    </p>
     <p style="font-size: 1rem;">
         <strong>[SW]...[/SW]</strong>: Applies a wave effect.<br>
     </p>
     <p style="font-size: 1rem;">
-        <strong>[ZOOM=x-y-z]...[/ZOOM]</strong>: Applies a zoom effect. The <em>x</em> is the starting zoom level, <em>y</em> is the ending zoom level, and <em>z</em> is the speed of the zoom.<br>
-    </p>
-    <p style="font-size: 1rem;">
         <strong>[PS=x]</strong>: Introduces a pause. The <em>x</em> specifies the duration of the pause.<br>
-    </p>
-    <p style="font-size: 1rem;">
-        <strong>[SPD=x]...[/SPD]</strong>: Changes the speed animation. The <em>x</em> specifies the speed.<br>
     </p>
     <p style="font-size: 1rem;">
         <strong>[SHAKE]...[/SHAKE]</strong>: Applies a shake effect.<br>
@@ -103,7 +95,7 @@
         <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <label for="charDialogue">Dialogue:</label>
-        <textarea id="charDialogue" fname="charDialogue">Test text. [PS=400] Test.</textarea>
+        <textarea id="charDialogue" fname="charDialogue">Normal phrase. [SW]Wavey phrase.[/SW] [SHAKE]Shaking phrase[/SHAKE]. [PS=1000]Pause simulation.</textarea>
         <label for="charDialogueImg">Character Image:</label>
         <p style="font-size: 1.2rem;">Character's face should be in: In Stars And Time/www/img/faces</p>
         <input type="file" id="fileInput" accept="image/*"> 
@@ -115,6 +107,7 @@
             Clear Image
         </button>
         <label for="charDialogueImg">Character Name:</label>
+        <p style="font-size: 1.2rem;">Character name will only appear if you clear image.</p>
         <input type="text" id="charDialogueName" fname="charDialogueName">
         <label for="dialogueSpeed">Dialogue Speed:
             <select id="dialogueSpeed" fname="dialogueSpeed" default="veryfast">

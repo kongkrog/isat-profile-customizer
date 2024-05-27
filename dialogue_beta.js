@@ -41,19 +41,19 @@ function updateProfile() {
 
     switch (dialogueSpeed) {
         case 'veryslow':
-            defaultSpeed = 125;
+            defaultSpeed = 35;
             break;
         case 'slow':
-            defaultSpeed = 100;
+            defaultSpeed = 30;
             break;
         case 'medium':
-            defaultSpeed = 75;
+            defaultSpeed = 25;
             break;
         case 'fast':
-            defaultSpeed = 50;
+            defaultSpeed = 20;
             break;
         case 'veryfast':
-            defaultSpeed = 25;
+            defaultSpeed = 15;
             break;
         case 'nearinstant':
             defaultSpeed = 10;
@@ -74,8 +74,18 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     updateProfileImage();
     
     const downloadButton = document.getElementById('downloadButton');
+    const debugText = document.getElementById('debug');
+    const gifResult = document.getElementById('gifResult');
+    const gifDisplay = document.getElementById('gifDisplay');
+    const myCanvas = document.getElementById('dialogueCanvas');
+
     downloadButton.style.display = 'none';
 
+    gifDisplay.style.display = 'none';
+    gifResult.style.display = 'none';
+    myCanvas.style.display = 'block';
+
+    debugText.innerText = 'Rendering... Do not touch Settings while rendering.'
     typewriterAnimation(textString);
 });
 
@@ -255,8 +265,10 @@ function typewriterAnimation() {
     drawLineVertical(2, 144, myCanvas.height - 152);
     drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
 
-    scale = 317 / dialogueImage.height
-    ctx.drawImage(dialogueImage, dialogueImage.width - (dialogueImage.width * scale), 0, dialogueImage.width * scale , dialogueImage.height, 0, 0, 263, 317);
+    if (dialogueImage.getAttribute("src") != "") {
+        scale = 317 / dialogueImage.height
+        ctx.drawImage(dialogueImage, dialogueImage.width - (dialogueImage.width * scale), 0, dialogueImage.width * scale , dialogueImage.height, 0, 0, 263, 317);
+    }
 
     ctx.fillStyle = 'white';
     characters.forEach(({ char, xOffset, yOffset, font }) => {
@@ -271,33 +283,35 @@ function typewriterAnimation() {
         let currentTextIndex = 0;
         let currentSpeed = 25;
         let maxFontSize = 23;
-        let isFirstLine = true;
         let nextWordWidth = 0;
         let pauseDuration = null;
-        let pauseTimeout = null;
+        ctx.font = '23px VCR_OSD_MONO';
 
-        console.log('start');
         function drawNextCharacter() {
-            console.log('loop 1');
             if (currentSegmentIndex >= segments.length) {
-                pauseDuration = 3000; // Set 3 seconds pause at the end
+                pauseDuration = 2000; 
                 playArrowAnimation();
                 setTimeout(() => {
-                    playArrowAnimation(false); // Hide arrow after 3 seconds
+                    playArrowAnimation(false);
+                    animationEnded = true; 
                 }, pauseDuration);
-                animationEnded = true;
                 return;
             }
 
             const segment = segments[currentSegmentIndex];
             const text = segment.text;
-            const char = text[currentTextIndex];
+
+            console.log(segment);
+
+            let word = '';
+            let wordWidth = 0;
 
             if (segment.pause !== null) {
+                console.log("Pause segment detected:", segment);
                 pauseDuration = segment.pause;
-                playArrowAnimation(true); // Show arrow during pause
-                pauseTimeout = setTimeout(() => {
-                    playArrowAnimation(false); // Hide arrow after pause
+                playArrowAnimation(true);
+                setTimeout(() => {
+                    playArrowAnimation(false);
                     currentSegmentIndex++;
                     currentTextIndex = 0;
                     drawNextCharacter();
@@ -305,20 +319,20 @@ function typewriterAnimation() {
                 return;
             }
 
-            if (segment.size) {
-                ctx.font = `${segment.size}px VCR_OSD_MONO`;
-                maxFontSize = Math.max(maxFontSize, parseInt(segment.size));
-            } else {
-                ctx.font = '23px VCR_OSD_MONO';
+            if (currentTextIndex >= text.length) {
+                currentSegmentIndex++;
+                currentTextIndex = 0;
+                drawNextCharacter();
+                return;
             }
 
+            const char = text[currentTextIndex];
             const charWidth = ctx.measureText(char).width;
             
-            if (char === ' ' && nextWordWidth > 0 && xOffset + nextWordWidth > canvasWidth) {
+            if (char === ' ' && nextWordWidth > 0 && xOffset + nextWordWidth > canvasWidth-16) {
                 xOffset = globalxOffset;
                 yOffset += maxFontSize + lineHeight;
                 maxFontSize = 23;
-                isFirstLine = false;
                 nextWordWidth = 0;
             } else if (char === ' ') {
                 const nextWord = text.substring(currentTextIndex + 1).split(' ')[0];
@@ -330,18 +344,26 @@ function typewriterAnimation() {
                 drawNextCharacter();
                 return;
             }
-
-            if (yOffset === 0) {
-                yOffset = maxFontSize;
+            
+            word = '';
+            wordWidth = 0;
+            if (segment.shake || segment.wave) {
+                const remainingText = text.substring(currentTextIndex);
+                const spaceIndex = remainingText.indexOf(' ');
+                if (spaceIndex !== -1) {
+                    word = remainingText.substring(0, spaceIndex);
+                } else {
+                    word = remainingText;
+                }
+                wordWidth = ctx.measureText(word).width;
             }
 
-            if (isFirstLine && yOffset === 0) {
-                yOffset = maxFontSize;
-            } else if (yOffset === 0) {
-                yOffset = maxFontSize + lineHeight;
+            if ((segment.shake || segment.wave ) && xOffset + wordWidth > canvasWidth - 16) {
+                xOffset = globalxOffset;
+                yOffset += maxFontSize + lineHeight;
+                maxFontSize = 23;
             }
 
-            // Store character and position
             characters.push({ char, xOffset, yOffset, font: ctx.font, wave: segment.wave, shake: segment.shake});
 
             xOffset += charWidth;
@@ -370,7 +392,6 @@ function typewriterAnimation() {
     }
 
     function animateCharacters() {
-        console.log('loop 2');
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
         
@@ -389,8 +410,21 @@ function typewriterAnimation() {
         drawLineVertical(2, 144, myCanvas.height - 152);
         drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
 
-        scale = 317 / dialogueImage.height
-        ctx.drawImage(dialogueImage, dialogueImage.width - (dialogueImage.width * scale), 0, dialogueImage.width * scale , dialogueImage.height, 0, 0, 263, 317);
+        if (dialogueImage.getAttribute("src") != "") {
+            scale = 317 / dialogueImage.height
+            const scaledWidth = dialogueImage.width * scale;
+            ctx.drawImage(
+                dialogueImage,                        // Image
+                0,                                   // Source X
+                0,                                   // Source Y
+                dialogueImage.width,                 // Source width (full width)
+                dialogueImage.height,                // Source height (full height)
+                -60,                             // Destination X (offset from right)
+                0,                                   // Destination Y (top)
+                scaledWidth,                         // Destination width (scaled width)
+                317                                  // Destination height (fixed height)
+            );
+        }
 
         ctx.fillStyle = 'white';
         const time = Date.now();
@@ -398,9 +432,9 @@ function typewriterAnimation() {
             ctx.font = font;
 
             if (wave) {
-                const amplitude = 4;
-                const frequency = 0.01;
-                yOffset += amplitude * Math.sin(frequency * (xOffset + time));
+                const amplitude = 3;
+                const frequency = 0.08;
+                yOffset += amplitude * Math.sin(frequency * (xOffset + time / 10));
             }
 
             if (shake) {
@@ -449,7 +483,7 @@ function typewriterAnimation() {
         }
         
         if (animationEnded != true) {
-            gif.addFrame(myCanvas, { delay: 20 });
+            gif.addFrame(ctx, { copy: true, delay: 20 });
             requestAnimationFrame(animateCharacters);
         } else {
             gif.render();
@@ -457,17 +491,24 @@ function typewriterAnimation() {
     }
 
     const gif = new GIF({
-        workers: 2,
-        quality: 15
+        workers: 4,
+        quality: 20,
+        width: canvasWidth,
+        height: canvasHeight
     });
 
     gif.on('finished', function(blob) {
-        const gifImage = document.createElement('img');
         const gifResult = document.getElementById('gifResult');
-
-        window.open(URL.createObjectURL(blob));
+        const myCanvas = document.getElementById('dialogueCanvas');
+        const debugText = document.getElementById('debug');
         const downloadButton = document.getElementById('downloadButton');
-        gifImage.src = URL.createObjectURL(blob);
+
+        debugText.innerText = 'Finish.'
+
+        gifResult.style.display = 'block';
+        myCanvas.style.display = 'none';
+        
+        gifResult.src = URL.createObjectURL(blob);
         downloadButton.style.display = 'inline-block';
 
         downloadButton.addEventListener('click', function() {
@@ -479,7 +520,6 @@ function typewriterAnimation() {
 
     const parseResult = parseText(textString);
     const textSegments = parseResult.segments;
-    const totalPauseDuration = parseResult.totalPauseDuration;
 
     if (dialogueImage.getAttribute('src') != '') {
         drawTextWithWrapping(ctx, textSegments, 21+230, 41+137, canvasWidth - 19, 10);
