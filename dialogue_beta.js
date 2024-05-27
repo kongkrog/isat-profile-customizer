@@ -480,7 +480,5 @@ function typewriterAnimation(textString) {
         animateCharacters();
     }
 
-    setTimeout(() => {
-        gif.render();
-    }, 5000);
+    gif.render();
 }
