@@ -282,8 +282,6 @@ function typewriterAnimation() {
                 setTimeout(() => {
                     playArrowAnimation(false); // Hide arrow after 3 seconds
                 }, pauseDuration);
-
-                gif.render();
                 return;
             }
 
@@ -369,7 +367,6 @@ function typewriterAnimation() {
     }
 
     function animateCharacters() {
-        console.log('loop 2');
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
         
@@ -469,7 +466,6 @@ function typewriterAnimation() {
             const downloadLink = document.getElementById("downloadLink");
             downloadLink.href = URL.createObjectURL(blob);
             downloadLink.download = 'animation.gif';
-            downloadLink.click();
         });
     });
 
@@ -487,5 +483,8 @@ function typewriterAnimation() {
         animateCharacters();
     }
 
-    console.log('Finished.')
+    setTimeout(() => {
+        gif.render();
+    }, totalPauseDuration * 1000);
+    log.console('Finished.');
 }
