@@ -1,3 +1,5 @@
+var textString = '';
+
 function exitSetting() {
     document.getElementById("settingPanel").style.display = "none";
 }
@@ -87,6 +89,7 @@ function parseText(text) {
     let result;
     const segments = [];
     let lastIndex = 0;
+    let totalPauseDuration = 0; // Track total pause duration
 
     while ((result = regex.exec(text)) !== null) {
         if (result.index > lastIndex) {
@@ -101,7 +104,9 @@ function parseText(text) {
         } else if (result[8]) {
             segments.push({ text: result[8], size: null, wave: false, zoom: null, thin: true, pause: null, speed: null, shake: false });
         } else if (result[9]) {
-            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: parseInt(result[9]), speed: null, shake: false });
+            const pauseDuration = parseInt(result[9]);
+            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: pauseDuration, speed: null, shake: false });
+            totalPauseDuration += pauseDuration; // Add to total pause duration
         } else if (result[10]) {
             segments.push({ text: result[11], size: null, wave: false, zoom: null, thin: false, pause: null, speed: parseInt(result[10]), shake: false });
         } else if (result[12]) {
@@ -114,8 +119,10 @@ function parseText(text) {
         segments.push({ text: text.slice(lastIndex), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false });
     }
 
-    return segments;
+    return { segments, totalPauseDuration };
 }
+
+const { segments, totalPauseDuration } = parseText(textString);
 
 function typewriterAnimation(textString) {
     const characters = [];
@@ -249,11 +256,6 @@ function typewriterAnimation(textString) {
         ctx.fillText(char, xOffset, yOffset);
     });
 
-    const resultArray = textString.split(/(\s+)/).reduce((acc, item) => {
-        if (item) acc.push(item);
-        return acc;
-    }, []);
-
     function drawTextWithWrapping(ctx, segments, globalxOffset, globalyOffset, canvasWidth, lineHeight) {
         let xOffset = globalxOffset;
         let yOffset = globalyOffset;
@@ -274,7 +276,6 @@ function typewriterAnimation(textString) {
                 setTimeout(() => {
                     playArrowAnimation(false); // Hide arrow after 3 seconds
                 }, pauseDuration);
-                gif.render();
                 return;
             }
 
@@ -447,7 +448,7 @@ function typewriterAnimation(textString) {
             drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
         }
 
-        gif.addFrame(myCanvas, { delay: 40 });
+        gif.addFrame(myCanvas, { delay: 50 });
         requestAnimationFrame(animateCharacters);
     }
 
@@ -478,10 +479,14 @@ function typewriterAnimation(textString) {
     });
 
     if (dialogueImage.getAttribute('src') != '') {
-        drawTextWithWrapping(ctx, parseText(textString), 21+230, 41+137, canvasWidth - 19, 10);
+        drawTextWithWrapping(ctx, segments, 21+230, 41+137, canvasWidth - 19, 10);
         animateCharacters();
     } else {
-        drawTextWithWrapping(ctx, parseText(textString), 21, 41+137, canvasWidth - 19, 10);
+        drawTextWithWrapping(ctx, segments, 21, 41+137, canvasWidth - 19, 10);
         animateCharacters();
     }
+
+    setTimeout(() => {
+        gif.render();
+    }, totalPauseDuration + segments.length * 25 + 3000);
 }
