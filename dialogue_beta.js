@@ -131,6 +131,16 @@ function typewriterAnimation(textString) {
     const dName = document.getElementById("dName").innerText;
     const ctx = myCanvas.getContext("2d");
     
+    let arrowVisible = false;
+    let arrowOpacity = 0;
+    let fadingIn = false;
+    let fadingOut = false;
+    const fadeSpeed = 0.05;
+    let arrowXOffset = 0;
+    let arrowDirection = 1;
+    let arrowCounter = 0;
+    const arrowUpdateInterval = 10;
+    
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
 
@@ -343,21 +353,10 @@ function typewriterAnimation(textString) {
             }
 
             const speed = segment.speed !== null ? segment.speed : currentSpeed;
-            setTimeout(drawNextCharacter, speed);
         }
 
         drawNextCharacter();
     }
-
-    let arrowVisible = false;
-    let arrowOpacity = 0;
-    let fadingIn = false;
-    let fadingOut = false;
-    const fadeSpeed = 0.05;
-    let arrowXOffset = 0;
-    let arrowDirection = 1;
-    let arrowCounter = 0;
-    const arrowUpdateInterval = 10;
 
     function playArrowAnimation(showArrow = true) {
         if (showArrow) {
@@ -448,7 +447,7 @@ function typewriterAnimation(textString) {
             drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
         }
 
-        gif.addFrame(myCanvas, { delay: 50 });
+        gif.addFrame(myCanvas, { delay: defaultSpeed });
         requestAnimationFrame(animateCharacters);
     }
 
@@ -484,7 +483,5 @@ function typewriterAnimation(textString) {
         animateCharacters();
     }
 
-    setTimeout(() => {
-        gif.render();
-    }, totalPauseDuration + segments.length * 25 + 3000);
+    gif.render();
 }
