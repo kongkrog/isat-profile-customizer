@@ -460,11 +460,11 @@ function typewriterAnimation(textString) {
         const gifImage = document.createElement('img');
         const gifResult = document.getElementById('gifResult');
 
+        const downloadButton = document.getElementById('downloadButton');
         gifImage.src = URL.createObjectURL(blob);
         gifResult.appendChild(gifImage);
         downloadButton.style.display = 'inline-block';
 
-        const downloadButton = document.getElementById('downloadButton');
         downloadButton.addEventListener('click', function() {
             const downloadLink = document.createElement('a');
             downloadLink.href = URL.createObjectURL(blob);
@@ -483,7 +483,7 @@ function typewriterAnimation(textString) {
         animateCharacters();
     }
 
-    // setTimeout(() => {
-    //     gif.render();
-    // }, 5000);
+    setTimeout(() => {
+        gif.render();
+    }, 5000);
 }
