@@ -298,6 +298,7 @@ function typewriterAnimation() {
                     currentTextIndex = 0;
                     drawNextCharacter();
                 }, pauseDuration);
+                gif.render();
                 return;
             }
 
@@ -349,9 +350,10 @@ function typewriterAnimation() {
             }
 
             const speed = segment.speed !== null ? segment.speed : currentSpeed;
+            gif.addFrame(myCanvas, { delay: defaultSpeed });
             setTimeout(drawNextCharacter, defaultSpeed);
         }
-
+        gif.addFrame(myCanvas, { delay: defaultSpeed });
         drawNextCharacter();
     }
 
@@ -482,9 +484,4 @@ function typewriterAnimation() {
         drawTextWithWrapping(ctx, textSegments, 21, 41+137, canvasWidth - 19, 10);
         animateCharacters();
     }
-
-    setTimeout(() => {
-        gif.render();
-    }, 20000);
-    log.console('Finished.');
 }
