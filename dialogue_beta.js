@@ -84,7 +84,7 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     const gifResult = document.getElementById('gifResult');
     const gifDisplay = document.getElementById('gifDisplay');
     const myCanvas = document.getElementById('dialogueCanvas');
-
+    const dialogueImage = document.getElementById('dialogueImage');
     downloadButton.style.display = 'none';
 
     gifDisplay.style.display = 'none';
@@ -92,6 +92,7 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     myCanvas.style.display = 'block';
 
     debugText.innerText = 'Rendering... Please do not use Settings while rendering.'
+
     typewriterAnimation(textString);
     document.getElementById("settingPanel").style.display = "none";
 });
@@ -589,11 +590,17 @@ function typewriterAnimation() {
     const parseResult = parseText(textString);
     const textSegments = parseResult.segments;
 
-    if (dialogueImage.getAttribute('src') != '') {
-        drawTextWithWrapping(ctx, textSegments, 21+230, 41+137, canvasWidth - 19, 10);
-        animateCharacters();
-    } else {
-        drawTextWithWrapping(ctx, textSegments, 21, 41+137, canvasWidth - 19, 10);
-        animateCharacters();
+    function checkRender() {
+        if (dialogueImage.getAttribute('src') != '') {
+            drawTextWithWrapping(ctx, textSegments, 21+230, 41+137, canvasWidth - 19, 10);
+            animateCharacters();
+        } else {
+            drawTextWithWrapping(ctx, textSegments, 21, 41+137, canvasWidth - 19, 10);
+            animateCharacters();
+        }
     }
+
+    setTimeout(
+        checkRender, 100
+    );
 }
