@@ -127,7 +127,8 @@ function typewriterAnimation() {
     const dialogueImage = document.getElementById("dialogueImage");
     const dName = document.getElementById("dName").innerText;
     const ctx = myCanvas.getContext("2d");
-    
+    let animationEnded = false;
+
     let arrowVisible = false;
     let arrowOpacity = 0;
     let fadingIn = false;
@@ -143,27 +144,6 @@ function typewriterAnimation() {
 
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-    const gif = new GIF({
-        workers: 2,
-        quality: 15
-    });
-
-    gif.on('finished', function(blob) {
-        const gifImage = document.createElement('img');
-        const gifResult = document.getElementById('gifResult');
-
-        window.open(URL.createObjectURL(blob));
-        const downloadButton = document.getElementById('downloadButton');
-        gifImage.src = URL.createObjectURL(blob);
-        downloadButton.style.display = 'inline-block';
-
-        downloadButton.addEventListener('click', function() {
-            const downloadLink = document.getElementById("downloadLink");
-            downloadLink.href = URL.createObjectURL(blob);
-            downloadLink.download = 'animation.gif';
-        });
-    });
 
     function drawCorner(x, y) {
         ctx.fillStyle = 'lightgray';
@@ -296,13 +276,16 @@ function typewriterAnimation() {
         let pauseDuration = null;
         let pauseTimeout = null;
 
+        console.log('start');
         function drawNextCharacter() {
+            console.log('loop 1');
             if (currentSegmentIndex >= segments.length) {
                 pauseDuration = 3000; // Set 3 seconds pause at the end
                 playArrowAnimation();
                 setTimeout(() => {
                     playArrowAnimation(false); // Hide arrow after 3 seconds
                 }, pauseDuration);
+                animationEnded = true;
                 return;
             }
 
@@ -370,10 +353,8 @@ function typewriterAnimation() {
             }
 
             const speed = segment.speed !== null ? segment.speed : currentSpeed;
-            gif.addFrame(myCanvas, { delay: 20 });
             setTimeout(drawNextCharacter, defaultSpeed);
         }
-        gif.addFrame(myCanvas, { delay: 20 });
         drawNextCharacter();
     }
 
@@ -389,6 +370,7 @@ function typewriterAnimation() {
     }
 
     function animateCharacters() {
+        console.log('loop 2');
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
         
@@ -465,10 +447,35 @@ function typewriterAnimation() {
             const arrowX = canvasWidth - 33 + arrowXOffset;
             drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
         }
-
-        gif.addFrame(myCanvas, { delay: 20 });
-        requestAnimationFrame(animateCharacters);
+        
+        if (animationEnded != true) {
+            gif.addFrame(myCanvas, { delay: 20 });
+            requestAnimationFrame(animateCharacters);
+        } else {
+            gif.render();
+        }
     }
+
+    const gif = new GIF({
+        workers: 2,
+        quality: 15
+    });
+
+    gif.on('finished', function(blob) {
+        const gifImage = document.createElement('img');
+        const gifResult = document.getElementById('gifResult');
+
+        window.open(URL.createObjectURL(blob));
+        const downloadButton = document.getElementById('downloadButton');
+        gifImage.src = URL.createObjectURL(blob);
+        downloadButton.style.display = 'inline-block';
+
+        downloadButton.addEventListener('click', function() {
+            const downloadLink = document.getElementById("downloadLink");
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = 'animation.gif';
+        });
+    });
 
     const parseResult = parseText(textString);
     const textSegments = parseResult.segments;
@@ -481,6 +488,4 @@ function typewriterAnimation() {
         drawTextWithWrapping(ctx, textSegments, 21, 41+137, canvasWidth - 19, 10);
         animateCharacters();
     }
-
-    gif.render();
 }
