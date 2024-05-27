@@ -70,6 +70,10 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     event.preventDefault(); // Prevent default form submission
     updateProfile(); // Call the updateProfile function
     updateProfileImage();
+    
+    const downloadButton = document.getElementById('downloadButton');
+    downloadButton.style.display = 'none';
+
     typewriterAnimation(textString)
 });
 
@@ -119,7 +123,7 @@ function typewriterAnimation(textString) {
     const dialogueImage = document.getElementById("dialogueImage");
     const dName = document.getElementById("dName").innerText;
     const ctx = myCanvas.getContext("2d");
-
+    
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
 
@@ -270,6 +274,7 @@ function typewriterAnimation(textString) {
                 setTimeout(() => {
                     playArrowAnimation(false); // Hide arrow after 3 seconds
                 }, pauseDuration);
+                gif.render();
                 return;
             }
 
@@ -442,13 +447,13 @@ function typewriterAnimation(textString) {
             drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
         }
 
-        gif.addFrame(ctx, { copy: true, delay: 20 });
+        gif.addFrame(myCanvas, { delay: 40 });
         requestAnimationFrame(animateCharacters);
     }
 
     const gif = new GIF({
         workers: 2,
-        quality: 10,
+        quality: 15,
         width: canvasWidth,
         height: canvasHeight,
     });
@@ -479,8 +484,4 @@ function typewriterAnimation(textString) {
         drawTextWithWrapping(ctx, parseText(textString), 21, 41+137, canvasWidth - 19, 10);
         animateCharacters();
     }
-
-    setTimeout(() => {
-        gif.render();
-    }, 5000);
 }
