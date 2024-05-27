@@ -485,6 +485,6 @@ function typewriterAnimation() {
 
     setTimeout(() => {
         gif.render();
-    }, totalPauseDuration * 1000);
+    }, 20000);
     log.console('Finished.');
 }
