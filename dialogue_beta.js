@@ -343,11 +343,6 @@ function typewriterAnimation() {
             const segment = segments[currentSegmentIndex];
             const text = segment.text;
 
-            console.log(segment);
-
-            let word = '';
-            let wordWidth = 0;
-
             if (segment.pause !== null) {
                 console.log("Pause segment detected:", segment);
                 pauseDuration = segment.pause;
@@ -370,15 +365,26 @@ function typewriterAnimation() {
 
             const char = text[currentTextIndex];
             const charWidth = ctx.measureText(char).width;
-            
-            if (char === ' ' && nextWordWidth > 0 && xOffset + nextWordWidth > canvasWidth-16) {
+    
+            // Calculate the width of the next word
+            let nextSpaceIndex = text.indexOf(' ', currentTextIndex);
+            if (nextSpaceIndex === -1) {
+                nextSpaceIndex = text.length;
+            }
+            const nextWord = text.substring(currentTextIndex, nextSpaceIndex);
+            nextWordWidth = ctx.measureText(nextWord).width;
+    
+            // Wrap text if next word exceeds canvas width
+            if (xOffset + nextWordWidth > canvasWidth - 16) {
                 xOffset = globalxOffset;
                 yOffset += maxFontSize + lineHeight;
                 maxFontSize = 23;
-                nextWordWidth = 0;
-            } else if (char === ' ') {
-                const nextWord = text.substring(currentTextIndex + 1).split(' ')[0];
-                nextWordWidth = ctx.measureText(nextWord).width;
+            }
+    
+            if (xOffset === globalxOffset && char === ' ') {
+                currentTextIndex++;
+                drawNextCharacter();
+                return;
             }
 
             if (xOffset === globalxOffset && char === ' ') {
@@ -386,9 +392,10 @@ function typewriterAnimation() {
                 drawNextCharacter();
                 return;
             }
+
+            let word = '';
+            let wordWidth = 0;
             
-            word = '';
-            wordWidth = 0;
             if (segment.shake || segment.wave) {
                 const remainingText = text.substring(currentTextIndex);
                 const spaceIndex = remainingText.indexOf(' ');
