@@ -103,7 +103,7 @@ function parseText(text) {
         } else if (result[8]) {
             segments.push({ text: result[8], size: null, wave: false, zoom: null, thin: true, pause: null, speed: null, shake: false });
         } else if (result[9]) {
-            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: pauseDuration, speed: null, shake: false });
+            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: parseInt(result[9]), speed: null, shake: false });
         } else if (result[10]) {
             segments.push({ text: result[11], size: null, wave: false, zoom: null, thin: false, pause: null, speed: parseInt(result[10]), shake: false });
         } else if (result[12]) {
