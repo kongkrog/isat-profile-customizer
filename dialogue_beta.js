@@ -76,7 +76,9 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     const downloadButton = document.getElementById('downloadButton');
     downloadButton.style.display = 'none';
 
-    typewriterAnimation(textString)
+    console.log(textString);
+    typewriterAnimation(textString);
+    console.log('finished');
 });
 
 document.getElementById("clearButton").addEventListener("click", function(event) {
@@ -119,7 +121,7 @@ function parseText(text) {
     return segments;
 }
 
-function typewriterAnimation(textString) {
+function typewriterAnimation() {
     const characters = [];
     const myCanvas = document.getElementById("dialogueCanvas");
     const dialogueImage = document.getElementById("dialogueImage");
@@ -274,7 +276,9 @@ function typewriterAnimation(textString) {
         let pauseTimeout = null;
 
         function drawNextCharacter() {
-
+            console.log(segments);
+            console.log(currentSegmentIndex >= segments.length);
+            console.log(currentSegmentIndex, segments.length);
             if (currentSegmentIndex >= segments.length) {
                 pauseDuration = 3000; // Set 3 seconds pause at the end
                 playArrowAnimation();
@@ -297,7 +301,6 @@ function typewriterAnimation(textString) {
                     currentTextIndex = 0;
                     drawNextCharacter();
                 }, pauseDuration);
-                gif.render();
                 return;
             }
 
@@ -349,6 +352,7 @@ function typewriterAnimation(textString) {
             }
 
             const speed = segment.speed !== null ? segment.speed : currentSpeed;
+            drawNextCharacter();
         }
 
         drawNextCharacter();
@@ -366,6 +370,7 @@ function typewriterAnimation(textString) {
     }
 
     function animateCharacters() {
+        console.log('loop 2');
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
         
@@ -404,6 +409,7 @@ function typewriterAnimation(textString) {
                 yOffset += Math.random() * shakeIntensity - shakeIntensity / 2;
             }
 
+            console.log('draw text');
             ctx.fillText(char, xOffset, yOffset);
         });
 
@@ -478,4 +484,6 @@ function typewriterAnimation(textString) {
         drawTextWithWrapping(ctx, parseText(textString), 21, 41+137, canvasWidth - 19, 10);
         animateCharacters();
     }
+
+    // gif.render();
 }
