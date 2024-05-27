@@ -140,7 +140,7 @@ function typewriterAnimation(textString) {
     let arrowDirection = 1;
     let arrowCounter = 0;
     const arrowUpdateInterval = 10;
-    
+
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
 
@@ -302,6 +302,7 @@ function typewriterAnimation(textString) {
                     currentTextIndex = 0;
                     drawNextCharacter();
                 }, pauseDuration);
+                gif.render();
                 return;
             }
 
@@ -460,19 +461,19 @@ function typewriterAnimation(textString) {
         const gifImage = document.createElement('img');
         const gifResult = document.getElementById('gifResult');
 
-        const downloadButton = document.getElementById('downloadButton');
-        gifImage.src = URL.createObjectURL(blob);
-        gifResult.appendChild(gifImage);
-        downloadButton.style.display = 'inline-block';
+        window.open(URL.createObjectURL(blob));
+        // const downloadButton = document.getElementById('downloadButton');
+        // gifImage.src = URL.createObjectURL(blob);
+        // downloadButton.style.display = 'inline-block';
 
-        downloadButton.addEventListener('click', function() {
-            const downloadLink = document.createElement('a');
-            downloadLink.href = URL.createObjectURL(blob);
-            downloadLink.download = 'animation.gif';
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        });
+        // downloadButton.addEventListener('click', function() {
+        //     const downloadLink = document.createElement('a');
+        //     downloadLink.href = URL.createObjectURL(blob);
+        //     downloadLink.download = 'animation.gif';
+        //     document.body.appendChild(downloadLink);
+        //     downloadLink.click();
+        //     document.body.removeChild(downloadLink);
+        // });
     });
 
     if (dialogueImage.getAttribute('src') != '') {
@@ -482,6 +483,4 @@ function typewriterAnimation(textString) {
         drawTextWithWrapping(ctx, segments, 21, 41+137, canvasWidth - 19, 10);
         animateCharacters();
     }
-
-    gif.render();
 }
