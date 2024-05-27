@@ -144,6 +144,27 @@ function typewriterAnimation() {
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
+    const gif = new GIF({
+        workers: 2,
+        quality: 15
+    });
+
+    gif.on('finished', function(blob) {
+        const gifImage = document.createElement('img');
+        const gifResult = document.getElementById('gifResult');
+
+        window.open(URL.createObjectURL(blob));
+        const downloadButton = document.getElementById('downloadButton');
+        gifImage.src = URL.createObjectURL(blob);
+        downloadButton.style.display = 'inline-block';
+
+        downloadButton.addEventListener('click', function() {
+            const downloadLink = document.getElementById("downloadLink");
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = 'animation.gif';
+        });
+    });
+
     function drawCorner(x, y) {
         ctx.fillStyle = 'lightgray';
 
@@ -298,7 +319,6 @@ function typewriterAnimation() {
                     currentTextIndex = 0;
                     drawNextCharacter();
                 }, pauseDuration);
-                gif.render();
                 return;
             }
 
@@ -350,10 +370,10 @@ function typewriterAnimation() {
             }
 
             const speed = segment.speed !== null ? segment.speed : currentSpeed;
-            gif.addFrame(myCanvas, { delay: defaultSpeed });
+            gif.addFrame(myCanvas, { delay: 20 });
             setTimeout(drawNextCharacter, defaultSpeed);
         }
-        gif.addFrame(myCanvas, { delay: defaultSpeed });
+        gif.addFrame(myCanvas, { delay: 20 });
         drawNextCharacter();
     }
 
@@ -446,36 +466,13 @@ function typewriterAnimation() {
             drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
         }
 
-        gif.addFrame(myCanvas, { delay: defaultSpeed });
+        gif.addFrame(myCanvas, { delay: 20 });
         requestAnimationFrame(animateCharacters);
     }
-
-    const gif = new GIF({
-        workers: 2,
-        quality: 15
-    });
-
-    gif.on('finished', function(blob) {
-        const gifImage = document.createElement('img');
-        const gifResult = document.getElementById('gifResult');
-
-        window.open(URL.createObjectURL(blob));
-        const downloadButton = document.getElementById('downloadButton');
-        gifImage.src = URL.createObjectURL(blob);
-        downloadButton.style.display = 'inline-block';
-
-        downloadButton.addEventListener('click', function() {
-            const downloadLink = document.getElementById("downloadLink");
-            downloadLink.href = URL.createObjectURL(blob);
-            downloadLink.download = 'animation.gif';
-        });
-    });
 
     const parseResult = parseText(textString);
     const textSegments = parseResult.segments;
     const totalPauseDuration = parseResult.totalPauseDuration;
-
-    console.log(textSegments, totalPauseDuration);
 
     if (dialogueImage.getAttribute('src') != '') {
         drawTextWithWrapping(ctx, textSegments, 21+230, 41+137, canvasWidth - 19, 10);
@@ -484,4 +481,6 @@ function typewriterAnimation() {
         drawTextWithWrapping(ctx, textSegments, 21, 41+137, canvasWidth - 19, 10);
         animateCharacters();
     }
+
+    gif.render();
 }
