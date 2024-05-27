@@ -90,6 +90,7 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
 
     debugText.innerText = 'Rendering... Please do not use Settings while rendering.'
     typewriterAnimation(textString);
+    document.getElementById("settingPanel").style.display = "none";
 });
 
 document.getElementById("clearButton").addEventListener("click", function(event) {
