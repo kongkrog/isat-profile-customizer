@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="render.css">
     <title>ISAT Dialogue Maker</title>
-    <script src="https://cdn.jsdelivr.net/gh/jnordberg/gif.js/dist/gif.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/jnordberg/gif.js/dist/gif.worker.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.worker.js"></script>
 </head>
 <body>
     <!-- 180 -->
@@ -16,13 +16,15 @@
         <img src='' style='display: none;' id="dialogueImage">
         <p id="dName" style='display: none;'></p>
     </main>
-    <button id="downloadButton" class="uiButton" style="margin-top: 20px; width: 250px; display: none;">
-        <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-        <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-        <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-        <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-        <img src="./assets/settingicon.png" style="display: none;"> Download GIF
-    </button>
+    <a id="downloadLink" href = "">
+        <button id="downloadButton" class="uiButton" style="margin-top: 20px; width: 250px; display: none;">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png" style="display: none;"> Download GIF
+        </button>
+    </a>
     <div style="display: flex; flex-direction: row;">
         <button class="uiButton" style="margin-top: 20px;" onclick="openSetting()">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
@@ -101,7 +103,7 @@
         <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <label for="charDialogue">Dialogue:</label>
-        <textarea id="charDialogue" fname="charDialogue">[THIN]I-I think[/THIN] I might write a book about this![PS=400] People fuck need to know!!! This might be the discovery of all time.</textarea>
+        <textarea id="charDialogue" fname="charDialogue">Test text. [PS=400] Test.</textarea>
         <label for="charDialogueImg">Character Image:</label>
         <p style="font-size: 1.2rem;">Character's face should be in: In Stars And Time/www/img/faces</p>
         <input type="file" id="fileInput" accept="image/*"> 

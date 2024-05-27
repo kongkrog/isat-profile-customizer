@@ -91,6 +91,7 @@ function parseText(text) {
     let result;
     const segments = [];
     let lastIndex = 0;
+    let totalPauseDuration = 0;
 
     while ((result = regex.exec(text)) !== null) {
         if (result.index > lastIndex) {
@@ -108,6 +109,7 @@ function parseText(text) {
             segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: parseInt(result[9]), speed: null, shake: false });
         } else if (result[10]) {
             segments.push({ text: result[11], size: null, wave: false, zoom: null, thin: false, pause: null, speed: parseInt(result[10]), shake: false });
+            totalPauseDuration += parseInt(result[10]);
         } else if (result[12]) {
             segments.push({ text: result[12], size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: true });
         }
@@ -118,7 +120,7 @@ function parseText(text) {
         segments.push({ text: text.slice(lastIndex), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false });
     }
 
-    return segments;
+    return { segments, totalPauseDuration };
 }
 
 function typewriterAnimation() {
@@ -352,7 +354,7 @@ function typewriterAnimation() {
             }
 
             const speed = segment.speed !== null ? segment.speed : currentSpeed;
-            drawNextCharacter();
+            setTimeout(drawNextCharacter, defaultSpeed);
         }
 
         drawNextCharacter();
@@ -468,22 +470,25 @@ function typewriterAnimation() {
         downloadButton.style.display = 'inline-block';
 
         downloadButton.addEventListener('click', function() {
-            const downloadLink = document.createElement('a');
+            const downloadLink = document.getElementById("downloadLink");
             downloadLink.href = URL.createObjectURL(blob);
             downloadLink.download = 'animation.gif';
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
         });
     });
 
+    const parseResult = parseText(textString);
+    const textSegments = parseResult.segments;
+    const totalPauseDuration = parseResult.totalPauseDuration;
+
     if (dialogueImage.getAttribute('src') != '') {
-        drawTextWithWrapping(ctx, parseText(textString), 21+230, 41+137, canvasWidth - 19, 10);
+        drawTextWithWrapping(ctx, textSegments, 21+230, 41+137, canvasWidth - 19, 10);
         animateCharacters();
     } else {
-        drawTextWithWrapping(ctx, parseText(textString), 21, 41+137, canvasWidth - 19, 10);
+        drawTextWithWrapping(ctx, textSegments, 21, 41+137, canvasWidth - 19, 10);
         animateCharacters();
     }
 
-    gif.render();
+    setTimeout(() => {
+        gif.render();
+    }, totalPauseDuration + segments.length * 25 + 3000);
 }
