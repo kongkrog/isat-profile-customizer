@@ -76,9 +76,7 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     const downloadButton = document.getElementById('downloadButton');
     downloadButton.style.display = 'none';
 
-    console.log(textString);
     typewriterAnimation(textString);
-    console.log('finished');
 });
 
 document.getElementById("clearButton").addEventListener("click", function(event) {
@@ -278,15 +276,14 @@ function typewriterAnimation() {
         let pauseTimeout = null;
 
         function drawNextCharacter() {
-            console.log(segments);
-            console.log(currentSegmentIndex >= segments.length);
-            console.log(currentSegmentIndex, segments.length);
             if (currentSegmentIndex >= segments.length) {
                 pauseDuration = 3000; // Set 3 seconds pause at the end
                 playArrowAnimation();
                 setTimeout(() => {
                     playArrowAnimation(false); // Hide arrow after 3 seconds
                 }, pauseDuration);
+
+                gif.render();
                 return;
             }
 
@@ -411,7 +408,6 @@ function typewriterAnimation() {
                 yOffset += Math.random() * shakeIntensity - shakeIntensity / 2;
             }
 
-            console.log('draw text');
             ctx.fillText(char, xOffset, yOffset);
         });
 
@@ -473,12 +469,15 @@ function typewriterAnimation() {
             const downloadLink = document.getElementById("downloadLink");
             downloadLink.href = URL.createObjectURL(blob);
             downloadLink.download = 'animation.gif';
+            downloadLink.click();
         });
     });
 
     const parseResult = parseText(textString);
     const textSegments = parseResult.segments;
     const totalPauseDuration = parseResult.totalPauseDuration;
+
+    console.log(textSegments, totalPauseDuration);
 
     if (dialogueImage.getAttribute('src') != '') {
         drawTextWithWrapping(ctx, textSegments, 21+230, 41+137, canvasWidth - 19, 10);
@@ -488,7 +487,5 @@ function typewriterAnimation() {
         animateCharacters();
     }
 
-    setTimeout(() => {
-        gif.render();
-    }, totalPauseDuration + segments.length * 25 + 3000);
+    console.log('Finished.')
 }
