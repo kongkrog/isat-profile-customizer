@@ -12,7 +12,7 @@
     <main id="dialogueMain"> 
         <canvas id="dialogueCanvas" width="816" height="317" style="display: none"></canvas>
         <img src='./assets/displayGif.gif' width="816" height="317" id="gifDisplay">
-        <img src='' width="816" height="317" id="gifResult" style="display: none">
+        <img src='' width="816" id="gifResult" style="display: none">
         <img src='' style='display: none;' id="dialogueImage">
         <p id="dName" style='display: none;'></p>
     </main>
@@ -95,7 +95,7 @@
         <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <label for="charDialogue">Dialogue:</label>
-        <textarea id="charDialogue" fname="charDialogue">Normal phrase. [SW]Wavey phrase.[/SW] [SHAKE]Shaking phrase[/SHAKE]. [PS=1000]Pause simulation.</textarea>
+        <textarea id="charDialogue" fname="charDialogue">Normal phrase. [SW]Wavey phrase.[/SW] [SHAKE]Shaking phrase[/SHAKE]. [PS=1000]Pause 1sec.</textarea>
         <label for="charDialogueImg">Character Image:</label>
         <p style="font-size: 1.2rem;">Character's face should be in: In Stars And Time/www/img/faces</p>
         <input type="file" id="fileInput" accept="image/*"> 
@@ -119,6 +119,8 @@
                 <option value="nearinstant">Near Instant</option>
             </select>
         </label>
+        <label for="dialogueImageOffset">Dialogue Image Offset:</label>
+        <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="250" max="280" value="263">
         <div style="display: flex; flex-direction: row;">
             <button class="uiButton" id="saveButton">
                 <img id="cornerUpLeft" src="./assets/cursorBorderA.png">

@@ -1,4 +1,5 @@
 var textString = '';
+var globalImageOffset = 263;
 
 function exitSetting() {
     document.getElementById("settingPanel").style.display = "none";
@@ -37,6 +38,7 @@ function updateProfile() {
     const dialogueText = document.getElementById('charDialogue').value;
     const dialogueName = document.getElementById('charDialogueName').value;
     const dialogueSpeed = document.getElementById('dialogueSpeed').value;
+    const offsetValue = document.getElementById('dialogueImageOffset').value;
     const fileInput = document.getElementById('fileInput');
 
     switch (dialogueSpeed) {
@@ -61,6 +63,7 @@ function updateProfile() {
     }
 
     textString = dialogueText;
+    globalImageOffset = offsetValue;
     document.getElementById('dName').innerText = dialogueName;
 
     if (fileInput.files.length > 0) {
@@ -85,7 +88,7 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     gifResult.style.display = 'none';
     myCanvas.style.display = 'block';
 
-    debugText.innerText = 'Rendering... Do not touch Settings while rendering.'
+    debugText.innerText = 'Rendering... Please do not use Settings while rendering.'
     typewriterAnimation(textString);
 });
 
@@ -131,19 +134,31 @@ function parseText(text) {
     return { segments, totalPauseDuration };
 }
 
+const cropCanvas = (sourceCanvas,left,top,width,height) => {
+    let destCanvas = document.createElement('canvas');
+    destCanvas.width = width;
+    destCanvas.height = height;
+    destCanvas.getContext("2d").drawImage(
+        sourceCanvas,
+        left,top,width,height,  // source rect with content to crop
+        0,0,width,height);      // newCanvas, same size as source rect
+    return destCanvas;
+}
+
 function typewriterAnimation() {
     const characters = [];
     const myCanvas = document.getElementById("dialogueCanvas");
     const dialogueImage = document.getElementById("dialogueImage");
     const dName = document.getElementById("dName").innerText;
     const ctx = myCanvas.getContext("2d");
+
     let animationEnded = false;
 
     let arrowVisible = false;
     let arrowOpacity = 0;
     let fadingIn = false;
     let fadingOut = false;
-    const fadeSpeed = 0.05;
+    const fadeSpeed = 0.1;
     let arrowXOffset = 0;
     let arrowDirection = 1;
     let arrowCounter = 0;
@@ -151,9 +166,6 @@ function typewriterAnimation() {
 
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
-
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
     function drawCorner(x, y) {
         ctx.fillStyle = 'lightgray';
@@ -250,6 +262,9 @@ function typewriterAnimation() {
         drawLineVertical(44 + charWidth + 1, 73, myCanvas.height - 261);
     }
     
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+
     if (dName != '') {
         drawNameBox(dName);
     }
@@ -267,7 +282,18 @@ function typewriterAnimation() {
 
     if (dialogueImage.getAttribute("src") != "") {
         scale = 317 / dialogueImage.height
-        ctx.drawImage(dialogueImage, dialogueImage.width - (dialogueImage.width * scale), 0, dialogueImage.width * scale , dialogueImage.height, 0, 0, 263, 317);
+        const scaledWidth = dialogueImage.width * scale;
+        ctx.drawImage(
+            dialogueImage,     
+            0,                              
+            0,                             
+            dialogueImage.width,            
+            dialogueImage.height,             
+            globalImageOffset - scaledWidth,                         
+            0,                            
+            scaledWidth,                     
+            317                            
+        );
     }
 
     ctx.fillStyle = 'white';
@@ -414,15 +440,15 @@ function typewriterAnimation() {
             scale = 317 / dialogueImage.height
             const scaledWidth = dialogueImage.width * scale;
             ctx.drawImage(
-                dialogueImage,                        // Image
-                0,                                   // Source X
-                0,                                   // Source Y
-                dialogueImage.width,                 // Source width (full width)
-                dialogueImage.height,                // Source height (full height)
-                -60,                             // Destination X (offset from right)
-                0,                                   // Destination Y (top)
-                scaledWidth,                         // Destination width (scaled width)
-                317                                  // Destination height (fixed height)
+                dialogueImage,     
+                0,                              
+                0,                             
+                dialogueImage.width,            
+                dialogueImage.height,             
+                globalImageOffset - scaledWidth,                         
+                0,                            
+                scaledWidth,                     
+                317                            
             );
         }
 
@@ -483,18 +509,44 @@ function typewriterAnimation() {
         }
         
         if (animationEnded != true) {
-            gif.addFrame(ctx, { copy: true, delay: 20 });
+            let tempCanvas = document.createElement('canvas')
+            
+            if (dialogueImage.getAttribute('src') != '') {
+                tempCanvas.width = 816;
+                tempCanvas.height = 317;
+                tempCanvas = cropCanvas(myCanvas, 0, 0, canvasWidth, 317);
+            } else if (dName != '') {
+                tempCanvas.width = 816;
+                tempCanvas.height = 251;
+                tempCanvas = cropCanvas(myCanvas, 0, 66, canvasWidth, 251);
+            } else {
+                tempCanvas.width = 816;
+                tempCanvas.height = 180;
+                tempCanvas = cropCanvas(myCanvas, 0, 137, canvasWidth, 180);
+            }
+
+            gif.addFrame(tempCanvas.getContext('2d'), { copy: true, delay: 20 });
             requestAnimationFrame(animateCharacters);
         } else {
             gif.render();
         }
     }
 
+    let targetHeight = canvasHeight;
+
+    if (dialogueImage.getAttribute('src') != '') {
+        targetHeight = 317;
+    } else if (dName != '') {
+        targetHeight = 251;
+    } else {
+        targetHeight = 180;
+    }
+
     const gif = new GIF({
         workers: 4,
         quality: 20,
         width: canvasWidth,
-        height: canvasHeight
+        height: targetHeight
     });
 
     gif.on('finished', function(blob) {
