@@ -6,10 +6,6 @@ function openSetting() {
     document.getElementById("settingPanel").style.display = "flex"; 
 }
 
-let delay = 2000; 
-let angle = 0;
-let defaultSpeed = 20;
-
 function updateProfileImage() {
     const fileInput = document.getElementById('fileInput');
     const profileImageDiv = document.getElementById('dialogueImage');
@@ -445,7 +441,8 @@ function typewriterAnimation(textString) {
             const arrowX = canvasWidth - 33 + arrowXOffset;
             drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
         }
-        gif.addFrame(ctx, { copy: true, delay: 20 });
+
+        gif.addFrame(myCanvas, { delay: 20 });
         requestAnimationFrame(animateCharacters);
     }
 

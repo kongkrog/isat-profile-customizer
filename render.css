@@ -863,19 +863,6 @@ input, select {
     font-size: 1.45rem;
 }
 
-#dialogueImage {
-    width: 267px;
-    height: 318px;
-
-    position: absolute;
-
-    bottom: 0;
-    left: 0;
-
-    object-fit: cover;
-    object-position: 120% 0;
-}
-
 #dialogueArrow {
     position: absolute;
 
