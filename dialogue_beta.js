@@ -449,8 +449,6 @@ function typewriterAnimation(textString) {
     const gif = new GIF({
         workers: 2,
         quality: 10,
-        width: canvasWidth,
-        height: canvasHeight,
     });
 
     gif.on('finished', function(blob) {
