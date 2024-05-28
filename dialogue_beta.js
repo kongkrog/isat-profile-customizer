@@ -108,7 +108,7 @@ document.getElementById("clearButton").addEventListener("click", function(event)
 });
 
 function parseText(text) {
-    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]/g;
+    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]/g;
     let result;
     const segments = [];
     let lastIndex = 0;
@@ -116,31 +116,33 @@ function parseText(text) {
 
     while ((result = regex.exec(text)) !== null) {
         if (result.index > lastIndex) {
-            segments.push({ text: text.slice(lastIndex, result.index), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null });
+            segments.push({ text: text.slice(lastIndex, result.index), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
         }
         if (result[1]) {
-            segments.push({ text: result[2], size: result[1], wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null });
+            segments.push({ text: result[2], size: result[1], wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
         } else if (result[3]) {
-            segments.push({ text: result[3], size: null, wave: true, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null });
+            segments.push({ text: result[3], size: null, wave: true, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
         } else if (result[4]) {
-            segments.push({ text: result[7], size: null, wave: false, zoom: { start: parseInt(result[4]), end: parseInt(result[5]), speed: parseInt(result[6]) }, thin: false, pause: null, speed: null, shake: false, image: null });
+            segments.push({ text: result[7], size: null, wave: false, zoom: { start: parseInt(result[4]), end: parseInt(result[5]), speed: parseInt(result[6]) }, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
         } else if (result[8]) {
-            segments.push({ text: result[8], size: null, wave: false, zoom: null, thin: true, pause: null, speed: null, shake: false, image: null });
+            segments.push({ text: result[8], size: null, wave: false, zoom: null, thin: true, pause: null, speed: null, shake: false, image: null, clear: false });
         } else if (result[9]) {
-            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: parseInt(result[9]), speed: null, shake: false, image: null });
+            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: parseInt(result[9]), speed: null, shake: false, image: null, clear: false });
         } else if (result[10]) {
-            segments.push({ text: result[11], size: null, wave: false, zoom: null, thin: false, pause: null, speed: parseInt(result[10]), shake: false, image: null });
+            segments.push({ text: result[11], size: null, wave: false, zoom: null, thin: false, pause: null, speed: parseInt(result[10]), shake: false, image: null, clear: false });
             totalPauseDuration += parseInt(result[10]);
         } else if (result[12]) {
-            segments.push({ text: result[12], size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: true, image: null });
+            segments.push({ text: result[12], size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: true, image: null, clear: false });
         } else if (result[13]) {
-            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: parseInt(result[13]) });
+            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: parseInt(result[13]), clear: false });
+        } else if (result[0] === '[CLEAR]') {
+            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: true });
         }
         lastIndex = regex.lastIndex;
     }
 
     if (lastIndex < text.length) {
-        segments.push({ text: text.slice(lastIndex), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null });
+        segments.push({ text: text.slice(lastIndex), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
     }
 
     return { segments, totalPauseDuration };
@@ -158,7 +160,7 @@ const cropCanvas = (sourceCanvas,left,top,width,height) => {
 }
 
 function typewriterAnimation() {
-    const characters = [];
+    var characters = [];
     const myCanvas = document.getElementById("dialogueCanvas");
     const dialogueImage = document.getElementById("dialogueImage1");
     const dName = document.getElementById("dName").innerText;
@@ -356,6 +358,16 @@ function typewriterAnimation() {
             const segment = segments[currentSegmentIndex];
             const text = segment.text;
 
+            if (segment.clear) {
+                xOffset = globalxOffset;
+                yOffset = globalyOffset;
+                currentSegmentIndex++;
+                currentTextIndex = 0;
+                characters = [];
+                drawNextCharacter();
+                return;
+            }
+
             if (segment.image) {
                 currentImageNumber = segment.image;
             }
@@ -508,7 +520,6 @@ function typewriterAnimation() {
         const time = Date.now();
         characters.forEach(({ char, xOffset, yOffset, font, wave, shake, image}) => {
             ctx.font = font;
-
             if (wave) {
                 const amplitude = 3;
                 const frequency = 0.08;
