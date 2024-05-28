@@ -81,7 +81,10 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     updateProfileImage('fileInput2', 'dialogueImage2');
     updateProfileImage('fileInput3', 'dialogueImage3');
     updateProfileImage('fileInput4', 'dialogueImage4');
-    
+    updateProfileImage('fileInput5', 'dialogueImage5');
+    updateProfileImage('fileInput6', 'dialogueImage6');
+    updateProfileImage('fileInput7', 'dialogueImage7');
+
     const downloadButton = document.getElementById('downloadButton');
     const debugText = document.getElementById('debug');
     const gifResult = document.getElementById('gifResult');

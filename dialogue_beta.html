@@ -17,6 +17,9 @@
         <img src='' style='display: none;' id="dialogueImage2">
         <img src='' style='display: none;' id="dialogueImage3">
         <img src='' style='display: none;' id="dialogueImage4">
+        <img src='' style='display: none;' id="dialogueImage5">
+        <img src='' style='display: none;' id="dialogueImage6">
+        <img src='' style='display: none;' id="dialogueImage7">
         <p id="dName" style='display: none;'></p>
     </main>
     <p id="debug"></p>
@@ -95,10 +98,12 @@
         <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
         <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
         <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        
         <div id="topUIBar"></div>
         <div id="bottomUIBar"></div>
         <div id="leftUIBar"></div>
         <div id="rightUIBar"></div>
+        
         <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
@@ -107,60 +112,85 @@
         <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
-        <label for="charDialogue">Dialogue:</label>
-        <textarea id="charDialogue" fname="charDialogue">[IMAGE1]WHAT!? [PS=1000][IMAGE2]I'm sad now... [PS=1000][IMAGE3]Yes, I'm being serious. [PS=1000][IMAGE4]So um....</textarea>
-        <label for="charDialogueImg">Character Image:</label>
-        <p style="font-size: 1.2rem;">Character's face should be in: In Stars And Time/www/img/faces</p>
-        <input type="file" id="fileInput" accept="image/*"> 
-        <button class="uiButton" id="clearButton">
-            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-            Clear Image
-        </button>
-        <div style="display: flex; flex-direction: row;">
-            <input type="file" id="fileInput2" accept="image/*" style="width: 300px;"> 
-            <input type="file" id="fileInput3" accept="image/*" style="width: 300px;"> 
-            <input type="file" id="fileInput4" accept="image/*" style="width: 300px;"> 
-        </div>
-        <p style="font-size: 1.2rem;">Use tag [IMAGE1], [IMAGE2], [IMAGE3], [IMAGE4] respectively to change image on the fly.</p>
-        <label for="charDialogueImg">Character Name:</label>
-        <p style="font-size: 1.2rem;">Character name will only appear if you clear image.</p>
-        <input type="text" id="charDialogueName" fname="charDialogueName">
-        <label for="dialogueSpeed">Dialogue Speed:
-            <select id="dialogueSpeed" fname="dialogueSpeed" default="veryfast">
-                <option value="veryslow">Very Slow</option>
-                <option value="slow">Slow</option>
-                <option value="medium">Medium</option>
-                <option value="fast">Fast</option>
-                <option value="veryfast">Very Fast</option>
-                <option value="nearinstant">Near Instant</option>
-            </select>
-        </label>
-        <label for="dialogueImageOffset">Dialogue Image Offset:</label>
-        <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="250" max="280" value="263">
-        <div>
-            <label for="dialogueImageOffset">Transparency?</label>
-            <input type="checkbox" id="checkTransparent" name="checkTransparent">
-        </div>
-        <p style="font-size: 1.2rem;">Transparent rendering will only work on Chromium browers, not Firefox.</p>
-        <p style="font-size: 1.2rem;">If there are artifacts, re-offset the dialogue image might work.</p>
-        <div style="display: flex; flex-direction: row;">
-            <button class="uiButton" id="saveButton">
-                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                <img src="./assets/saveicon.png"> Save
-            </button>
-            <button class="uiButton" type="button" onclick="exitSetting()">
-                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                <img src="./assets/quiticon.png"> Exit  
-            </button>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="charDialogue">Dialogue:</label>
+                <textarea id="charDialogue" fname="charDialogue" style="flex-grow: 1;">[IMAGE1]WHAT!? [PS=1000][IMAGE2]I'm sad now... [PS=1000][IMAGE3]Yes, I'm being serious. [PS=1000][IMAGE4]So um....</textarea>
+            </div>
+            
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="charDialogueImg">Character Image:</label>
+                <input type="file" id="fileInput" accept="image/*">
+                <button class="uiButton" id="clearButton">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    Clear Image
+                </button>
+            </div>
+            
+            <p style="font-size: 1.2rem;">This will be the default [IMAGE1]. ISAT Faces directory: In Stars And Time/www/img/faces</p>
+            
+            <div style="display: flex; flex-direction: row; gap: 10px;">
+                <input type="file" id="fileInput2" accept="image/*" style="width: 300px"> 
+                <input type="file" id="fileInput3" accept="image/*" style="width: 300px"> 
+                <input type="file" id="fileInput4" accept="image/*" style="width: 300px"> 
+            </div>
+            <p style="font-size: 1.2rem;">Image tags: [IMAGE2], [IMAGE3], [IMAGE4] (All Optional)</p>
+            <div style="display: flex; flex-direction: row; gap: 10px;">
+                <input type="file" id="fileInput5" accept="image/*" style="width: 300px"> 
+                <input type="file" id="fileInput6" accept="image/*" style="width: 300px"> 
+                <input type="file" id="fileInput7" accept="image/*" style="width: 300px"> 
+            </div>
+            <p style="font-size: 1.2rem;">Image tags: [IMAGE5], [IMAGE6], [IMAGE7] (All Optional)</p>
+
+            <p style="font-size: 1.2rem;">Use these tags respectively to change image on the fly.</p>
+            
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="charDialogueName">Character Name:</label>
+                <input type="text" id="charDialogueName" fname="charDialogueName" style="flex-grow: 1; width: 200px;">
+                <label for="dialogueSpeed">Dialogue Speed:</label>
+                <select id="dialogueSpeed" fname="dialogueSpeed" default="veryfast" style="flex-grow: 1;">
+                    <option value="veryslow">Very Slow</option>
+                    <option value="slow">Slow</option>
+                    <option value="medium">Medium</option>
+                    <option value="fast">Fast</option>
+                    <option value="veryfast">Very Fast</option>
+                    <option value="nearinstant">Near Instant</option>
+                </select>
+            </div>
+            
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="dialogueImageOffset">Dialogue Image Offset:</label>
+                <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="250" max="280" value="263" style="flex-grow: 1;">
+            </div>
+            
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="checkTransparent">Transparency?</label>
+                <input type="checkbox" id="checkTransparent" name="checkTransparent">
+            </div>
+            
+            <p style="font-size: 1.2rem;">Transparent rendering will only work on Chromium browsers, not Firefox.</p>
+            <p style="font-size: 1.2rem;">If there are artifacts, re-offseting the dialogue image might work.</p>
+            
+            <div style="display: flex; flex-direction: row; gap: 10px;">
+                <button class="uiButton" id="saveButton" style="flex-grow: 1;">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    <img src="./assets/saveicon.png"> Save
+                </button>
+                <button class="uiButton" type="button" onclick="exitSetting()" style="flex-grow: 1;">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    <img src="./assets/quiticon.png"> Exit  
+                </button>
+            </div>
         </div>
     </form>
     <script src="dialogue_beta.js"></script> 
