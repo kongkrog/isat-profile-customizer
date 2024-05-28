@@ -591,13 +591,22 @@ function typewriterAnimation() {
         targetHeight = 180;
     }
 
-    const gif = new GIF({
-        workers: 4,
-        quality: 10,
-        width: canvasWidth,
-        height: targetHeight,
-        transparent: "0x00FF00"
-    });
+    if (isTransparent) {
+        var gif = new GIF({
+            workers: 4,
+            quality: 10,
+            width: canvasWidth,
+            height: targetHeight,
+            transparent: "0x00FF00"
+        });
+    } else {
+        var gif = new GIF({
+            workers: 4,
+            quality: 10,
+            width: canvasWidth,
+            height: targetHeight
+        });
+    }
 
     gif.on('finished', function(blob) {
         const gifResult = document.getElementById('gifResult');
