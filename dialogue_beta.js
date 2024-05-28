@@ -10,13 +10,13 @@ function openSetting() {
     document.getElementById("settingPanel").style.display = "flex"; 
 }
 
-function updateProfileImage() {
-    const fileInput = document.getElementById('fileInput');
-    const profileImageDiv = document.getElementById('dialogueImage');
+function updateProfileImage(fileInput, target) {
+    const fInput = document.getElementById(fileInput);
+    const profileImageDiv = document.getElementById(target);
 
     // Check if a file is selected
-    if (fileInput.files && fileInput.files[0]) {
-        const file = fileInput.files[0];
+    if (fInput.files && fInput.files[0]) {
+        const file = fInput.files[0];
         
         // Check if the file is an image
         if (file.type.startsWith('image/')) {
@@ -77,14 +77,16 @@ function updateProfile() {
 document.getElementById("saveButton").addEventListener("click", function(event) {
     event.preventDefault(); // Prevent default form submission
     updateProfile(); // Call the updateProfile function
-    updateProfileImage();
+    updateProfileImage('fileInput', 'dialogueImage1');
+    updateProfileImage('fileInput2', 'dialogueImage2');
+    updateProfileImage('fileInput3', 'dialogueImage3');
+    updateProfileImage('fileInput4', 'dialogueImage4');
     
     const downloadButton = document.getElementById('downloadButton');
     const debugText = document.getElementById('debug');
     const gifResult = document.getElementById('gifResult');
     const gifDisplay = document.getElementById('gifDisplay');
     const myCanvas = document.getElementById('dialogueCanvas');
-    const dialogueImage = document.getElementById('dialogueImage');
     downloadButton.style.display = 'none';
 
     gifDisplay.style.display = 'none';
@@ -103,7 +105,7 @@ document.getElementById("clearButton").addEventListener("click", function(event)
 });
 
 function parseText(text) {
-    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]/g;
+    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]/g;
     let result;
     const segments = [];
     let lastIndex = 0;
@@ -111,29 +113,31 @@ function parseText(text) {
 
     while ((result = regex.exec(text)) !== null) {
         if (result.index > lastIndex) {
-            segments.push({ text: text.slice(lastIndex, result.index), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false });
+            segments.push({ text: text.slice(lastIndex, result.index), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null });
         }
         if (result[1]) {
-            segments.push({ text: result[2], size: result[1], wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false });
+            segments.push({ text: result[2], size: result[1], wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null });
         } else if (result[3]) {
-            segments.push({ text: result[3], size: null, wave: true, zoom: null, thin: false, pause: null, speed: null, shake: false });
+            segments.push({ text: result[3], size: null, wave: true, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null });
         } else if (result[4]) {
-            segments.push({ text: result[7], size: null, wave: false, zoom: { start: parseInt(result[4]), end: parseInt(result[5]), speed: parseInt(result[6]) }, thin: false, pause: null, speed: null, shake: false });
+            segments.push({ text: result[7], size: null, wave: false, zoom: { start: parseInt(result[4]), end: parseInt(result[5]), speed: parseInt(result[6]) }, thin: false, pause: null, speed: null, shake: false, image: null });
         } else if (result[8]) {
-            segments.push({ text: result[8], size: null, wave: false, zoom: null, thin: true, pause: null, speed: null, shake: false });
+            segments.push({ text: result[8], size: null, wave: false, zoom: null, thin: true, pause: null, speed: null, shake: false, image: null });
         } else if (result[9]) {
-            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: parseInt(result[9]), speed: null, shake: false });
+            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: parseInt(result[9]), speed: null, shake: false, image: null });
         } else if (result[10]) {
-            segments.push({ text: result[11], size: null, wave: false, zoom: null, thin: false, pause: null, speed: parseInt(result[10]), shake: false });
+            segments.push({ text: result[11], size: null, wave: false, zoom: null, thin: false, pause: null, speed: parseInt(result[10]), shake: false, image: null });
             totalPauseDuration += parseInt(result[10]);
         } else if (result[12]) {
-            segments.push({ text: result[12], size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: true });
+            segments.push({ text: result[12], size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: true, image: null });
+        } else if (result[13]) {
+            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: parseInt(result[13]) });
         }
         lastIndex = regex.lastIndex;
     }
 
     if (lastIndex < text.length) {
-        segments.push({ text: text.slice(lastIndex), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false });
+        segments.push({ text: text.slice(lastIndex), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null });
     }
 
     return { segments, totalPauseDuration };
@@ -153,7 +157,7 @@ const cropCanvas = (sourceCanvas,left,top,width,height) => {
 function typewriterAnimation() {
     const characters = [];
     const myCanvas = document.getElementById("dialogueCanvas");
-    const dialogueImage = document.getElementById("dialogueImage");
+    const dialogueImage = document.getElementById("dialogueImage1");
     const dName = document.getElementById("dName").innerText;
     const ctx = myCanvas.getContext("2d");
 
@@ -169,8 +173,14 @@ function typewriterAnimation() {
     let arrowCounter = 0;
     const arrowUpdateInterval = 10;
 
+    let currentImageNumber = 1;
+
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
+
+    if (isTransparent) {
+        ctx.imageSmoothingEnabled = false;
+    };
 
     function drawCorner(x, y) {
         ctx.fillStyle = 'lightgray';
@@ -343,6 +353,10 @@ function typewriterAnimation() {
             const segment = segments[currentSegmentIndex];
             const text = segment.text;
 
+            if (segment.image) {
+                currentImageNumber = segment.image;
+            }
+
             if (segment.pause !== null) {
                 console.log("Pause segment detected:", segment);
                 pauseDuration = segment.pause;
@@ -413,7 +427,7 @@ function typewriterAnimation() {
                 maxFontSize = 23;
             }
 
-            characters.push({ char, xOffset, yOffset, font: ctx.font, wave: segment.wave, shake: segment.shake});
+            characters.push({ char, xOffset, yOffset, font: ctx.font, wave: segment.wave, shake: segment.shake, image: segment.image});
 
             xOffset += charWidth;
             currentTextIndex++;
@@ -441,6 +455,15 @@ function typewriterAnimation() {
     }
 
     function animateCharacters() {       
+        
+        if (isTransparent) {
+            ctx.fillStyle = 'green';
+            ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+        } else {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+        }
+    
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 137, myCanvas.width, myCanvas.height);
 
@@ -459,15 +482,18 @@ function typewriterAnimation() {
         drawLineVertical(2, 144, myCanvas.height - 152);
         drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
 
-        if (dialogueImage.getAttribute("src") != "") {
-            scale = 317 / dialogueImage.height
-            const scaledWidth = dialogueImage.width * scale;
+        currentImage = document.getElementById("dialogueImage" + String(currentImageNumber));
+        console.log(String(currentImageNumber), "dialogueImage" + String(currentImageNumber));
+
+        if (currentImage.getAttribute("src") != "") {
+            scale = 317 / currentImage.height
+            const scaledWidth = currentImage.width * scale;
             ctx.drawImage(
-                dialogueImage,     
+                currentImage,     
                 0,                              
                 0,                             
-                dialogueImage.width,            
-                dialogueImage.height,             
+                currentImage.width,            
+                currentImage.height,             
                 globalImageOffset - scaledWidth,                         
                 0,                            
                 scaledWidth,                     
@@ -477,7 +503,7 @@ function typewriterAnimation() {
 
         ctx.fillStyle = 'white';
         const time = Date.now();
-        characters.forEach(({ char, xOffset, yOffset, font, wave, shake}) => {
+        characters.forEach(({ char, xOffset, yOffset, font, wave, shake, image}) => {
             ctx.font = font;
 
             if (wave) {
@@ -533,7 +559,7 @@ function typewriterAnimation() {
         
         if (animationEnded != true) {
             let tempCanvas = document.createElement('canvas')
-            
+
             if (dialogueImage.getAttribute('src') != '') {
                 tempCanvas.width = 816;
                 tempCanvas.height = 317;
@@ -567,7 +593,7 @@ function typewriterAnimation() {
 
     const gif = new GIF({
         workers: 4,
-        quality: 15,
+        quality: 10,
         width: canvasWidth,
         height: targetHeight,
         transparent: "0x00FF00"

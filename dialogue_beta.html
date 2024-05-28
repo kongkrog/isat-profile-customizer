@@ -13,7 +13,10 @@
         <canvas id="dialogueCanvas" width="816" height="317" style="display: none"></canvas>
         <img src='./assets/displayGif.gif' width="816" height="317" id="gifDisplay">
         <img src='' width="816" id="gifResult" style="display: none">
-        <img src='' style='display: none;' id="dialogueImage">
+        <img src='' style='display: none;' id="dialogueImage1">
+        <img src='' style='display: none;' id="dialogueImage2">
+        <img src='' style='display: none;' id="dialogueImage3">
+        <img src='' style='display: none;' id="dialogueImage4">
         <p id="dName" style='display: none;'></p>
     </main>
     <p id="debug"></p>
@@ -82,6 +85,9 @@
     <p style="font-size: 1rem;">
         <strong>[SHAKE]...[/SHAKE]</strong>: Applies a shake effect.<br>
     </p>
+    <p style="font-size: 1rem;">
+        <strong>[IMAGE1], [IMAGE2], [IMAGE3], [IMAGE4]</strong>: Change the dialogue image to that specific image associated with tag.<br>
+    </p>
     <p style="font-size: 1rem; padding-top: 20px;">Font in px | Delay in miliseconds | Tags are not combinable.</p>
     <p style="font-size: 1rem;">Default dialogue speed is 25.</p>
     <form id="settingPanel" onsubmit="updateProfile()">
@@ -102,7 +108,7 @@
         <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <label for="charDialogue">Dialogue:</label>
-        <textarea id="charDialogue" fname="charDialogue">Normal phrase. [SW]Wavey phrase.[/SW] [SHAKE]Shaking phrase[/SHAKE]. [PS=1000]Pause 1sec.</textarea>
+        <textarea id="charDialogue" fname="charDialogue">[IMAGE1]WHAT!? [PS=1000][IMAGE2]I'm sad now... [PS=1000][IMAGE3]Yes, I'm being serious. [PS=1000][IMAGE4]So um....</textarea>
         <label for="charDialogueImg">Character Image:</label>
         <p style="font-size: 1.2rem;">Character's face should be in: In Stars And Time/www/img/faces</p>
         <input type="file" id="fileInput" accept="image/*"> 
@@ -113,6 +119,12 @@
             <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
             Clear Image
         </button>
+        <div style="display: flex; flex-direction: row;">
+            <input type="file" id="fileInput2" accept="image/*" style="width: 300px;"> 
+            <input type="file" id="fileInput3" accept="image/*" style="width: 300px;"> 
+            <input type="file" id="fileInput4" accept="image/*" style="width: 300px;"> 
+        </div>
+        <p style="font-size: 1.2rem;">Use tag [IMAGE1], [IMAGE2], [IMAGE3], [IMAGE4] respectively to change image on the fly.</p>
         <label for="charDialogueImg">Character Name:</label>
         <p style="font-size: 1.2rem;">Character name will only appear if you clear image.</p>
         <input type="text" id="charDialogueName" fname="charDialogueName">
