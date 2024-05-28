@@ -616,7 +616,7 @@ function typewriterAnimation() {
     } else {
         var gif = new GIF({
             workers: 4,
-            quality: 10,
+            quality: 20,
             width: canvasWidth,
             height: targetHeight
         });
