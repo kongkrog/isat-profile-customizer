@@ -1,6 +1,7 @@
 var textString = '';
 var globalImageOffset = 263;
 var isTransparent = false;
+var globalScale = 0.6;
 
 function exitSetting() {
     document.getElementById("settingPanel").style.display = "none";
@@ -42,6 +43,7 @@ function updateProfile() {
     const offsetValue = document.getElementById('dialogueImageOffset').value;
     const fileInput = document.getElementById('fileInput');
     const checkTransparent = document.querySelector('#checkTransparent').checked;
+    const gifScaling = document.getElementById('gifScaling').value;
 
     switch (dialogueSpeed) {
         case 'veryslow':
@@ -66,6 +68,7 @@ function updateProfile() {
 
     textString = dialogueText;
     globalImageOffset = offsetValue;
+    globalScale = gifScaling;
     isTransparent = checkTransparent;
     document.getElementById('dName').innerText = dialogueName;
 
@@ -572,7 +575,9 @@ function typewriterAnimation() {
         }
         
         if (animationEnded != true) {
-            let tempCanvas = document.createElement('canvas')
+            let tempCanvas = document.createElement('canvas');
+            let scaledCanvas = document.createElement('canvas');
+            const scaledCtx = scaledCanvas.getContext('2d');
 
             if (dialogueImage.getAttribute('src') != '') {
                 tempCanvas.width = 816;
@@ -588,7 +593,12 @@ function typewriterAnimation() {
                 tempCanvas = cropCanvas(myCanvas, 0, 137, canvasWidth, 180);
             }
 
-            gif.addFrame(tempCanvas.getContext('2d'), { copy: true, delay: 20 });
+            scaledCanvas.width = tempCanvas.width * globalScale;
+            scaledCanvas.height = tempCanvas.height * globalScale;
+
+            scaledCtx.drawImage(tempCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+
+            gif.addFrame(scaledCanvas.getContext('2d'), { copy: true, delay: 20, dispose: 2 });
             requestAnimationFrame(animateCharacters);
         } else {
             gif.render();
@@ -608,17 +618,17 @@ function typewriterAnimation() {
     if (isTransparent) {
         var gif = new GIF({
             workers: 4,
-            quality: 10,
-            width: canvasWidth,
-            height: targetHeight,
+            quality: 20,
+            width: canvasWidth * globalScale,
+            height: targetHeight * globalScale,
             transparent: "0x00FF00"
         });
     } else {
         var gif = new GIF({
             workers: 4,
             quality: 20,
-            width: canvasWidth,
-            height: targetHeight
+            width: canvasWidth * globalScale, 
+            height: targetHeight * globalScale
         });
     }
 
