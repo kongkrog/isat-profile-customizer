@@ -218,7 +218,7 @@
                     file: src,
                     name: "optimized.gif",
                 }],
-                command: ["-O1 --lossy=30 optimized.gif -o /out/out.gif"]
+                command: ["-O2 --lossy=60 --colors 256 --dither optimized.gif -o /out/out.gif"]
             }).then(out => {
                 console.log(out);
                 out.map((f, indx) => {
