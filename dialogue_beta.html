@@ -246,7 +246,7 @@
             changes.forEach(change => {
                 if(change.attributeName.includes('src')){
                     if (document.querySelector('#checkTransparent').checked) {
-                        optimizeGIF(displayGif.src, "-O2 --lossy=60 optimized.gif -o /out/out.gif")
+                        optimizeGIF(displayGif.src, "-O2 optimized.gif -o /out/out.gif")
                     } else {
                         optimizeGIF(displayGif.src, "-O1 --lossy=60 optimized.gif -o /out/out.gif");
                     }
