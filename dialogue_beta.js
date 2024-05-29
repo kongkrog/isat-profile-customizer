@@ -3,13 +3,13 @@ var globalImageOffset = 263;
 var isTransparent = false;
 var globalScale = 1;
 
-function exitSetting() {
-    document.getElementById("settingPanel").style.display = "none";
-}
-
-function openSetting() {
+document.getElementById("settingButton").addEventListener("click", function(event) {
     document.getElementById("settingPanel").style.display = "flex"; 
-}
+});
+
+document.getElementById("exitButton").addEventListener("click", function(event) {
+    document.getElementById("settingPanel").style.display = "none";
+});
 
 function updateProfileImage(fileInput, target) {
     const fInput = document.getElementById(fileInput);
@@ -376,7 +376,6 @@ function typewriterAnimation() {
             }
 
             if (segment.pause !== null) {
-                console.log("Pause segment detected:", segment);
                 pauseDuration = segment.pause;
                 playArrowAnimation(true);
                 setTimeout(() => {
@@ -501,7 +500,6 @@ function typewriterAnimation() {
         drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
 
         currentImage = document.getElementById("dialogueImage" + String(currentImageNumber));
-        console.log(String(currentImageNumber), "dialogueImage" + String(currentImageNumber));
 
         if (currentImage.getAttribute("src") != "") {
             scale = 317 / currentImage.height
@@ -598,7 +596,7 @@ function typewriterAnimation() {
 
             scaledCtx.drawImage(tempCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
 
-            gif.addFrame(scaledCanvas.getContext('2d'), { copy: true, delay: 20, dispose: 2 });
+            gif.addFrame(scaledCanvas.getContext('2d'), { copy: true, delay: 20 });
             requestAnimationFrame(animateCharacters);
         } else {
             gif.render();
@@ -621,36 +619,30 @@ function typewriterAnimation() {
             quality: 20,
             width: canvasWidth * globalScale,
             height: targetHeight * globalScale,
-            transparent: "0x00FF00"
+            background: "#000",
+            transparent: "0x00FF00",
+            dither: "FloydSteinberg-serpentine"
         });
     } else {
         var gif = new GIF({
             workers: 4,
             quality: 20,
             width: canvasWidth * globalScale, 
-            height: targetHeight * globalScale
+            height: targetHeight * globalScale,
+            background: "#000",
+            dither: "FloydSteinberg-serpentine"
         });
     }
 
     gif.on('finished', function(blob) {
-        const gifResult = document.getElementById('gifResult');
+        const gifOptimize = document.getElementById('gifOptimize');
         const myCanvas = document.getElementById('dialogueCanvas');
         const debugText = document.getElementById('debug');
-        const downloadButton = document.getElementById('downloadButton');
-
-        debugText.innerText = 'Finish.'
-
-        gifResult.style.display = 'block';
+        
+        debugText.innerText = 'Optimizing GIF...'
         myCanvas.style.display = 'none';
         
-        gifResult.src = URL.createObjectURL(blob);
-        downloadButton.style.display = 'inline-block';
-
-        downloadButton.addEventListener('click', function() {
-            const downloadLink = document.getElementById("downloadLink");
-            downloadLink.href = URL.createObjectURL(blob);
-            downloadLink.download = 'animation.gif';
-        });
+        gifOptimize.src = URL.createObjectURL(blob);
     });
 
     const parseResult = parseText(textString);

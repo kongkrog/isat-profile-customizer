@@ -13,6 +13,7 @@
         <canvas id="dialogueCanvas" width="816" height="317" style="display: none"></canvas>
         <img src='./assets/displayGif.gif' width="816" height="317" id="gifDisplay">
         <img src='' width="816" id="gifResult" style="display: none">
+        <img src='' width="816" id="gifOptimize" style="display: none">
         <img src='' style='display: none;' id="dialogueImage1">
         <img src='' style='display: none;' id="dialogueImage2">
         <img src='' style='display: none;' id="dialogueImage3">
@@ -20,6 +21,7 @@
         <img src='' style='display: none;' id="dialogueImage5">
         <img src='' style='display: none;' id="dialogueImage6">
         <img src='' style='display: none;' id="dialogueImage7">
+        <div id="out"></div>
         <p id="dName" style='display: none;'></p>
     </main>
     <p id="debug"></p>
@@ -33,7 +35,7 @@
         </button>
     </a>
     <div style="display: flex; flex-direction: row;">
-        <button class="uiButton" style="margin-top: 20px;" onclick="openSetting()">
+        <button class="uiButton" style="margin-top: 20px;" id="settingButton">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
             <img id="cornerDownRight" src="./assets/cursorBorderA.png">
             <img id="cornerUpRight" src="./assets/cursorBorderB.png">
@@ -76,7 +78,6 @@
         <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
         <img src="./assets/settingicon.png"> Old Version
     </button>
-    <p style="font-size: 1rem;"><strong>IMPORTANT: </strong> If the gif file size is too big, please use <a href="https://ezgif.com/optimize">Ezgif GIF Optimizer</a> to optimize gif file size</p>
     <p style="font-size: 1rem;">ISAT Dialogue Maker - made by kongkrog(lea) - all assets belong to insertdisc5</p>
     <p style="font-size: 1rem;">Image should be roughly the same size as ISAT's face sprite. [PS] tag is a bit buggy right now.</p>
     <p style="font-size: 1.5rem; padding-top: 20px;">Tag guide: </p>
@@ -192,7 +193,7 @@
                     <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
                     <img src="./assets/saveicon.png"> Save
                 </button>
-                <button class="uiButton" type="button" onclick="exitSetting()" style="flex-grow: 1;">
+                <button class="uiButton" type="button" id="exitButton" style="flex-grow: 1;">
                     <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
                     <img id="cornerDownRight" src="./assets/cursorBorderA.png">
                     <img id="cornerUpRight" src="./assets/cursorBorderB.png">
@@ -202,6 +203,53 @@
             </div>
         </div>
     </form>
-    <script src="dialogue_beta.js"></script> 
+    <script src="dialogue_beta.js"></script>
+    <script type="module">
+        import gifsicle from 'https://cdn.jsdelivr.net/npm/gifsicle-wasm-browser/dist/gifsicle.min.js';
+
+        const debugText = document.getElementById('debug');
+        const downloadButton = document.getElementById('downloadButton');
+        const gifResult = document.getElementById('gifResult');
+        var optimized_gif = ""
+
+        function optimizeGIF(src) {
+            gifsicle.run({
+                input: [{
+                    file: src,
+                    name: "optimized.gif",
+                }],
+                command: ["-O1 --lossy=30 optimized.gif -o /out/out.gif"]
+            }).then(out => {
+                console.log(out);
+                out.map((f, indx) => {
+                    optimized_gif = URL.createObjectURL(f);
+                    document.getElementById('gifResult').src = optimized_gif;
+                    gifResult.style.display = 'block';
+                    downloadButton.style.display = 'inline-block';
+
+                    downloadButton.addEventListener('click', function() {
+                        const downloadLink = document.getElementById("downloadLink");
+                        downloadLink.href = URL.createObjectURL(f);
+                        downloadLink.download = 'animation.gif';
+                    });
+                debugText.innerText = "Finished optimizing."
+                });
+            });
+        }
+
+        var displayGif = document.getElementById('gifOptimize');
+        var observer;
+
+        observer = new MutationObserver((changes) => {
+            changes.forEach(change => {
+                if(change.attributeName.includes('src')){
+                    console.log(displayGif.src);
+                    optimizeGIF(displayGif.src);
+                }
+            });
+        });
+        
+        observer.observe(displayGif, {attributes : true});
+    </script>
 </body>
 </html>
