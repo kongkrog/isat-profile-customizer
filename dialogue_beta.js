@@ -1,6 +1,8 @@
 var textString = '';
 var globalImageOffset = 263;
+var globalHeightScaling = 317;
 var isTransparent = false;
+var isStatic = false;
 var globalScale = 1;
 
 document.getElementById("settingButton").addEventListener("click", function(event) {
@@ -41,6 +43,7 @@ function updateProfile() {
     const dialogueName = document.getElementById('charDialogueName').value;
     const dialogueSpeed = document.getElementById('dialogueSpeed').value;
     const offsetValue = document.getElementById('dialogueImageOffset').value;
+    const heightScaling = document.getElementById('dialogueHeightScaling').value;
     const fileInput = document.getElementById('fileInput');
     const checkTransparent = document.querySelector('#checkTransparent').checked;
     const gifScaling = document.getElementById('gifScaling').value;
@@ -68,6 +71,7 @@ function updateProfile() {
 
     textString = dialogueText;
     globalImageOffset = offsetValue;
+    globalHeightScaling = heightScaling;
     globalScale = gifScaling;
     isTransparent = checkTransparent;
     document.getElementById('dName').innerText = dialogueName;
@@ -315,7 +319,7 @@ function typewriterAnimation() {
     drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
 
     if (dialogueImage.getAttribute("src") != "") {
-        scale = 317 / dialogueImage.height
+        scale = globalHeightScaling / dialogueImage.height
         const scaledWidth = dialogueImage.width * scale;
         ctx.drawImage(
             dialogueImage,     
@@ -324,9 +328,9 @@ function typewriterAnimation() {
             dialogueImage.width,            
             dialogueImage.height,             
             globalImageOffset - scaledWidth,                         
-            0,                            
+            canvasHeight - globalHeightScaling,                            
             scaledWidth,                     
-            317                            
+            canvasHeight - (canvasHeight - globalHeightScaling)
         );
     }
 
@@ -502,7 +506,7 @@ function typewriterAnimation() {
         currentImage = document.getElementById("dialogueImage" + String(currentImageNumber));
 
         if (currentImage.getAttribute("src") != "") {
-            scale = 317 / currentImage.height
+            scale = globalHeightScaling / currentImage.height
             const scaledWidth = currentImage.width * scale;
             ctx.drawImage(
                 currentImage,     
@@ -511,9 +515,9 @@ function typewriterAnimation() {
                 currentImage.width,            
                 currentImage.height,             
                 globalImageOffset - scaledWidth,                         
-                0,                            
+                canvasHeight - globalHeightScaling,                            
                 scaledWidth,                     
-                317                            
+                canvasHeight - (canvasHeight - globalHeightScaling)                         
             );
         }
 
@@ -596,8 +600,11 @@ function typewriterAnimation() {
 
             scaledCtx.drawImage(tempCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
 
-            gif.addFrame(scaledCanvas.getContext('2d'), { copy: true, delay: 20 });
+            if (!isStatic) {
+                gif.addFrame(scaledCanvas.getContext('2d'), { copy: true, delay: 20 });
+            }
             requestAnimationFrame(animateCharacters);
+            
         } else {
             gif.render();
         }
@@ -615,8 +622,8 @@ function typewriterAnimation() {
 
     if (isTransparent) {
         var gif = new GIF({
-            workers: 4,
-            quality: 20,
+            workers: 2,
+            quality: 10,
             width: canvasWidth * globalScale,
             height: targetHeight * globalScale,
             background: "#000",
@@ -624,8 +631,8 @@ function typewriterAnimation() {
         });
     } else {
         var gif = new GIF({
-            workers: 4,
-            quality: 20,
+            workers: 2,
+            quality: 10,
             width: canvasWidth * globalScale, 
             height: targetHeight * globalScale,
             background: "#000"

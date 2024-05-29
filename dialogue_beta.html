@@ -80,7 +80,6 @@
     </button>
     <p style="font-size: 1rem;"><strong>If gif's size is too big. Use <a href="https://ezgif.com/optimize">ezgif optimizer</a> to optimize your gif.</strong></p>
     <p style="font-size: 1rem;">ISAT Dialogue Maker - made by kongkrog(lea) - all assets belong to insertdisc5</p>
-    <p style="font-size: 1rem;">gifs are generated and optimized using gif.js and gifsicle</p>
     <p style="font-size: 1rem;">Image should be roughly the same size as ISAT's face sprite.</p>
     <p style="font-size: 1.5rem; padding-top: 20px;">Tag guide: </p>
     <p style="font-size: 1rem;">
@@ -138,22 +137,22 @@
                 </button>
             </div>
             
-            <p style="font-size: 1.1rem;">This will be the default [IMAGE1]. ISAT Faces directory: In Stars And Time/www/img/faces</p>
+            <p style="font-size: 1.2rem;">This will be the default [IMAGE1]. ISAT Faces directory: In Stars And Time/www/img/faces</p>
             
             <div style="display: flex; flex-direction: row; gap: 10px;">
                 <input type="file" id="fileInput2" accept="image/*" style="width: 300px"> 
                 <input type="file" id="fileInput3" accept="image/*" style="width: 300px"> 
                 <input type="file" id="fileInput4" accept="image/*" style="width: 300px"> 
             </div>
-            <p style="font-size: 1.1rem;">Image tags: [IMAGE2], [IMAGE3], [IMAGE4] (All Optional)</p>
+            <p style="font-size: 1.2rem;">Image tags: [IMAGE2], [IMAGE3], [IMAGE4] (All Optional)</p>
             <div style="display: flex; flex-direction: row; gap: 10px;">
                 <input type="file" id="fileInput5" accept="image/*" style="width: 300px"> 
                 <input type="file" id="fileInput6" accept="image/*" style="width: 300px"> 
                 <input type="file" id="fileInput7" accept="image/*" style="width: 300px"> 
             </div>
-            <p style="font-size: 1.1rem;">Image tags: [IMAGE5], [IMAGE6], [IMAGE7] (All Optional)</p>
+            <p style="font-size: 1.2rem;">Image tags: [IMAGE5], [IMAGE6], [IMAGE7] (All Optional)</p>
 
-            <p style="font-size: 1.1rem;">Use these tags respectively to change image on the fly.</p>
+            <p style="font-size: 1.2rem;">Use these tags respectively to change image on the fly.</p>
             
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="charDialogueName">Character Name:</label>
@@ -168,11 +167,13 @@
                     <option value="nearinstant">Near Instant</option>
                 </select>
             </div>
-            <p style="font-size: 1.1rem;">Character Name Box will only appear if you clear image ([IMAGE1] is empty).</p>
+            <p style="font-size: 1.2rem;">Character Name Box will only appear if you clear image ([IMAGE1] is empty).</p>
             
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="dialogueImageOffset">Dialogue Image Offset:</label>
-                <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="250" max="280" value="263" style="flex-grow: 1;">
+                <label for="dialogueImageOffset">Image Horizontal Offset:</label>
+                <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="280" value="263" step="1" style="flex-grow: 1;">
+                <label for="dialogueImageOffset">Image Height Scaling:</label>
+                <input type="range" id="dialogueHeightScaling" name="dialogueHeightScaling" min="260" max="317" value="317" step="1" style="flex-grow: 1;">
             </div>
             
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
@@ -185,9 +186,8 @@
                 <input type="checkbox" id="checkTransparent" name="checkTransparent">
             </div>
             
-            <p style="font-size: 1.1rem;">If transparent rendering doesn't work on Firefox, switching to Chronium browers might work.</p>
-            <p style="font-size: 1.1rem;">It just won't work with some images. I tried with Loop's sprite and transparency just refuses to work.</p>
-            <p style="font-size: 1.1rem;">If somebody knows the reason why, please ping me in the ISAT server.</p>
+            <p style="font-size: 1.2rem;">If transparent rendering doesn't work on Firefox, switching to Chronium browers might work.</p>
+            <p style="font-size: 1.2rem;">If it still doesn't work, your dialogue picture contains too many different colors.</p>
             
             <div style="display: flex; flex-direction: row; gap: 10px;">
                 <button class="uiButton" id="saveButton" style="flex-grow: 1;">
