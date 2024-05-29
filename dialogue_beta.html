@@ -78,6 +78,7 @@
         <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
         <img src="./assets/settingicon.png"> Old Version
     </button>
+    <p style="font-size: 1rem;"><strong>If gif's size is too big. Use <a href="https://ezgif.com/optimize">ezgif optimizer</a> to optimize your gif.</strong></p>
     <p style="font-size: 1rem;">ISAT Dialogue Maker - made by kongkrog(lea) - all assets belong to insertdisc5</p>
     <p style="font-size: 1rem;">Image should be roughly the same size as ISAT's face sprite. [PS] tag is a bit buggy right now.</p>
     <p style="font-size: 1.5rem; padding-top: 20px;">Tag guide: </p>
@@ -212,13 +213,13 @@
         const gifResult = document.getElementById('gifResult');
         var optimized_gif = ""
 
-        function optimizeGIF(src) {
+        function optimizeGIF(src, args) {
             gifsicle.run({
                 input: [{
                     file: src,
                     name: "optimized.gif",
                 }],
-                command: ["-O2 --lossy=60 --colors 256 --dither optimized.gif -o /out/out.gif"]
+                command: [args]
             }).then(out => {
                 console.log(out);
                 out.map((f, indx) => {
@@ -243,8 +244,11 @@
         observer = new MutationObserver((changes) => {
             changes.forEach(change => {
                 if(change.attributeName.includes('src')){
-                    console.log(displayGif.src);
-                    optimizeGIF(displayGif.src);
+                    if (document.querySelector('#checkTransparent').checked) {
+                        optimizeGIF(displayGif.src, "-O2 --lossy=60 optimized.gif -o /out/out.gif")
+                    } else {
+                        optimizeGIF(displayGif.src, "-O1 --lossy=60 optimized.gif -o /out/out.gif");
+                    }
                 }
             });
         });

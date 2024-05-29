@@ -620,8 +620,7 @@ function typewriterAnimation() {
             width: canvasWidth * globalScale,
             height: targetHeight * globalScale,
             background: "#000",
-            transparent: "0x00FF00",
-            dither: "FloydSteinberg-serpentine"
+            transparent: "0x00FF00"
         });
     } else {
         var gif = new GIF({
@@ -629,8 +628,7 @@ function typewriterAnimation() {
             quality: 20,
             width: canvasWidth * globalScale, 
             height: targetHeight * globalScale,
-            background: "#000",
-            dither: "FloydSteinberg-serpentine"
+            background: "#000"
         });
     }
 
