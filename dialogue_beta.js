@@ -1,7 +1,7 @@
 var textString = '';
 var globalImageOffset = 263;
 var isTransparent = false;
-var globalScale = 0.6;
+var globalScale = 1;
 
 function exitSetting() {
     document.getElementById("settingPanel").style.display = "none";
