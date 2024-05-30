@@ -4,6 +4,8 @@ HTML App for customizing ISAT profile / party / (simple) battle / (in alpha) dia
 
 If are there any features / bugs that you want to tell me, please ping me in ISAT discord server @kongkrog.
 
+Also if there is any copyright stuff that you found in this, please ping me so I can remove it.
+
 ### Usage
 Please use the link above to avoid downloading this repo.
 Else download this repo and run the html file for usage.
