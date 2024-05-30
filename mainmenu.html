@@ -177,7 +177,7 @@
         <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <p>Leave all that character's input empty to remove them from the menu.</p>
         <p>Example: Empty Char 1 Name, LVL and HP will remove Char 1 from the menu.</p>
-        <div id="charInput">
+        <div id="charInput" style="display: flex; flex-direction: column;">
             <div>
                 <label for="charName">Char 1 Name:</label>
                 <input type="text" id="char1Name" fname="char1Name">
@@ -190,12 +190,8 @@
                 <label for="charPronoun">Char 1 Image:</label>
                 <input type="file" id="char1Image" accept="image/*"> 
             </div>
-            <div>
-                <!-- Image Height Setting:
-                <input type="range" min="50" max="90" value="80" class="slider" id="imageHeight1"> -->
-            </div>
         </div>
-        <div id="charInput">
+        <div id="charInput" style="display: flex; flex-direction: column;">
             <div>
                 <label for="charName">Char 2 Name:</label>
                 <input type="text" id="char2Name" fname="char2Name">
@@ -213,7 +209,7 @@
                 <input type="range" min="50" max="90" value="80" class="slider" id="imageHeight2"> -->
             </div>
         </div>
-        <div id="charInput">
+        <div id="charInput" style="display: flex; flex-direction: column;">
             <div>
                 <label for="charName">Char 3 Name:</label>
                 <input type="text" id="char3Name" fname="char3Name">
@@ -231,7 +227,7 @@
                 <input type="range" min="50" max="90" value="80" class="slider" id="imageHeight3"> -->
             </div>
         </div>
-        <div id="charInput">
+        <div id="charInput" style="display: flex; flex-direction: column;">
             <div>
                 <label for="charName">Char 4 Name:</label>
                 <input type="text" id="char4Name" fname="char4Name">
