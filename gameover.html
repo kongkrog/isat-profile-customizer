@@ -63,7 +63,6 @@
         </button>
     </div>
     <p style="font-size: 1rem;">ISAT Game Over Customizer - made by kongkrog(lea) - all assets belong to insertdisc5</p>
-    <p style="font-size: 1rem;">Using Noise/VSH effect will significantly increase gif file size.</p>
     <p style="font-size: 1rem;">Made using <a href="https://github.com/jnordberg/gif.js">gif.js</a> and <a href="https://github.com/renzhezhilu/gifsicle-wasm-browser">gifsicle (the browser version)</a>.</p>
     <form id="settingPanel" onsubmit="updateProfile()">
         <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
@@ -103,6 +102,7 @@
                 <label for="isVHS">VHS Effect?</label>
                 <input type="checkbox" id="isVHS" fname="isVHS" style="flex-grow: 1;">
             </div>
+            <p style="font-size: 1rem;">Using Noise/VSH effect or both will significantly increase gif file size.</p>
 
             <div style="display: flex; flex-direction: row; gap: 10px;">
                 <button class="uiButton" id="saveButton" style="flex-grow: 1;">
