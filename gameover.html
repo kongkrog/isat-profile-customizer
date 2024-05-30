@@ -10,11 +10,10 @@
 </head>
 <body>
     <main id="dialogueMain"> 
-        <canvas id="gameOverCanvas" width="816" height="623" style="display: none"></canvas>
+        <canvas id="gameOverCanvas" width="816" height="623" style="visibility: hidden; z-index: -1; position: absolute;"></canvas>
         <img src='assets/displayGameOver.gif' width="816" height="623" id="gifDisplay">
         <img src='' width="816" id="gifResult" style="display: none">
         <img src='' width="816" id="gifOptimize" style="display: none">
-        <img src='' style='display: none;' id="frameBuffer">
     </main>
     <p id="debug"></p>
     <a id="downloadLink" href = "">

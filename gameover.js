@@ -154,8 +154,6 @@ function gameOverGif() {
 
     let textOffsetSpeed = 2;
 
-    myCanvas.style.display = "block";
-
     const repeatTime = 5;
     const screenLoopFrames = Array.from({ length: 5 }, (_, i) => `frames/screen_loop/frame_${i}.png`);
     const loopbackFrames = Array.from({ length: 20 }, (_, i) => `frames/loopback/frame_${i}.png`);
@@ -169,16 +167,34 @@ function gameOverGif() {
     ctx.fillStyle = 'white';
     
     loadImages(allFrames).then(images => {
+        var gif = new GIF({
+            workers: 2,
+            quality: 10,
+            width: canvasWidth,
+            height: canvasHeight,
+            background: "#000"
+        });
+        
+        gif.on('finished', function(blob) {
+            const gifOptimize = document.getElementById('gifOptimize');
+            const debugText = document.getElementById('debug');
+        
+            debugText.innerText = 'Optimizing GIF...';
+            myCanvas.style.display = 'none';
+            gifOptimize.src = URL.createObjectURL(blob);
+        });
+
         let colorValue = "";
         let color = "";
 
         let afterLoop = document.getElementById('textAfterLoop').value;
         let loopMessage = document.getElementById('deathMessage').value;
 
-        let isNoise = document.querySelector('#isNoise').value;
-        let isVHS = document.querySelector('#isVHS').value;
+        let isNoise = document.querySelector('#isNoise').checked;
+        let isVHS = document.querySelector('#isVHS').checked;
 
         images.forEach((img, index) => {
+            ctx.textAlign =  'start';
             ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
 
             if (index < repeatedScreenLoopFrames.length * repeatTime) {
@@ -297,21 +313,4 @@ function gameOverGif() {
         console.error('Error loading images:', err);
     });
 }
-
-var gif = new GIF({
-    workers: 2,
-    quality: 10,
-    width: canvasWidth,
-    height: canvasHeight,
-    background: "#000"
-});
-
-gif.on('finished', function(blob) {
-    const gifOptimize = document.getElementById('gifOptimize');
-    const debugText = document.getElementById('debug');
-
-    debugText.innerText = 'Optimizing GIF...';
-    myCanvas.style.display = 'none';
-    gifOptimize.src = URL.createObjectURL(blob);
-});
 
