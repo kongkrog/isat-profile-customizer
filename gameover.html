@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="render.css">
+    <title>ISAT Dialogue Maker</title>
+    <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.worker.js"></script>
+</head>
+<body>
+    <main id="dialogueMain"> 
+        <canvas id="gameOverCanvas" width="816" height="623"></canvas>
+        <img src='' width="816" height="623" id="gifDisplay" style="display: none">
+        <img src='' width="816" id="gifResult" style="display: none">
+        <img src='' width="816" id="gifOptimize" style="display: none">
+        <img src='' style='display: none;' id="frameBuffer">
+    </main>
+    <p id="debug"></p>
+    <a id="downloadLink" href = "">
+        <button id="downloadButton" class="uiButton" style="margin-top: 20px; width: 250px; display: none;">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png" style="display: none;"> Download GIF
+        </button>
+    </a>
+    <div style="display: flex; flex-direction: row;">
+        <button class="uiButton" style="margin-top: 20px;" id="settingButton">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Setting
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./mainmenu.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Party
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./render.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Profile
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./battle.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Battle
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./dialogue_beta.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Dialogue
+        </button>
+    </div>
+    <p style="font-size: 1rem;">ISAT Game Over Customizer - made by kongkrog(lea) - all assets belong to insertdisc5</p>
+    <form id="settingPanel" onsubmit="updateProfile()">
+        <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        
+        <div id="topUIBar"></div>
+        <div id="bottomUIBar"></div>
+        <div id="leftUIBar"></div>
+        <div id="rightUIBar"></div>
+        
+        <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="deathMessage">Death Message:</label>
+                <input type="text" id="deathMessage" fname="deathMessage" style="flex-grow: 1;">
+            </div>
+
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="textAfterLoop">After Loop Message:</label>
+                <input type="text" id="textAfterLoop" fname="textAfterLoop" style="flex-grow: 1;">
+            </div>
+
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="isNoise">Noise Effect?</label>
+                <input type="checkbox" id="isNoise" fname="isNoise" style="flex-grow: 1;">
+                <label for="isVHS">VHS Effect?</label>
+                <input type="checkbox" id="isVHS" fname="isVHS" style="flex-grow: 1;">
+            </div>
+
+            <div style="display: flex; flex-direction: row; gap: 10px;">
+                <button class="uiButton" id="saveButton" style="flex-grow: 1;">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    <img src="./assets/saveicon.png"> Save
+                </button>
+                <button class="uiButton" type="button" id="exitButton" style="flex-grow: 1;">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    <img src="./assets/quiticon.png"> Exit  
+                </button>
+            </div>
+        </div>
+    </form>
+    <script src="gameover.js"></script>
+    <script type="module">
+        import gifsicle from 'https://cdn.jsdelivr.net/npm/gifsicle-wasm-browser/dist/gifsicle.min.js';
+
+        const debugText = document.getElementById('debug');
+        const downloadButton = document.getElementById('downloadButton');
+        const gifResult = document.getElementById('gifResult');
+        var optimized_gif = ""
+
+        function optimizeGIF(src, args) {
+            gifsicle.run({
+                input: [{
+                    file: src,
+                    name: "optimized.gif",
+                }],
+                command: [args]
+            }).then(out => {
+                console.log(out);
+                out.map((f, indx) => {
+                    optimized_gif = URL.createObjectURL(f);
+                    document.getElementById('gifResult').src = optimized_gif;
+                    gifResult.style.display = 'block';
+                    downloadButton.style.display = 'inline-block';
+
+                    downloadButton.addEventListener('click', function() {
+                        const downloadLink = document.getElementById("downloadLink");
+                        downloadLink.href = URL.createObjectURL(f);
+                        downloadLink.download = 'animation.gif';
+                    });
+                debugText.innerText = "Finished optimizing."
+                });
+            });
+        }
+
+        var displayGif = document.getElementById('gifOptimize');
+        var observer;
+
+        observer = new MutationObserver((changes) => {
+            changes.forEach(change => {
+                if(change.attributeName.includes('src')){
+                    optimizeGIF(displayGif.src, "-O1 --lossy=30 optimized.gif -o /out/out.gif");
+                }
+            });
+        });
+        
+        observer.observe(displayGif, {attributes : true});
+    </script>
+</body>
+</html>
