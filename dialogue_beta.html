@@ -160,7 +160,7 @@
                 <label for="checkTransparent">Disable Transparency Optimization?</label>
                 <input type="checkbox" id="checkTransparentOptimize" name="checkTransparentOptimize">
             </div>
-            <p style="font-size: 1.2rem;">You might want to enable "Disable Transparency Optimization?" since Discord Compression crabbed up gif transparency.</p>
+            <p style="font-size: 1.2rem;">Enable "Disable Transparency Optimization?" for Discord since Discord Compression crabbed up gif transparency.</p>
             <p style="font-size: 1.2rem;">If transparent rendering doesn't work on Firefox, switching to Chronium browers might work.</p>
             
             <div style="display: flex; flex-direction: row; gap: 10px;">
@@ -223,9 +223,9 @@
                 if(change.attributeName.includes('src')){
                     if (document.querySelector('#checkTransparent').checked) {
                         if (document.querySelector('#checkTransparentOptimize').checked) {
-                            optimizeGIF(displayGif.src, "optimized.gif -o /out/out.gif")
+                            optimizeGIF(displayGif.src, "--lossy=30 optimized.gif -o /out/out.gif")
                         } else {
-                            optimizeGIF(displayGif.src, "-O2 optimized.gif -o /out/out.gif")
+                            optimizeGIF(displayGif.src, "-O2 --lossy=30 optimized.gif -o /out/out.gif")
                         }
                     } else {
                         optimizeGIF(displayGif.src, "-O1 --lossy=60 optimized.gif -o /out/out.gif");
