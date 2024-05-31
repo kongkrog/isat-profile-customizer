@@ -114,6 +114,24 @@ document.getElementById("clearButton").addEventListener("click", function(event)
     clearImage(); // Call the updateProfile function
 });
 
+const optimizeFrameColors = (data) => {
+    for (let i = 0; i < data.length; i += 4) {
+      // clamp greens to avoid pure greens in the image from turning transparent
+      // basically a hack and it's not really noticeable and it works
+      data[i + 1] = data[i + 1] > 250 ? 250 : data[i + 1];
+
+      // Set transparent pixels to green
+      if (data[i + 3] < 120) {
+        data[i + 0] = 0;
+        data[i + 1] = 255;
+        data[i + 2] = 0;
+      }
+
+      // No more transparent pixels
+      data[i + 3] = 255;
+    }
+  };
+
 function parseText(text) {
     const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]/g;
     let result;
@@ -292,10 +310,10 @@ function typewriterAnimation() {
         drawLineVertical(44 + charWidth + 1, 73, myCanvas.height - 261);
     }
     
-    if (isTransparent) {
-        ctx.fillStyle = 'green';
-        ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
-    } else {
+    if (ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
+    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+
+    if (!isTransparent) {
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
     }
@@ -476,11 +494,10 @@ function typewriterAnimation() {
     }
 
     function animateCharacters() {       
-        
-        if (isTransparent) {
-            ctx.fillStyle = 'green';
-            ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
-        } else {
+        if (ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+
+        if (!isTransparent) {
             ctx.fillStyle = 'black';
             ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
         }
@@ -579,7 +596,9 @@ function typewriterAnimation() {
         if (animationEnded != true) {
             let tempCanvas = document.createElement('canvas');
             let scaledCanvas = document.createElement('canvas');
+            let renderCanvas = document.createElement('canvas');
             const scaledCtx = scaledCanvas.getContext('2d');
+            const renderCtx = renderCanvas.getContext('2d');
 
             if (dialogueImage.getAttribute('src') != '') {
                 tempCanvas.width = 816;
@@ -599,9 +618,16 @@ function typewriterAnimation() {
             scaledCanvas.height = tempCanvas.height * globalScale;
 
             scaledCtx.drawImage(tempCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+            let imgData = scaledCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+            optimizeFrameColors(imgData.data);
+
+            renderCanvas.width = scaledCanvas.width;
+            renderCanvas.height = scaledCanvas.height;
+
+            renderCtx.putImageData(imgData, 0, 0);
 
             if (!isStatic) {
-                gif.addFrame(scaledCanvas.getContext('2d'), { copy: true, delay: 20 });
+                gif.addFrame(renderCtx, { copy: true, delay: 20 });
             }
             requestAnimationFrame(animateCharacters);
             
@@ -626,7 +652,6 @@ function typewriterAnimation() {
             quality: 10,
             width: canvasWidth * globalScale,
             height: targetHeight * globalScale,
-            background: "#000",
             transparent: "0x00FF00"
         });
     } else {
