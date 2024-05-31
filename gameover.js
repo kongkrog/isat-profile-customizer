@@ -190,12 +190,21 @@ function gameOverGif() {
         let afterLoop = document.getElementById('textAfterLoop').value;
         let loopMessage = document.getElementById('deathMessage').value;
 
+        let leftText1 = document.getElementById('leftText1').value;
+        let leftText2 = document.getElementById('leftText2').value;
+
+        let rightText1 = document.getElementById('rightText1').value;
+        let rightText2 = document.getElementById('rightText2').value;
+
+        let cursorPosition = document.getElementById('cursorPosition').value;
+
         let isNoise = document.querySelector('#isNoise').checked;
         let isVHS = document.querySelector('#isVHS').checked;
+        let isSkipLoopBack = document.querySelector('#isSkipLoopBack').checked;
 
         images.forEach((img, index) => {
-            ctx.textAlign =  'start';
             ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+            ctx.textAlign = 'center';
 
             if (index < repeatedScreenLoopFrames.length * repeatTime) {
                 ctx.font = '32px VCR_OSD_MONO';
@@ -206,8 +215,13 @@ function gameOverGif() {
     
                     ctx.fillStyle = color;
     
-                    ctx.fillText("START", 220, 444 + textOffset1);
-                    ctx.fillText("AGAIN", 220, 484 + textOffset1);
+                    if ((leftText1 == "") || (leftText2 == "")) { 
+                        ctx.fillText(leftText1, 270, 464 + textOffset1);
+                        ctx.fillText(leftText2, 270, 464 + textOffset1);
+                    } else {
+                        ctx.fillText(leftText1, 270, 444 + textOffset1);
+                        ctx.fillText(leftText2, 270, 484 + textOffset1);
+                    }
 
                     textOffset1 -= textOffsetSpeed;
                     if (textOffset1 < 0) {
@@ -221,8 +235,13 @@ function gameOverGif() {
     
                     ctx.fillStyle = color;
     
-                    ctx.fillText("QUIT", 511, 464 + textOffset2);
-
+                    if ((rightText1 == "") || (rightText2 == "")) {
+                        ctx.fillText(rightText1, 552, 464 + textOffset2);
+                        ctx.fillText(rightText2, 552, 464 + textOffset2);
+                    } else {
+                        ctx.fillText(rightText1, 552, 444 + textOffset2);
+                        ctx.fillText(rightText2, 552, 484 + textOffset2);
+                    }
                     textOffset2 -= textOffsetSpeed;
                     if (textOffset2 < 0) {
                         textOffset2 = 0;
@@ -230,11 +249,26 @@ function gameOverGif() {
                 }
 
                 if (index > delayFrame3) {
-                    colorValue = Math.floor(((index - delayFrame3) / fadeInTextFrames) * 255);
-                    color = `rgb(${colorValue}, ${colorValue}, ${colorValue})`;
-    
-                    ctx.fillStyle = color;
-                    drawArrow(ctx, 186, 440);
+                    console.log(cursorPosition);
+                    if (cursorPosition == 'none') {
+                        //pass
+                    } else {
+                        colorValue = Math.floor(((index - delayFrame3) / fadeInTextFrames) * 255);
+                        color = `rgb(${colorValue}, ${colorValue}, ${colorValue})`;
+        
+                        ctx.fillStyle = color;
+                        
+                        if (cursorPosition == 'left') {
+                            console.log('left trigger');
+                            let fontWidthMax = Math.floor(Math.max(ctx.measureText(leftText1).width, ctx.measureText(leftText2).width) / 2);
+                            drawArrow(ctx, 270-36-fontWidthMax, 440);
+                        } else if (cursorPosition == 'right') {
+                            console.log('right trigger');
+                            let fontWidthMax = Math.floor(Math.max(ctx.measureText(rightText1).width, ctx.measureText(rightText2).width) / 2);
+                            console.log(rightText1, rightText2, fontWidthMax);
+                            drawArrow(ctx, 552-36-fontWidthMax, 440);
+                        }
+                    }
                 }
 
                 colorValue = Math.floor((index / fadeInFrames) * 255);
@@ -245,11 +279,8 @@ function gameOverGif() {
                 ctx.font = '24px VCR_OSD_MONO';
 
                 const text = loopMessage;
-                const textWidth = ctx.measureText(text).width;
-                const textX = (canvasWidth - textWidth) / 2;
-                const textY = 371;
 
-                ctx.fillText(text, textX, textY);
+                ctx.fillText(text, 408, 371);
                 ctx.fillStyle = 'white';
 
                 if (isNoise) {
@@ -261,14 +292,16 @@ function gameOverGif() {
                 }
                 gif.addFrame(myCanvas, { copy: true, delay: frameDelay });
             } else {
-                if (isNoise) {
-                    drawTVNoise(ctx, canvasWidth, canvasHeight);
-                }                
-                
-                if (isVHS) {
-                    drawVHSEffect(ctx, canvasWidth, canvasHeight);
+                if (!isSkipLoopBack) {
+                    if (isNoise) {
+                        drawTVNoise(ctx, canvasWidth, canvasHeight);
+                    }                
+                    
+                    if (isVHS) {
+                        drawVHSEffect(ctx, canvasWidth, canvasHeight);
+                    }
+                    gif.addFrame(myCanvas, { copy: true, delay: frameDelay2 });
                 }
-                gif.addFrame(myCanvas, { copy: true, delay: frameDelay2 });
             }
         });
 

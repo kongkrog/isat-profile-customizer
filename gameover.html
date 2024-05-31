@@ -74,7 +74,29 @@
                 <input type="text" id="textAfterLoop" fname="textAfterLoop" style="flex-grow: 1;">
             </div>
             <p style="font-size: 1.2rem;">Leave this empty to skip the looping back part of the gif.</p>
-            
+            <div>
+                <label for="cursorPosition">Cursor Position:</label>
+                <select id="cursorPosition" fname="cursorPosition" default="left" style="flex-grow: 1;" value="left">
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                    <option value="none">None</option>
+                </select>
+            </div>
+            <p style="font-size: 1.2rem;">Select this to None to remove the cursor.</p>
+            </select>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px; flex-grow: 1;">
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; flex-grow: 1;">
+                    <label for="textAfterLoop">Left text:</label>
+                    <input type="text" id="leftText1" fname="leftText1" style="flex-grow: 1;" value="START">
+                    <input type="text" id="leftText2" fname="leftText2" style="flex-grow: 1;" value="AGAIN">
+                </div>
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; flex-grow: 1;">
+                    <label for="textAfterLoop">Right text:</label>
+                    <input type="text" id="rightText1" fname="rightText1" style="flex-grow: 1;" value="QUIT">
+                    <input type="text" id="rightText2" fname="rightText2" style="flex-grow: 1;" value="">
+                </div>
+            </div>
+            <p style="font-size: 1.2rem;">Leave these boxes empty to remove the text.</p>
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="isNoise">Noise Effect?</label>
                 <input type="checkbox" id="isNoise" fname="isNoise" style="flex-grow: 1;">
@@ -82,7 +104,10 @@
                 <input type="checkbox" id="isVHS" fname="isVHS" style="flex-grow: 1;">
             </div>
             <p style="font-size: 1.2rem;">Using Noise/VSH effect or both will significantly increase gif file size.</p>
-
+            <div>
+                <label for="isSkipLoopBack">Skipping Looping Back Animation?</label>
+                <input type="checkbox" id="isSkipLoopBack" fname="isSkipLoopBack" style="flex-grow: 1;">
+            </div>
             <div style="display: flex; flex-direction: row; gap: 10px;">
                 <button class="uiButton" id="saveButton" style="flex-grow: 1;">
                     <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
