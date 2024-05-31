@@ -8,7 +8,8 @@ Also if there is any copyright stuff that you found in this, please ping me so I
 
 ### Usage
 Please use the link above to avoid downloading this repo.
-Else download this repo and run the html file for usage.
+
+For the one who wants to modify the Game Over animation: Download this repo and modify the image in the "frames" folder, then run gameover.html.
 
 ### Notes
 If you want to improve/modify this project, feel free to clone/fork it. My code is sloppy and I already lost my will to fix it.
