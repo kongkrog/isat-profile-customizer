@@ -20,7 +20,7 @@ document.getElementById('battleButton').addEventListener('mouseout', function() 
 });
 
 document.getElementById('dialogueButton').addEventListener('mouseover', function() {
-    document.getElementById('appDescription').innerHTML = 'A dialogue maker with two modes: gif and static.';
+    document.getElementById('appDescription').innerHTML = 'A dialogue maker with two modes: gif and image.';
 });
 document.getElementById('dialogueButton').addEventListener('mouseout', function() {
     document.getElementById('appDescription').innerHTML = 'Welcome!!';
