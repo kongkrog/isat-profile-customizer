@@ -42,12 +42,33 @@
             <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
             <img src="./assets/settingicon.png"> Setting
         </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./mainmenu.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Party
+        </button>
         <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./render.html'">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
             <img id="cornerDownRight" src="./assets/cursorBorderA.png">
             <img id="cornerUpRight" src="./assets/cursorBorderB.png">
             <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-            <img src="./assets/settingicon.png"> Homepage
+            <img src="./assets/settingicon.png"> Profile
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./battle.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Battle
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./gameover.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Game Over
         </button>
     </div>
     <button class="uiButton" style="margin-top: 10px; width: 250px;" onclick="location.href='./dialogue_static.html'">
@@ -171,10 +192,11 @@
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="checkTransparent">Transparency?</label>
                 <input type="checkbox" id="checkTransparent" name="checkTransparent">
+                <label for="checkTransparent">Disable Transparency Optimization?</label>
+                <input type="checkbox" id="checkTransparentOptimize" name="checkTransparentOptimize">
             </div>
             
             <p style="font-size: 1.2rem;">If transparent rendering doesn't work on Firefox, switching to Chronium browers might work.</p>
-            <p style="font-size: 1.2rem;">Some image just don't work (i.e Loop's sprite). If anybody knows why, please ping me in the server.</p>
             
             <div style="display: flex; flex-direction: row; gap: 10px;">
                 <button class="uiButton" id="saveButton" style="flex-grow: 1;">
@@ -235,7 +257,11 @@
             changes.forEach(change => {
                 if(change.attributeName.includes('src')){
                     if (document.querySelector('#checkTransparent').checked) {
-                        optimizeGIF(displayGif.src, "-O2 optimized.gif -o /out/out.gif")
+                        if (document.querySelector('#checkTransparentOptimize').checked) {
+                            optimizeGIF(displayGif.src, "optimized.gif -o /out/out.gif")
+                        } else {
+                            optimizeGIF(displayGif.src, "-O2 optimized.gif -o /out/out.gif")
+                        }
                     } else {
                         optimizeGIF(displayGif.src, "-O1 --lossy=60 optimized.gif -o /out/out.gif");
                     }
