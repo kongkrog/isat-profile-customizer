@@ -13,9 +13,10 @@ Else download this repo and run the html file for usage.
 ### Notes
 If you want to improve/modify this project, feel free to clone/fork it. My code is sloppy and I already lost my will to fix it.
 
-### Details
-Doesn't support mobile since I'm too lazy to do so.
-It also doesn't auto-save because that would involve local saving andddd I'm also too lazy (and busy) for do that.
+Please do not reupload this repo. Thanks.
 
-There's no built-in recording stuff so please use your own recording software if you want to.
-The image input does support .gif files so.... go wild with it.
+### Credit
+
+Credit part can be found in the About Me section of the Homepage.
+
+I do not accept any donations. This is a hobby project.
