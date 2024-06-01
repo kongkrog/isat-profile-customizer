@@ -34,7 +34,7 @@ document.getElementById('gameOverButton').addEventListener('mouseout', function(
 });
 
 document.getElementById('aboutMeButton').addEventListener('mouseover', function() {
-    document.getElementById('appDescription').innerHTML = 'Info about myself. Not important.';
+    document.getElementById('appDescription').innerHTML = 'Info about myself and credit. Not important.';
 });
 document.getElementById('aboutMeButton').addEventListener('mouseout', function() {
     document.getElementById('appDescription').innerHTML = 'Welcome!!';
