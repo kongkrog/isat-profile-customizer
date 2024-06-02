@@ -134,43 +134,38 @@ const optimizeFrameColors = (data) => {
 
 function parseText(text) {
     const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]/g;
-    let result;
+    let match;
     const segments = [];
     let lastIndex = 0;
-    let totalPauseDuration = 0;
 
-    while ((result = regex.exec(text)) !== null) {
-        if (result.index > lastIndex) {
-            segments.push({ text: text.slice(lastIndex, result.index), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
+    while ((match = regex.exec(text)) !== null) {
+        if (match.index > lastIndex) {
+            segments.push({ text: text.slice(lastIndex, match.index), attributes: {} });
         }
-        if (result[1]) {
-            segments.push({ text: result[2], size: result[1], wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
-        } else if (result[3]) {
-            segments.push({ text: result[3], size: null, wave: true, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
-        } else if (result[4]) {
-            segments.push({ text: result[7], size: null, wave: false, zoom: { start: parseInt(result[4]), end: parseInt(result[5]), speed: parseInt(result[6]) }, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
-        } else if (result[8]) {
-            segments.push({ text: result[8], size: null, wave: false, zoom: null, thin: true, pause: null, speed: null, shake: false, image: null, clear: false });
-        } else if (result[9]) {
-            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: parseInt(result[9]), speed: null, shake: false, image: null, clear: false });
-        } else if (result[10]) {
-            segments.push({ text: result[11], size: null, wave: false, zoom: null, thin: false, pause: null, speed: parseInt(result[10]), shake: false, image: null, clear: false });
-            totalPauseDuration += parseInt(result[10]);
-        } else if (result[12]) {
-            segments.push({ text: result[12], size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: true, image: null, clear: false });
-        } else if (result[13]) {
-            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: parseInt(result[13]), clear: false });
-        } else if (result[0] === '[CLEAR]') {
-            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: true });
-        }
+
+        const attributes = {};
+        if (match[1]) attributes.size = match[1];
+        if (match[2]) attributes.text = match[2];
+        if (match[3]) attributes.wave = true;
+        if (match[4]) attributes.zoom = { start: +match[4], end: +match[5], speed: +match[6] };
+        if (match[7]) attributes.text = match[7];
+        if (match[8]) attributes.thin = true;
+        if (match[9]) attributes.pause = +match[9];
+        if (match[10]) attributes.speed = +match[10];
+        if (match[11]) attributes.text = match[11];
+        if (match[12]) attributes.shake = true;
+        if (match[13]) attributes.image = +match[13];
+        if (match[0] === '[CLEAR]') attributes.clear = true;
+
+        segments.push({ text: attributes.text || '', attributes });
         lastIndex = regex.lastIndex;
     }
 
     if (lastIndex < text.length) {
-        segments.push({ text: text.slice(lastIndex), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
+        segments.push({ text: text.slice(lastIndex), attributes: {} });
     }
 
-    return { segments, totalPauseDuration };
+    return segments;
 }
 
 const cropCanvas = (sourceCanvas,left,top,width,height) => {
@@ -187,7 +182,6 @@ const cropCanvas = (sourceCanvas,left,top,width,height) => {
 function typewriterAnimation() {
     var characters = [];
     const myCanvas = document.getElementById("dialogueCanvas");
-    const dialogueImage = document.getElementById("dialogueImage1");
     const dName = document.getElementById("dName").innerText;
     const ctx = myCanvas.getContext("2d");
 
@@ -310,48 +304,56 @@ function typewriterAnimation() {
         drawLineVertical(44 + charWidth + 1, 73, myCanvas.height - 261);
     }
     
-    if (ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
-    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-
-    if (!isTransparent) {
+    function clearCanvas() {
+        if (ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+    
+        if (!isTransparent) {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+        }
+    
         ctx.fillStyle = 'black';
-        ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
+        ctx.fillRect(0, 137, myCanvas.width, myCanvas.height);
     }
 
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 137, myCanvas.width, myCanvas.height);
+    function drawDialogue(imgID) {
+        let dialogueImage = document.getElementById(imgID);
 
+        drawCorner(1, 137);
+        drawCorner(myCanvas.width - 7, 137);
+        drawCorner(myCanvas.width - 7, myCanvas.height - 7);
+        drawCorner(1, myCanvas.height - 7);
+    
+        drawLineHorizontal(8, 138, myCanvas.width - 16);
+        drawLineHorizontal(8, myCanvas.height - 6, myCanvas.width - 16);
+    
+        drawLineVertical(2, 144, myCanvas.height - 152);
+        drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
+
+        if (dialogueImage.getAttribute("src") != "") {
+            scale = globalHeightScaling / dialogueImage.height
+            const scaledWidth = dialogueImage.width * scale;
+            ctx.drawImage(
+                dialogueImage,     
+                0,                              
+                0,                             
+                dialogueImage.width,            
+                dialogueImage.height,             
+                globalImageOffset - scaledWidth,                         
+                canvasHeight - globalHeightScaling,                            
+                scaledWidth,                     
+                canvasHeight - (canvasHeight - globalHeightScaling)
+            );
+        }
+    }
+
+    clearCanvas();
     if (dName != '') {
         drawNameBox(dName);
     }
+    drawDialogue("dialogueImage1");
     
-    drawCorner(1, 137);
-    drawCorner(myCanvas.width - 7, 137);
-    drawCorner(myCanvas.width - 7, myCanvas.height - 7);
-    drawCorner(1, myCanvas.height - 7);
-
-    drawLineHorizontal(8, 138, myCanvas.width - 16);
-    drawLineHorizontal(8, myCanvas.height - 6, myCanvas.width - 16);
-
-    drawLineVertical(2, 144, myCanvas.height - 152);
-    drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
-
-    if (dialogueImage.getAttribute("src") != "") {
-        scale = globalHeightScaling / dialogueImage.height
-        const scaledWidth = dialogueImage.width * scale;
-        ctx.drawImage(
-            dialogueImage,     
-            0,                              
-            0,                             
-            dialogueImage.width,            
-            dialogueImage.height,             
-            globalImageOffset - scaledWidth,                         
-            canvasHeight - globalHeightScaling,                            
-            scaledWidth,                     
-            canvasHeight - (canvasHeight - globalHeightScaling)
-        );
-    }
-
     ctx.fillStyle = 'white';
     characters.forEach(({ char, xOffset, yOffset, font }) => {
         ctx.font = font;
@@ -505,38 +507,13 @@ function typewriterAnimation() {
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 137, myCanvas.width, myCanvas.height);
 
+        clearCanvas();
         if (dName != '') {
             drawNameBox(dName);
         }
-
-        drawCorner(1, 137);
-        drawCorner(myCanvas.width - 7, 137);
-        drawCorner(myCanvas.width - 7, myCanvas.height - 7);
-        drawCorner(1, myCanvas.height - 7);
-
-        drawLineHorizontal(8, 138, myCanvas.width - 16);
-        drawLineHorizontal(8, myCanvas.height - 6, myCanvas.width - 16);
-
-        drawLineVertical(2, 144, myCanvas.height - 152);
-        drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
-
+        
         currentImage = document.getElementById("dialogueImage" + String(currentImageNumber));
-
-        if (currentImage.getAttribute("src") != "") {
-            scale = globalHeightScaling / currentImage.height
-            const scaledWidth = currentImage.width * scale;
-            ctx.drawImage(
-                currentImage,     
-                0,                              
-                0,                             
-                currentImage.width,            
-                currentImage.height,             
-                globalImageOffset - scaledWidth,                         
-                canvasHeight - globalHeightScaling,                            
-                scaledWidth,                     
-                canvasHeight - (canvasHeight - globalHeightScaling)                         
-            );
-        }
+        drawDialogue(currentImage);
 
         ctx.fillStyle = 'white';
         const time = Date.now();
