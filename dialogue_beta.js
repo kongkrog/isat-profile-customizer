@@ -132,7 +132,7 @@ const optimizeFrameColors = (data) => {
     }
   };
 
-  function parseText(text) {
+function parseText(text) {
     const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]/g;
     
     const segments = [];
@@ -396,9 +396,10 @@ function typewriterAnimation() {
         let maxFontSize = 23;
         let nextWordWidth = 0;
         let pauseDuration = null;
-        ctx.font = '23px VCR_OSD_MONO';
 
         function drawNextCharacter() {
+            ctx.font = 'normal 23px VCR_OSD_MONO';
+
             if (currentSegmentIndex >= segments.length) {
                 pauseDuration = 2000; 
                 playArrowAnimation();
@@ -571,6 +572,7 @@ function typewriterAnimation() {
         const time = Date.now();
         characters.forEach(({ char, xOffset, yOffset, font, wave, shake, image, bold, italic}) => {
             ctx.font = font;
+
             if (bold) {
                 ctx.font = "bold 23px VCR_OSD_MONO"
             }
