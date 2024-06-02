@@ -132,42 +132,71 @@ const optimizeFrameColors = (data) => {
     }
   };
 
-function parseText(text) {
-    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]/g;
-    let result;
+  function parseText(text) {
+    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]/g;
+    
     const segments = [];
     let lastIndex = 0;
     let totalPauseDuration = 0;
 
+    const createSegment = (overrides) => ({
+        text: '',
+        size: null,
+        wave: false,
+        zoom: null,
+        thin: false,
+        pause: null,
+        speed: null,
+        shake: false,
+        image: null,
+        clear: false,
+        bold: false,
+        italic: false,
+        ...overrides
+    });
+
+    let result;
     while ((result = regex.exec(text)) !== null) {
         if (result.index > lastIndex) {
-            segments.push({ text: text.slice(lastIndex, result.index), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
+            segments.push(createSegment({ text: text.slice(lastIndex, result.index) }));
         }
-        if (result[1]) {
-            segments.push({ text: result[2], size: result[1], wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
-        } else if (result[3]) {
-            segments.push({ text: result[3], size: null, wave: true, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
-        } else if (result[4]) {
-            segments.push({ text: result[7], size: null, wave: false, zoom: { start: parseInt(result[4]), end: parseInt(result[5]), speed: parseInt(result[6]) }, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
-        } else if (result[8]) {
-            segments.push({ text: result[8], size: null, wave: false, zoom: null, thin: true, pause: null, speed: null, shake: false, image: null, clear: false });
-        } else if (result[9]) {
-            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: parseInt(result[9]), speed: null, shake: false, image: null, clear: false });
-        } else if (result[10]) {
-            segments.push({ text: result[11], size: null, wave: false, zoom: null, thin: false, pause: null, speed: parseInt(result[10]), shake: false, image: null, clear: false });
-            totalPauseDuration += parseInt(result[10]);
-        } else if (result[12]) {
-            segments.push({ text: result[12], size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: true, image: null, clear: false });
-        } else if (result[13]) {
-            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: parseInt(result[13]), clear: false });
-        } else if (result[0] === '[CLEAR]') {
-            segments.push({ text: '', size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: true });
+
+        const [match, fsSize, fsText, swText, zoomStart, zoomEnd, zoomSpeed, zoomText, thinText, pauseDuration, spdSpeed, spdText, shakeText, imageNum, boldText, italicText] = result;
+
+        if (fsSize) {
+            segments.push(createSegment({ text: fsText, size: fsSize }));
+        } else if (swText) {
+            segments.push(createSegment({ text: swText, wave: true }));
+        } else if (zoomStart) {
+            segments.push(createSegment({
+                text: zoomText,
+                zoom: { start: parseInt(zoomStart), end: parseInt(zoomEnd), speed: parseInt(zoomSpeed) }
+            }));
+        } else if (thinText) {
+            segments.push(createSegment({ text: thinText, thin: true }));
+        } else if (pauseDuration) {
+            segments.push(createSegment({ pause: parseInt(pauseDuration) }));
+        } else if (spdSpeed) {
+            const speed = parseInt(spdSpeed);
+            segments.push(createSegment({ text: spdText, speed }));
+            totalPauseDuration += speed;
+        } else if (shakeText) {
+            segments.push(createSegment({ text: shakeText, shake: true }));
+        } else if (imageNum) {
+            segments.push(createSegment({ image: parseInt(imageNum) }));
+        } else if (match === '[CLEAR]') {
+            segments.push(createSegment({ clear: true }));
+        } else if (boldText) {
+            segments.push(createSegment({ text: boldText, bold: true }));
+        } else if (italicText) {
+            segments.push(createSegment({ text: italicText, italic: true }));
         }
+
         lastIndex = regex.lastIndex;
     }
 
     if (lastIndex < text.length) {
-        segments.push({ text: text.slice(lastIndex), size: null, wave: false, zoom: null, thin: false, pause: null, speed: null, shake: false, image: null, clear: false });
+        segments.push(createSegment({ text: text.slice(lastIndex) }));
     }
 
     return { segments, totalPauseDuration };
@@ -466,7 +495,7 @@ function typewriterAnimation() {
                 maxFontSize = 23;
             }
 
-            characters.push({ char, xOffset, yOffset, font: ctx.font, wave: segment.wave, shake: segment.shake, image: segment.image});
+            characters.push({ char, xOffset, yOffset, font: ctx.font, wave: segment.wave, shake: segment.shake, image: segment.image, bold: segment.bold, italic: segment.italic});
 
             xOffset += charWidth;
             currentTextIndex++;
@@ -540,8 +569,16 @@ function typewriterAnimation() {
 
         ctx.fillStyle = 'white';
         const time = Date.now();
-        characters.forEach(({ char, xOffset, yOffset, font, wave, shake, image}) => {
+        characters.forEach(({ char, xOffset, yOffset, font, wave, shake, image, bold, italic}) => {
             ctx.font = font;
+            if (bold) {
+                ctx.font = "bold 23px VCR_OSD_MONO"
+            }
+
+            if (italic) {
+                ctx.font = "italic 23px VCR_OSD_MONO"
+            }
+
             if (wave) {
                 const amplitude = 3;
                 const frequency = 0.08;
