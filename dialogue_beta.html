@@ -21,7 +21,13 @@
         <img src='' style='display: none;' id="dialogueImage5">
         <img src='' style='display: none;' id="dialogueImage6">
         <img src='' style='display: none;' id="dialogueImage7">
-        <img src='' style='display: none;' id="backgroundImage">
+        <img src='' style='display: none;' id="backgroundImage1">
+        <img src='' style='display: none;' id="backgroundImage2">
+        <img src='' style='display: none;' id="backgroundImage3">
+        <img src='' style='display: none;' id="backgroundImage4">
+        <img src='' style='display: none;' id="backgroundImage5">
+        <img src='' style='display: none;' id="backgroundImage6">
+        <img src='' style='display: none;' id="backgroundImage7">
         <div id="out"></div>
         <p id="dName" style='display: none;'></p>
     </main>
@@ -109,7 +115,7 @@
             
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="charDialogueImg">Character Image:</label>
-                <input type="file" id="fileInput" accept="image/*">
+                <input type="file" id="fileInput" class="imageInput" accept="image/*">
                 <button class="uiButton" id="clearButton">
                     <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
                     <img id="cornerDownRight" src="./assets/cursorBorderA.png">
@@ -119,9 +125,19 @@
                 </button>
             </div>
             <p style="font-size: 1.2rem;">This will be the default [IMAGE1]. ISAT Faces directory: In Stars And Time/www/img/faces</p>
+            <div style="display: flex; flex-direction: row; gap: 10px;">
+                <input type="file" id="fileInput2" class="imageInput" accept="image/*"> 
+                <input type="file" id="fileInput3" class="imageInput" accept="image/*"> 
+                <input type="file" id="fileInput4" class="imageInput" accept="image/*"> 
+                <input type="file" id="fileInput5" class="imageInput" accept="image/*"> 
+                <input type="file" id="fileInput6" class="imageInput" accept="image/*"> 
+                <input type="file" id="fileInput7" class="imageInput" accept="image/*"> 
+            </div>
+            <p style="font-size: 1.2rem;">Image tags: [IMAGE2], [IMAGE3], [IMAGE4], [IMAGE5], [IMAGE6], [IMAGE7] (All Optional)</p>
+
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="backgroundInput">Background Image (Optional):</label>
-                <input type="file" id="backgroundInput" accept="image/*">
+                <input type="file" id="backgroundInput" class="imageInput" accept="image/*">
                 <button class="uiButton" id="clearBackgroundButton">
                     <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
                     <img id="cornerDownRight" src="./assets/cursorBorderA.png">
@@ -130,19 +146,18 @@
                     Clear Image
                 </button>
             </div>
-            <p style="font-size: 1.2rem;">Background image's size must be 816x650 or higher but same aspect ratio (1.26:1). Clear image to remove.</p>
+            <p style="font-size: 1.2rem;">Default [BIMAGE1]. Background image's size must be 816x650 or higher but same aspect ratio (1.26:1).</p>
+
             <div style="display: flex; flex-direction: row; gap: 10px;">
-                <input type="file" id="fileInput2" accept="image/*"> 
-                <input type="file" id="fileInput3" accept="image/*"> 
-                <input type="file" id="fileInput4" accept="image/*"> 
+                <input type="file" id="backgroundInput2" class="imageInput" accept="image/*"> 
+                <input type="file" id="backgroundInput3" class="imageInput" accept="image/*"> 
+                <input type="file" id="backgroundInput4" class="imageInput" accept="image/*"> 
+                <input type="file" id="backgroundInput5" class="imageInput" accept="image/*"> 
+                <input type="file" id="backgroundInput6" class="imageInput" accept="image/*"> 
+                <input type="file" id="backgroundInput7" class="imageInput" accept="image/*"> 
             </div>
-            <p style="font-size: 1.2rem;">Image tags: [IMAGE2], [IMAGE3], [IMAGE4] (All Optional)</p>
-            <div style="display: flex; flex-direction: row; gap: 10px;">
-                <input type="file" id="fileInput5" accept="image/*"> 
-                <input type="file" id="fileInput6" accept="image/*"> 
-                <input type="file" id="fileInput7" accept="image/*"> 
-            </div>
-            <p style="font-size: 1.2rem;">Image tags: [IMAGE5], [IMAGE6], [IMAGE7] (All Optional)</p>
+            <p style="font-size: 1.2rem;">Background image tags: [BIMAGE2], [BIMAGE3], [BIMAGE4], [BIMAGE5], [BIMAGE6], [BIMAGE7] (All Optional)</p>
+
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="charDialogueName">Character Name:</label>
                 <input type="text" id="charDialogueName" fname="charDialogueName" style="flex-grow: 1; width: 200px;">
@@ -176,7 +191,6 @@
                 <label for="checkTransparent">Disable Transparency Optimization?</label>
                 <input type="checkbox" id="checkTransparentOptimize" name="checkTransparentOptimize">
             </div>
-            <p style="font-size: 1.2rem;">This will make the background transparent while keeping everything, including dialogue box and protrait on top.</p>
             <p style="font-size: 1.2rem;">If discord is crabbing up gif transparency, enable "Disable Transparency Optimization?" might work.</p>
             <p style="font-size: 1.2rem;">If transparent rendering doesn't work on Firefox, switching to Chromium browers might work.</p>
             

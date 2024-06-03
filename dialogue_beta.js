@@ -91,7 +91,13 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     updateProfileImage('fileInput5', 'dialogueImage5');
     updateProfileImage('fileInput6', 'dialogueImage6');
     updateProfileImage('fileInput7', 'dialogueImage7');
-    updateProfileImage('backgroundInput', 'backgroundImage');
+    updateProfileImage('backgroundInput', 'backgroundImage1');
+    updateProfileImage('backgroundInput2', 'backgroundImage2');
+    updateProfileImage('backgroundInput3', 'backgroundImage3');
+    updateProfileImage('backgroundInput4', 'backgroundImage4');
+    updateProfileImage('backgroundInput5', 'backgroundImage5');
+    updateProfileImage('backgroundInput6', 'backgroundImage6');
+    updateProfileImage('backgroundInput7', 'backgroundImage7');
 
     const downloadButton = document.getElementById('downloadButton');
     const debugText = document.getElementById('debug');
@@ -138,9 +144,9 @@ const optimizeFrameColors = (data) => {
     }
   };
 
-function parseText(text) {
-    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]/g;
-    
+  function parseText(text) {
+    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]/g;
+
     const segments = [];
     let lastIndex = 0;
     let totalPauseDuration = 0;
@@ -158,6 +164,7 @@ function parseText(text) {
         clear: false,
         bold: false,
         italic: false,
+        backgroundImage: null,
         ...overrides
     });
 
@@ -167,7 +174,7 @@ function parseText(text) {
             segments.push(createSegment({ text: text.slice(lastIndex, result.index) }));
         }
 
-        const [match, fsSize, fsText, swText, zoomStart, zoomEnd, zoomSpeed, zoomText, thinText, pauseDuration, spdSpeed, spdText, shakeText, imageNum, boldText, italicText] = result;
+        const [match, fsSize, fsText, swText, zoomStart, zoomEnd, zoomSpeed, zoomText, thinText, pauseDuration, spdSpeed, spdText, shakeText, imageNum, boldText, italicText, bgImageNum] = result;
 
         if (fsSize) {
             segments.push(createSegment({ text: fsText, size: fsSize }));
@@ -196,6 +203,8 @@ function parseText(text) {
             segments.push(createSegment({ text: boldText, bold: true }));
         } else if (italicText) {
             segments.push(createSegment({ text: italicText, italic: true }));
+        } else if (bgImageNum) {
+            segments.push(createSegment({ backgroundImage: parseInt(bgImageNum) }));
         }
 
         lastIndex = regex.lastIndex;
@@ -225,8 +234,8 @@ function typewriterAnimation() {
     const dialogueImage = document.getElementById("dialogueImage1");
     const dName = document.getElementById("dName").innerText;
     const ctx = myCanvas.getContext("2d");
-    let backgroundImage = document.getElementById("backgroundImage");
-
+    let backgroundImage = document.getElementById("backgroundImage1");
+    
     let animationEnded = false;
 
     let arrowVisible = false;
@@ -240,6 +249,7 @@ function typewriterAnimation() {
     const arrowUpdateInterval = 10;
 
     let currentImageNumber = 1;
+    let currentBackground = 1;
 
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
@@ -433,6 +443,10 @@ function typewriterAnimation() {
                 currentImageNumber = segment.image;
             }
 
+            if (segment.backgroundImage) {
+                currentBackground = segment.backgroundImage;
+            }
+
             if (segment.pause !== null) {
                 pauseDuration = segment.pause;
                 playArrowAnimation(true);
@@ -502,7 +516,7 @@ function typewriterAnimation() {
                 maxFontSize = 23;
             }
 
-            characters.push({ char, xOffset, yOffset, font: ctx.font, wave: segment.wave, shake: segment.shake, image: segment.image, bold: segment.bold, italic: segment.italic});
+            characters.push({ char, xOffset, yOffset, font: ctx.font, wave: segment.wave, shake: segment.shake, image: segment.image, bold: segment.bold, italic: segment.italic, bImage: segment.backgroundImage });
 
             xOffset += charWidth;
             currentTextIndex++;
@@ -533,6 +547,7 @@ function typewriterAnimation() {
         redrawDialogue();
 
         currentImage = document.getElementById("dialogueImage" + String(currentImageNumber));
+        currentImageBackground = document.getElementById("backgroundImage" + String(currentBackground));
 
         if (currentImage.getAttribute("src") != "") {
             scale = globalHeightScaling / currentImage.height
@@ -642,9 +657,9 @@ function typewriterAnimation() {
             }
 
             if (backgroundImage.getAttribute('src') != '') {
-                backgroundCtx.drawImage(backgroundImage, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
+                backgroundCtx.drawImage(currentImageBackground, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
                 backgroundCtx.drawImage(tempCanvas, 0, backgroundCanvas.height-tempCanvas.height, tempCanvas.width, tempCanvas.height);
-
+                
                 scaledCanvas.width = backgroundCanvas.width * globalScale;
                 scaledCanvas.height = backgroundCanvas.height * globalScale;  
 
@@ -698,23 +713,23 @@ function typewriterAnimation() {
 
     if (backgroundImage.getAttribute('src') != '') {
         var gif = new GIF({
-            workers: 2,
-            quality: 15,
+            workers: 4,
+            quality: 10,
             width: 816 * globalScale,
             height: 650 * globalScale
         });
     } else if (isTransparent) {
         var gif = new GIF({
-            workers: 2,
-            quality: 15,
+            workers: 4,
+            quality: 10,
             width: canvasWidth * globalScale,
             height: targetHeight * globalScale,
             transparent: "0x00FF00"
         });
     } else {
         var gif = new GIF({
-            workers: 2,
-            quality: 15,
+            workers: 4,
+            quality: 10,
             width: canvasWidth * globalScale, 
             height: targetHeight * globalScale,
             background: "#000"
