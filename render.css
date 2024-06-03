@@ -1001,7 +1001,7 @@ input, select {
 }
 
 #charDialogue {
-    height: 120px;
+    height: 100px;
 }
 
 .thin {
@@ -1019,4 +1019,9 @@ input, select {
 
 div {
     display: inline-block;
+}
+
+.imageInput {
+    font-size: 1.3rem;
+    width: 225px;
 }
