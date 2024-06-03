@@ -21,6 +21,7 @@
         <img src='' style='display: none;' id="dialogueImage5">
         <img src='' style='display: none;' id="dialogueImage6">
         <img src='' style='display: none;' id="dialogueImage7">
+        <img src='' style='display: none;' id="backgroundImage">
         <div id="out"></div>
         <p id="dName" style='display: none;'></p>
     </main>
@@ -118,6 +119,18 @@
                 </button>
             </div>
             <p style="font-size: 1.2rem;">This will be the default [IMAGE1]. ISAT Faces directory: In Stars And Time/www/img/faces</p>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="backgroundInput">Background Image (Optional):</label>
+                <input type="file" id="backgroundInput" accept="image/*">
+                <button class="uiButton" id="clearBackgroundButton">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    Clear Image
+                </button>
+            </div>
+            <p style="font-size: 1.2rem;">Background image's size must be 816x650 or higher but same aspect ratio (1.26:1). Clear image to remove.</p>
             <div style="display: flex; flex-direction: row; gap: 10px;">
                 <input type="file" id="fileInput2" accept="image/*"> 
                 <input type="file" id="fileInput3" accept="image/*"> 
@@ -151,13 +164,11 @@
                 <label for="dialogueImageOffset">Protrait Height Scaling:</label>
                 <input type="range" id="dialogueHeightScaling" name="dialogueHeightScaling" min="260" max="317" value="317" step="1" style="flex-grow: 1;">
             </div>
-            <p style="font-size: 1.2rem;">Adjust the offset and the height of the protrait image.</p>
             
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="dialogueImageOffset">Gif Scaling (0.5-1):</label>
                 <input type="range" id="gifScaling" name="gifScaling" min="0.5" max="1" step="0.1" value="1" style="flex-grow: 1;">
             </div>
-            <p style="font-size: 1.2rem;">The lower the value, the smaller the gif, the smaller the file size.</p>
             
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="checkTransparent">Transparency?</label>
