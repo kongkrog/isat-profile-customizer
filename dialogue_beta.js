@@ -698,23 +698,23 @@ function typewriterAnimation() {
 
     if (backgroundImage.getAttribute('src') != '') {
         var gif = new GIF({
-            workers: 4,
-            quality: 10,
+            workers: 2,
+            quality: 15,
             width: 816 * globalScale,
             height: 650 * globalScale
         });
     } else if (isTransparent) {
         var gif = new GIF({
-            workers: 4,
-            quality: 10,
+            workers: 2,
+            quality: 15,
             width: canvasWidth * globalScale,
             height: targetHeight * globalScale,
             transparent: "0x00FF00"
         });
     } else {
         var gif = new GIF({
-            workers: 4,
-            quality: 10,
+            workers: 2,
+            quality: 15,
             width: canvasWidth * globalScale, 
             height: targetHeight * globalScale,
             background: "#000"
