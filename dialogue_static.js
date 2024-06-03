@@ -27,10 +27,10 @@ function updateProfileImage(fileInput, target) {
     }
 }
 
-function clearImage() {
-    document.getElementById('fileInput').value = null;
+function clearImage(idName, idImage) {
+    document.getElementById(idName).value = null;
     // Also remove the image from the display
-    const imageElement = document.getElementById('dialogueImage');
+    const imageElement = document.getElementById(idImage);
     if (imageElement) {
         imageElement.src = '';
     }
@@ -59,6 +59,7 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     event.preventDefault(); // Prevent default form submission
     updateProfile(); // Call the updateProfile function
     updateProfileImage('fileInput', 'dialogueImage1');
+    updateProfileImage('backgroundInput', 'backgroundImage');
 
     const downloadButton = document.getElementById('downloadButton');
     const debugText = document.getElementById('debug');
@@ -79,7 +80,12 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
 
 document.getElementById("clearButton").addEventListener("click", function(event) {
     event.preventDefault(); // Prevent default form submission
-    clearImage(); // Call the updateProfile function
+    clearImage('fileInput', 'dialogueImage1'); // Call the updateProfile function
+});
+
+document.getElementById("clearBackgroundButton").addEventListener("click", function(event) {
+    event.preventDefault(); // Prevent default form submission
+    clearImage('backgroundInput', 'backgroundImage'); // Call the updateProfile function
 });
 
 function parseText(text) {
@@ -169,9 +175,9 @@ function typewriterAnimation() {
     const dialogueImage = document.getElementById("dialogueImage1");
     const dName = document.getElementById("dName").innerText;
     const ctx = myCanvas.getContext("2d");
+    let backgroundImage = document.getElementById("backgroundImage");
 
     let animationEnded = false;
-    let arrowOpacity = 0;
 
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
@@ -274,26 +280,30 @@ function typewriterAnimation() {
         drawLineVertical(44 + charWidth + 1, 73, myCanvas.height - 261);
     }
     
-    if (ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
-    ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-
-    ctx.fillStyle = 'black';
-    ctx.fillRect(0, 137, myCanvas.width, myCanvas.height);
-
-    if (dName != '') {
-        drawNameBox(dName);
-    }
+    function redrawDialogue() {
+        if (ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
+        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     
-    drawCorner(1, 137);
-    drawCorner(myCanvas.width - 7, 137);
-    drawCorner(myCanvas.width - 7, myCanvas.height - 7);
-    drawCorner(1, myCanvas.height - 7);
+        ctx.fillStyle = 'black';
+        ctx.fillRect(0, 137, myCanvas.width, myCanvas.height);
+    
+        if (dName != '') {
+            drawNameBox(dName);
+        }
+        
+        drawCorner(1, 137);
+        drawCorner(myCanvas.width - 7, 137);
+        drawCorner(myCanvas.width - 7, myCanvas.height - 7);
+        drawCorner(1, myCanvas.height - 7);
+    
+        drawLineHorizontal(8, 138, myCanvas.width - 16);
+        drawLineHorizontal(8, myCanvas.height - 6, myCanvas.width - 16);
+    
+        drawLineVertical(2, 144, myCanvas.height - 152);
+        drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
+    }
 
-    drawLineHorizontal(8, 138, myCanvas.width - 16);
-    drawLineHorizontal(8, myCanvas.height - 6, myCanvas.width - 16);
-
-    drawLineVertical(2, 144, myCanvas.height - 152);
-    drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
+    redrawDialogue();
 
     if (dialogueImage.getAttribute("src") != "") {
         scale = globalHeightScaling / dialogueImage.height
@@ -387,26 +397,7 @@ function typewriterAnimation() {
     }
 
     function animateCharacters() {       
-        if (ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
-        ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-    
-        ctx.fillStyle = 'black';
-        ctx.fillRect(0, 137, myCanvas.width, myCanvas.height);
-
-        if (dName != '') {
-            drawNameBox(dName);
-        }
-
-        drawCorner(1, 137);
-        drawCorner(myCanvas.width - 7, 137);
-        drawCorner(myCanvas.width - 7, myCanvas.height - 7);
-        drawCorner(1, myCanvas.height - 7);
-
-        drawLineHorizontal(8, 138, myCanvas.width - 16);
-        drawLineHorizontal(8, myCanvas.height - 6, myCanvas.width - 16);
-
-        drawLineVertical(2, 144, myCanvas.height - 152);
-        drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
+        redrawDialogue();
 
         if (dialogueImage.getAttribute("src") != "") {
             scale = globalHeightScaling / dialogueImage.height
@@ -462,20 +453,17 @@ function typewriterAnimation() {
     }
 
     function scaleCanvas() {
-        if (dialogueImage.getAttribute('src') != '') {
-            targetHeight = 317;
-        } else if (dName != '') {
-            targetHeight = 251;
-        } else {
-            targetHeight = 180;
-        }
-    
         let tempCanvas = document.createElement('canvas');
         let scaledCanvas = document.getElementById('gifResult');
-    
+        let backgroundCanvas = document.createElement('canvas');
+        
         const scaledCtx = scaledCanvas.getContext('2d');
+        const backgroundCtx = backgroundCanvas.getContext('2d');
         const debugText = document.getElementById('debug');
-    
+
+        backgroundCanvas.width = 816;
+        backgroundCanvas.height = 650;
+
         if (dialogueImage.getAttribute('src') != '') {
             tempCanvas.width = 816;
             tempCanvas.height = 317;
@@ -489,11 +477,21 @@ function typewriterAnimation() {
             tempCanvas.height = 180;
             tempCanvas = cropCanvas(myCanvas, 0, 137, canvasWidth, 180);
         }
-    
-        scaledCanvas.width = tempCanvas.width * globalScale;
-        scaledCanvas.height = tempCanvas.height * globalScale;
-    
-        scaledCtx.drawImage(tempCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+
+        if (backgroundImage.getAttribute('src') != '') {
+            backgroundCtx.drawImage(backgroundImage, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
+            backgroundCtx.drawImage(tempCanvas, 0, backgroundCanvas.height-tempCanvas.height, tempCanvas.width, tempCanvas.height);
+
+            scaledCanvas.width = backgroundCanvas.width * globalScale;
+            scaledCanvas.height = backgroundCanvas.height * globalScale;  
+
+            scaledCtx.drawImage(backgroundCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+        } else {
+            scaledCanvas.width = tempCanvas.width * globalScale;
+            scaledCanvas.height = tempCanvas.height * globalScale;  
+            
+            scaledCtx.drawImage(tempCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+        }
     
         scaledCanvas.style.display = 'block';
         myCanvas.style.display = 'none';

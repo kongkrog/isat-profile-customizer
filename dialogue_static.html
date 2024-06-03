@@ -14,6 +14,7 @@
         <img src='./assets/displayImage.png' width="816" height="317" id="gifDisplay">
         <canvas id="gifResult" style="display: none">
         <img src='' style='display: none;' id="dialogueImage1">
+        <img src='' style='display: none;' id="backgroundImage">
         <div id="out"></div>
         <p id="dName" style='display: none;'></p>
     </main>
@@ -83,6 +84,18 @@
                 <label for="charDialogueImg">Character Image:</label>
                 <input type="file" id="fileInput" accept="image/*">
                 <button class="uiButton" id="clearButton">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    Clear Image
+                </button>
+            </div>
+            <p style="font-size: 1.2rem;">This will be the default [IMAGE1]. ISAT Faces directory: In Stars And Time/www/img/faces</p>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="backgroundInput">Background Image (Optional):</label>
+                <input type="file" id="backgroundInput" accept="image/*">
+                <button class="uiButton" id="clearBackgroundButton">
                     <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
                     <img id="cornerDownRight" src="./assets/cursorBorderA.png">
                     <img id="cornerUpRight" src="./assets/cursorBorderB.png">
