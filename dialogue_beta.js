@@ -145,7 +145,7 @@ const optimizeFrameColors = (data) => {
   };
 
   function parseText(text) {
-    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]/g;
+    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]/g;
 
     const segments = [];
     let lastIndex = 0;
@@ -165,6 +165,7 @@ const optimizeFrameColors = (data) => {
         bold: false,
         italic: false,
         backgroundImage: null,
+        newLine: false,
         ...overrides
     });
 
@@ -205,6 +206,8 @@ const optimizeFrameColors = (data) => {
             segments.push(createSegment({ text: italicText, italic: true }));
         } else if (bgImageNum) {
             segments.push(createSegment({ backgroundImage: parseInt(bgImageNum) }));
+        } else if (match === '[BR]') {
+            segments.push(createSegment({ newLine: true }));
         }
 
         lastIndex = regex.lastIndex;
@@ -447,6 +450,15 @@ function typewriterAnimation() {
                 currentBackground = segment.backgroundImage;
             }
 
+            if (segment.newLine) {
+                xOffset = globalxOffset;
+                yOffset += maxFontSize + lineHeight;
+                maxFontSize = 23;
+                currentSegmentIndex++;
+                drawNextCharacter();
+                return;
+            }
+            
             if (segment.pause !== null) {
                 pauseDuration = segment.pause;
                 playArrowAnimation(true);

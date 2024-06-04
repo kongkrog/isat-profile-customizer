@@ -89,8 +89,8 @@ document.getElementById("clearBackgroundButton").addEventListener("click", funct
 });
 
 function parseText(text) {
-    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]/g;
-    
+    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]/g;
+
     const segments = [];
     let lastIndex = 0;
     let totalPauseDuration = 0;
@@ -108,6 +108,8 @@ function parseText(text) {
         clear: false,
         bold: false,
         italic: false,
+        backgroundImage: null,
+        newLine: false,
         ...overrides
     });
 
@@ -117,7 +119,7 @@ function parseText(text) {
             segments.push(createSegment({ text: text.slice(lastIndex, result.index) }));
         }
 
-        const [match, fsSize, fsText, swText, zoomStart, zoomEnd, zoomSpeed, zoomText, thinText, pauseDuration, spdSpeed, spdText, shakeText, imageNum, boldText, italicText] = result;
+        const [match, fsSize, fsText, swText, zoomStart, zoomEnd, zoomSpeed, zoomText, thinText, pauseDuration, spdSpeed, spdText, shakeText, imageNum, boldText, italicText, bgImageNum] = result;
 
         if (fsSize) {
             segments.push(createSegment({ text: fsText, size: fsSize }));
@@ -146,6 +148,10 @@ function parseText(text) {
             segments.push(createSegment({ text: boldText, bold: true }));
         } else if (italicText) {
             segments.push(createSegment({ text: italicText, italic: true }));
+        } else if (bgImageNum) {
+            segments.push(createSegment({ backgroundImage: parseInt(bgImageNum) }));
+        } else if (match === '[BR]') {
+            segments.push(createSegment({ newLine: true }));
         }
 
         lastIndex = regex.lastIndex;
@@ -345,6 +351,15 @@ function typewriterAnimation() {
             const segment = segments[currentSegmentIndex];
             const text = segment.text;
 
+            if (segment.newLine) {
+                xOffset = globalxOffset;
+                yOffset += maxFontSize + lineHeight;
+                maxFontSize = 23;
+                currentSegmentIndex++;
+                drawNextCharacter();
+                return;
+            }
+            
             if (currentTextIndex >= text.length) {
                 currentSegmentIndex++;
                 currentTextIndex = 0;
@@ -354,7 +369,7 @@ function typewriterAnimation() {
 
             const char = text[currentTextIndex];
             const charWidth = ctx.measureText(char).width;
-    
+
             // Calculate the width of the next word
             let nextSpaceIndex = text.indexOf(' ', currentTextIndex);
             if (nextSpaceIndex === -1) {
