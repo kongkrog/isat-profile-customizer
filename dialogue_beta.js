@@ -150,7 +150,7 @@ const optimizeFrameColors = (data) => {
     }
   };
 
-  function parseText(text) {
+function parseText(text) {
     const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE(1[0-3]|[1-9])T?\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]/g;
 
     const segments = [];
@@ -511,8 +511,6 @@ function typewriterAnimation() {
                         return;
                     }
                 } else {
-                    currentSegmentIndex++;
-                    currentTextIndex = 0;
                     oldImageNumber = currentImageNumber;
                 }
             }
