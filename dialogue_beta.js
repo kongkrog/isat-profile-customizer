@@ -496,6 +496,8 @@ function typewriterAnimation() {
                         playImageAnimation(currentImageNumber, oldImageNumber, true);
                         setTimeout(() => {
                             playImageAnimation(currentImageNumber, oldImageNumber, false);
+                            currentSegmentIndex++;
+                            currentTextIndex = 0;
                             drawNextCharacter();
                         }, imageAnimationDuration);
     
