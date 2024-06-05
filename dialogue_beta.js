@@ -252,6 +252,18 @@ function typewriterAnimation() {
     const arrowUpdateInterval = 10;
 
     let currentImageNumber = 1;
+    let oldImageNumber = 1;
+    let runImageAnimation = false;
+    let imageCurrentOffset = 0;
+    let imageXOffset = 21;
+    let imageAnimationDuration = 50;
+    let showLastImage = false;
+    let showCurrentImage = false;
+    let oldImage = "";
+    let currentImage = "";
+
+    const imageOffsetRate = 7;
+
     let currentBackground = 1;
 
     canvasWidth = myCanvas.scrollWidth;
@@ -384,21 +396,25 @@ function typewriterAnimation() {
 
     redrawDialogue();
 
-    if (dialogueImage.getAttribute("src") != "") {
-        scale = globalHeightScaling / dialogueImage.height
-        const scaledWidth = dialogueImage.width * scale;
+    function drawImage(image, xOffset, opacity) {
+        const scale = globalHeightScaling / image.height;
+        const scaledWidth = image.width * scale;
+        ctx.globalAlpha = opacity;
         ctx.drawImage(
-            dialogueImage,     
-            0,                              
-            0,                             
-            dialogueImage.width,            
-            dialogueImage.height,             
-            globalImageOffset - scaledWidth,                         
-            canvasHeight - globalHeightScaling,                            
-            scaledWidth,                     
+            image,
+            0,
+            0,
+            image.width,
+            image.height,
+            globalImageOffset - xOffset - scaledWidth,
+            canvasHeight - globalHeightScaling,
+            scaledWidth,
             canvasHeight - (canvasHeight - globalHeightScaling)
         );
+        ctx.globalAlpha = 1;
     }
+
+    drawImage(dialogueImage, 0, 1);
 
     ctx.fillStyle = 'white';
     characters.forEach(({ char, xOffset, yOffset, font }) => {
@@ -442,10 +458,6 @@ function typewriterAnimation() {
                 return;
             }
 
-            if (segment.image) {
-                currentImageNumber = segment.image;
-            }
-
             if (segment.backgroundImage) {
                 currentBackground = segment.backgroundImage;
             }
@@ -471,6 +483,22 @@ function typewriterAnimation() {
                 return;
             }
 
+            if (segment.image) {
+                currentImageNumber = segment.image;
+                if (currentImageNumber != oldImageNumber) {
+                    playImageAnimation(currentImageNumber, oldImageNumber, true);
+                    setTimeout(() => {
+                        playImageAnimation(currentImageNumber, oldImageNumber, false);
+                        currentSegmentIndex++;
+                        currentTextIndex = 0;
+                        drawNextCharacter();
+                    }, imageAnimationDuration);
+
+                    oldImageNumber = currentImageNumber;
+                    return;
+                }
+            }
+
             if (currentTextIndex >= text.length) {
                 currentSegmentIndex++;
                 currentTextIndex = 0;
@@ -481,15 +509,13 @@ function typewriterAnimation() {
             const char = text[currentTextIndex];
             const charWidth = ctx.measureText(char).width;
     
-            // Calculate the width of the next word
             let nextSpaceIndex = text.indexOf(' ', currentTextIndex);
             if (nextSpaceIndex === -1) {
                 nextSpaceIndex = text.length;
             }
             const nextWord = text.substring(currentTextIndex, nextSpaceIndex);
             nextWordWidth = ctx.measureText(nextWord).width;
-    
-            // Wrap text if next word exceeds canvas width
+
             if (xOffset + nextWordWidth > canvasWidth - 16) {
                 xOffset = globalxOffset;
                 yOffset += maxFontSize + lineHeight;
@@ -553,29 +579,27 @@ function typewriterAnimation() {
             fadingOut = true;
             fadingIn = false;
         }
-    }
+    };
+
+    function playImageAnimation(currentImageNumber, oldImageNumber, showImage = true) {
+        currentImage = document.getElementById("dialogueImage" + String(currentImageNumber));
+        lastImage = document.getElementById("dialogueImage" + String(oldImageNumber));
+
+        if (showImage) {
+            imageCurrentOffset = 0;
+            runImageAnimation = true;
+            showLastImage = true;
+            showCurrentImage = false;
+        } else {    
+            imageCurrentOffset = imageXOffset;        
+            showLastImage = false;
+            showCurrentImage = true;
+        }
+    };
 
     function animateCharacters() {       
         redrawDialogue();
-
-        currentImage = document.getElementById("dialogueImage" + String(currentImageNumber));
         currentImageBackground = document.getElementById("backgroundImage" + String(currentBackground));
-
-        if (currentImage.getAttribute("src") != "") {
-            scale = globalHeightScaling / currentImage.height
-            const scaledWidth = currentImage.width * scale;
-            ctx.drawImage(
-                currentImage,     
-                0,                              
-                0,                             
-                currentImage.width,            
-                currentImage.height,             
-                globalImageOffset - scaledWidth,                         
-                canvasHeight - globalHeightScaling,                            
-                scaledWidth,                     
-                canvasHeight - (canvasHeight - globalHeightScaling)                         
-            );
-        }
 
         ctx.fillStyle = 'white';
         const time = Date.now();
@@ -604,6 +628,35 @@ function typewriterAnimation() {
 
             ctx.fillText(char, xOffset, yOffset);
         });
+
+        if (runImageAnimation) {
+            if (showLastImage) {
+                imageCurrentOffset += imageOffsetRate;
+
+                if (imageCurrentOffset >= imageXOffset) {
+                    imageCurrentOffset = imageXOffset;
+                }
+                drawImage(lastImage, imageCurrentOffset, 1);
+                console.log(imageCurrentOffset);
+            }
+
+            if (showCurrentImage) {
+                imageCurrentOffset -= imageOffsetRate;
+
+                if (imageCurrentOffset <= 0) {
+                    imageCurrentOffset = 0;
+                    showCurrentImage = false;
+                    runImageAnimation = false;
+                }
+
+                drawImage(currentImage, imageCurrentOffset, 1);
+                console.log(imageCurrentOffset);
+            }
+
+        } else {
+            let currentImage = document.getElementById("dialogueImage" + String(currentImageNumber));
+            drawImage(currentImage, 0, 1);
+        }
 
         if (arrowVisible) {
             if (fadingIn) {
