@@ -145,7 +145,7 @@ const optimizeFrameColors = (data) => {
   };
 
   function parseText(text) {
-    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]/g;
+    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])T?\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]/g;
 
     const segments = [];
     let lastIndex = 0;
@@ -197,7 +197,12 @@ const optimizeFrameColors = (data) => {
         } else if (shakeText) {
             segments.push(createSegment({ text: shakeText, shake: true }));
         } else if (imageNum) {
-            segments.push(createSegment({ image: parseInt(imageNum) }));
+            const hasT = match.includes('T');
+            if (hasT) {
+                segments.push(createSegment({ text: `[IMAGExT]`, image: parseInt(imageNum) }));
+            } else {
+                segments.push(createSegment({ image: parseInt(imageNum) }));
+            }
         } else if (match === '[CLEAR]') {
             segments.push(createSegment({ clear: true }));
         } else if (boldText) {
@@ -485,17 +490,24 @@ function typewriterAnimation() {
 
             if (segment.image) {
                 currentImageNumber = segment.image;
-                if (currentImageNumber != oldImageNumber) {
-                    playImageAnimation(currentImageNumber, oldImageNumber, true);
-                    setTimeout(() => {
-                        playImageAnimation(currentImageNumber, oldImageNumber, false);
-                        currentSegmentIndex++;
-                        currentTextIndex = 0;
-                        drawNextCharacter();
-                    }, imageAnimationDuration);
 
+                if (segment.text == "[IMAGExT]") {
+                    if (currentImageNumber != oldImageNumber) {
+                        playImageAnimation(currentImageNumber, oldImageNumber, true);
+                        setTimeout(() => {
+                            playImageAnimation(currentImageNumber, oldImageNumber, false);
+                            currentSegmentIndex++;
+                            currentTextIndex = 0;
+                            drawNextCharacter();
+                        }, imageAnimationDuration);
+    
+                        oldImageNumber = currentImageNumber;
+                        return;
+                    }
+                } else {
+                    currentSegmentIndex++;
+                    currentTextIndex = 0;
                     oldImageNumber = currentImageNumber;
-                    return;
                 }
             }
 
