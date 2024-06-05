@@ -22,6 +22,12 @@
         <img src='' style='display: none;' id="dialogueImage5">
         <img src='' style='display: none;' id="dialogueImage6">
         <img src='' style='display: none;' id="dialogueImage7">
+        <img src='' style='display: none;' id="dialogueImage8">
+        <img src='' style='display: none;' id="dialogueImage9">
+        <img src='' style='display: none;' id="dialogueImage10">
+        <img src='' style='display: none;' id="dialogueImage11">
+        <img src='' style='display: none;' id="dialogueImage12">
+        <img src='' style='display: none;' id="dialogueImage13">
         <img src='' style='display: none;' id="backgroundImage1">
         <img src='' style='display: none;' id="backgroundImage2">
         <img src='' style='display: none;' id="backgroundImage3">
@@ -82,7 +88,10 @@
         <strong>[PS=x]</strong>: Introduces a pause. The <em>x(ms)</em> specifies the duration of the pause.<br>
     </p>
     <p style="font-size: 1rem; text-align: center;">
-        <strong>[IMAGE1], ..., [IMAGE7] | [BIMAGE1], ..., [BIMAGE7]</strong>: Change the dialogue | background image to that associated with tag.<br>
+        <strong>[IMAGE1], ..., [IMAGE13] | [BIMAGE1], ..., [BIMAGE13]</strong>: Change the dialogue | background image to that associated with tag.<br>
+    </p>
+    <p style="font-size: 1rem; text-align: center;">
+        <strong>[IMAGExT]</strong>: Add a "T" in the IMAGE tag to trigger the switching portrait animation.<br>
     </p>
     <p style="font-size: 1rem; text-align: center;">
         <strong>[CLEAR]</strong>: Remove all text and reset the dialogue box. You can make multiple dialogue in a same gif this way.<br>
@@ -109,10 +118,10 @@
         <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
         
-        <div style="display: flex; flex-direction: column; gap: 10px;">
+        <div style="display: flex; flex-direction: column; gap: 5px;">
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="charDialogue">Dialogue:</label>
-                <textarea id="charDialogue" fname="charDialogue" style="flex-grow: 1;">I'm [PS=300][IMAGE6]Siffrin! [PS=1000][IMAGE2T]I'm [SW]Mirabelle[/SW]. [BR][PS=1000][IMAGE3T][SHAKE]Odile[/SHAKE]. [PS=1000][IMAGE4T]Isabeau! [PS=1000][CLEAR][IMAGE5T]New dialogue?[PS=500] Also I'm Loop.</textarea>
+                <textarea id="charDialogue" fname="charDialogue" style="flex-grow: 1;">I'm Siffrin! [PS=1000][IMAGE2]I'm [SW]Mirabelle[/SW]. [PS=1000][IMAGE3][SHAKE]Odile[/SHAKE]. [PS=1000][IMAGE4]Isabeau! [PS=1000][CLEAR][IMAGE5]New dialogue?[PS=500] Also I'm Loop.</textarea>
             </div>
             
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
@@ -136,6 +145,15 @@
                 <input type="file" id="fileInput7" class="imageInput" accept="image/*"> 
             </div>
             <p style="font-size: 1.2rem;">Image tags: [IMAGE2], [IMAGE3], [IMAGE4], [IMAGE5], [IMAGE6], [IMAGE7] (All Optional)</p>
+            <div style="display: flex; flex-direction: row; gap: 10px;">
+                <input type="file" id="fileInput8" class="imageInput" accept="image/*"> 
+                <input type="file" id="fileInput9" class="imageInput" accept="image/*"> 
+                <input type="file" id="fileInput10" class="imageInput" accept="image/*"> 
+                <input type="file" id="fileInput11" class="imageInput" accept="image/*"> 
+                <input type="file" id="fileInput12" class="imageInput" accept="image/*"> 
+                <input type="file" id="fileInput13" class="imageInput" accept="image/*"> 
+            </div>
+            <p style="font-size: 1.2rem;">Image tags: [IMAGE8], [IMAGE9], [IMAGE10], [IMAGE11], [IMAGE12], [IMAGE13] (All Optional)</p>
             <p style="font-size: 1.2rem;">Add a "T" in the tag ([IMAGExT]) (x is a number) to run the portrait switch animation.</p>
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="backgroundInput">Background Image (Optional):</label>

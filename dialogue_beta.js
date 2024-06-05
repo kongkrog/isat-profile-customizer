@@ -91,6 +91,12 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     updateProfileImage('fileInput5', 'dialogueImage5');
     updateProfileImage('fileInput6', 'dialogueImage6');
     updateProfileImage('fileInput7', 'dialogueImage7');
+    updateProfileImage('fileInput8', 'dialogueImage8');
+    updateProfileImage('fileInput9', 'dialogueImage9');
+    updateProfileImage('fileInput10', 'dialogueImage10');
+    updateProfileImage('fileInput11', 'dialogueImage11');
+    updateProfileImage('fileInput12', 'dialogueImage12');
+    updateProfileImage('fileInput13', 'dialogueImage13');
     updateProfileImage('backgroundInput', 'backgroundImage1');
     updateProfileImage('backgroundInput2', 'backgroundImage2');
     updateProfileImage('backgroundInput3', 'backgroundImage3');
@@ -145,7 +151,7 @@ const optimizeFrameColors = (data) => {
   };
 
   function parseText(text) {
-    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])T?\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]/g;
+    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE(1[0-3]|[1-9])T?\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]/g;
 
     const segments = [];
     let lastIndex = 0;
@@ -505,6 +511,8 @@ function typewriterAnimation() {
                         return;
                     }
                 } else {
+                    currentSegmentIndex++;
+                    currentTextIndex = 0;
                     oldImageNumber = currentImageNumber;
                 }
             }
