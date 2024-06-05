@@ -496,8 +496,6 @@ function typewriterAnimation() {
                         playImageAnimation(currentImageNumber, oldImageNumber, true);
                         setTimeout(() => {
                             playImageAnimation(currentImageNumber, oldImageNumber, false);
-                            currentSegmentIndex++;
-                            currentTextIndex = 0;
                             drawNextCharacter();
                         }, imageAnimationDuration);
     
@@ -505,8 +503,6 @@ function typewriterAnimation() {
                         return;
                     }
                 } else {
-                    currentSegmentIndex++;
-                    currentTextIndex = 0;
                     oldImageNumber = currentImageNumber;
                 }
             }
