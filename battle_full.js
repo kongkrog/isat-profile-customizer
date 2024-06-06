@@ -361,7 +361,7 @@ function drawBattle() {
             drawLineVertical(x + 1, y + 7, 70 - 16);
             drawLineVertical(x + 816 - 7, y + 7, 70 - 16);
     
-            ctx.font = '25px VCR_OSD_MONO';
+            ctx.font = '26px VCR_OSD_MONO';
             ctx.fillText('Attack', 80, 45);
             ctx.fillText('Craft', 269, 45);
             ctx.fillText('Guard', 446, 45);
