@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="render.css">
+    <title>ISAT Battle Maker | In Stars And Time Battle Maker</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+    <main id="battleUI">
+        <img id="battleBackground" src="././assets/battlebacks/pattern_bomb.png" style="display: none;">
+        <div style="display: flex; flex-direction: row; position: relativel">
+            <canvas id="battleCanvas" width="816" height="650"></canvas>
+            <div style="display: flex; flex-direction: column; position: relative; padding: 20px; margin-left: 20px;">
+                <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+                
+                <div id="topUIBar"></div>
+                <div id="bottomUIBar"></div>
+                <div id="leftUIBar"></div>
+                <div id="rightUIBar"></div>
+                
+                <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+                <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+
+                <div id="scaleButtonList" style="display: flex; flex-direction: column;"></div>
+                <select id="enemyList"></select>
+                <button id="removeEnemy" class="uiButton" style="text-align: center; height: 100px;">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    Delete Selected Enemy
+                </button>
+            </div>
+        </div>
+        <img id="battle1" src="" style="display: none;">
+        <img id="battle2" src="" style="display: none;">
+        <img id="battle3" src="" style="display: none;">
+        <img id="battle4" src="" style="display: none;">
+        <img id="craftImage" src="./assets/craft/scissorcraft.png" style="display: none;">
+        <img id="enemy1" src="./assets/enemies/basic.png" style="display: none;">
+    </main>
+    <div style="display: flex; flex-direction: row;">
+        <button class="uiButton" style="margin-top: 20px;" onclick="openSetting()">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Setting
+        </button>
+        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./render.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Homepage
+        </button>
+        <button class="uiButton" style="margin-top: 20px; width: 250px;" onclick="location.href='./battle.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Simple Mode
+        </button>
+    </div>
+    <p style="font-size: 1rem;">Preferred Image Size: Aspect Ratio 0.55:1 (Ex: 278x506)</p>
+    <p style="font-size: 1rem;">ISAT Battle Maker - made by kongkrog(lea) - all assets belong to insertdisc5</p>
+    <p style="font-size: 1rem;">You can zoom in and screenshot.</p>
+    <form id="settingPanel" onsubmit="updateProfile();">
+        <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
+        <div id="topUIBar"></div>
+        <div id="bottomUIBar"></div>
+        <div id="leftUIBar"></div>
+        <div id="rightUIBar"></div>
+        <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin: auto;">
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <i><strong>Char 1:</strong></i>
+                <label for="hp1">HP:</label>
+                <input style="width: 100px;" type="number" id="hp1" name="hp1" value="100">
+                <label for="maxHp1">Max HP:</label>
+                <input style="width: 100px;" type="number" id="maxHp1" name="maxHp1" value="100">
+                <label for="checkMaxHp1">Show Max HP?</label>
+                <input type="checkbox" id="checkMaxHp1" name="checkMaxHp1">
+                <label for="showChar1">Show Character?</label>
+                <input type="checkbox" id="showChar1" name="showChar1" checked>
+            </div>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="thyme1">Thyme Bar:</label>
+                <input style="width: 100px;" type="range" id="thyme1" name="thyme1" min="0" max="1" value="1" step="0.05" style="flex-grow: 1;">
+                <label for="name1">Name:</label>
+                <input style="width: 100px;" type="text" id="name1" name="name1">
+                Image: <input type="file" id="imageInput1" accept="image/*">
+            </div>
+    
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <i><strong>Char 2:</strong></i>
+                <label for="hp2">HP:</label>
+                <input style="width: 100px;" style="width: 100px;" type="number" id="hp2" name="hp2" value="100">
+                <label for="maxHp2">Max HP:</label>
+                <input style="width: 100px;" type="number" id="maxHp2" name="maxHp2" value="100">
+                <label for="checkMaxHp2">Show Max HP?</label>
+                <input type="checkbox" id="checkMaxHp2" name="checkMaxHp2">
+                <label for="showChar2">Show Character?</label>
+                <input type="checkbox" id="showChar2" name="showChar2" checked>
+            </div>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="thyme2">Thyme Bar:</label>
+                <input style="width: 100px;" type="range" id="thyme2" name="thyme2" min="0" max="1" value="1" step="0.05" style="flex-grow: 1;">
+                <label for="name2">Name:</label>
+                <input style="width: 100px;" type="text" id="name2" name="name2">
+                Image: <input type="file" id="imageInput2" accept="image/*">
+            </div>
+    
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <i><strong>Char 3:</strong></i>
+                <label for="hp3">HP:</label>
+                <input style="width: 100px;" type="number" id="hp3" name="hp3" value="100">
+                <label for="maxHp3">Max HP:</label>
+                <input style="width: 100px;" type="number" id="maxHp3" name="maxHp3" value="100">
+                <label for="checkMaxHp3">Show Max HP?</label>
+                <input type="checkbox" id="checkMaxHp3" name="checkMaxHp3">
+                <label for="showChar3">Show Character?</label>
+                <input type="checkbox" id="showChar3" name="showChar3" checked>
+            </div>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="thyme3">Thyme Bar:</label>
+                <input style="width: 100px;" type="range" id="thyme3" name="thyme3" min="0" max="1" value="1" step="0.05" style="flex-grow: 1;">
+                <label for="name3">Name:</label>
+                <input style="width: 100px;" type="text" id="name3" name="name3">
+                Image: <input type="file" id="imageInput3" accept="image/*">
+            </div>
+    
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <i><strong>Char 4:</strong></i>
+                <label for="hp4">HP:</label>
+                <input style="width: 100px;" type="number" id="hp4" name="hp4" value="100">
+                <label for="maxHp4">Max HP:</label>
+                <input style="width: 100px;" type="number" id="maxHp4" name="maxHp4" value="100">
+                <label for="checkMaxHp4">Show Max HP?</label>
+                <input type="checkbox" id="checkMaxHp4" name="checkMaxHp4">
+                <label for="showChar4">Show Character?</label>
+                <input type="checkbox" id="showChar4" name="showChar4" checked>
+            </div>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="thyme4">Thyme Bar:</label>
+                <input style="width: 100px;" type="range" id="thyme4" name="thyme4" min="0" max="1" value="1" step="0.05" style="flex-grow: 1;">
+                <label for="name4">Name:</label>
+                <input style="width: 100px;" type="text" id="name4" name="name4">
+                Image: <input type="file" id="imageInput4" accept="image/*">
+            </div>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                Enemy Image: <input type="file" id="fileInput" accept="image/*"> 
+                <button class="uiButton" id="addEnemyButton">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    <img src="./assets/saveicon.png"> Add Enemy
+                </button>
+            </div>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="selectBackground">Background Image: </label>
+                <select id="selectBackground">
+                    <option value="./assets/battlebacks/pattern_weak.png">pattern_weak.png</option>
+                    <option value="./assets/battlebacks/pattern_midboss2.png">pattern_midboss2.png</option>
+                    <option value="./assets/battlebacks/pattern_basic.png">pattern_basic.png</option>
+                    <option value="./assets/battlebacks/pattern_bomb.png">pattern_bomb.png</option>
+                    <option value="./assets/battlebacks/pattern_crest.png">pattern_crest.png</option>
+                    <option value="./assets/battlebacks/pattern_tutokid.png">pattern_tutokid.png</option>
+                    <option value="./assets/battlebacks/pattern_MDP.png">pattern_MDP.png</option>
+                    <option value="./assets/battlebacks/pattern_midboss3.png">pattern_midboss3.png</option>
+                    <option value="./assets/battlebacks/pattern_exp.png">pattern_exp.png</option>
+                    <option value="./assets/battlebacks/pattern_king.png">pattern_king.png</option>
+                    <option value="./assets/battlebacks/pattern_shield.png">pattern_shield.png</option>
+                    <option value="./assets/battlebacks/pattern_upperdowner.png">pattern_upperdowner.png</option>
+                    <option value="./assets/battlebacks/pattern_basic2.png">pattern_basic2.png</option>
+                    <option value="./assets/battlebacks/pattern_king_5.png">pattern_king_5.png</option>
+                    <option value="./assets/battlebacks/pattern_slow.png">pattern_slow.png</option>
+                    <option value="./assets/battlebacks/pattern_knots.png">pattern_knots.png</option>
+                    <option value="./assets/battlebacks/pattern_midboss1.png">pattern_midboss1.png</option>
+                </select>
+                <label for="showBackgroundVHS">VHS Background Effect?</label>
+                <input type="checkbox" id="showBackgroundVHS" name="showBackgroundVHS">
+            </div>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="attackType">Attack Type: </label>
+                <select id="attackType">
+                    <option value="./assets/scissorcraft.png">Scissors</option>
+                    <option value="./assets/rockcraft.png">Rock</option>
+                    <option value="./assets/papercraft.png">Paper</option>
+                </select>
+            </div>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <button class="uiButton" id="saveButton">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    <img src="./assets/saveicon.png"> Save
+                </button>
+                <button class="uiButton" type="button" onclick="exitSetting()">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    <img src="./assets/quiticon.png"> Exit
+                </button>
+            </div>
+        </div>
+    </form>
+    <script src="battle_full.js"></script> 
+</body>
+</html>
