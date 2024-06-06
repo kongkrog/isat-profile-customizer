@@ -405,14 +405,23 @@ function drawBattle() {
         }
     
         function drawImageAndOverlay() {
-            let ratio = Math.min(maxWidth / image.width, maxHeight / image.height);
-            let width = image.width * ratio;
-            let height = image.height * ratio;
+            let widthRatio = maxWidth / image.width;
+            let heightRatio = maxHeight / image.height;
+            let ratio = Math.max(widthRatio, heightRatio);
+
+            let scaledWidth = image.width * ratio;
+            let scaledHeight = image.height * ratio;
     
-            let xOffset = (maxWidth - width) / 2;
-            let yOffset = (maxHeight - height) / 2;
+            let xOffset = (scaledWidth - maxWidth) / 2;
+            let yOffset = (scaledHeight - maxHeight) / 2;
     
-            ctx.drawImage(image, 0, 0, image.width, image.height, x + 8 + xOffset, y + 7 + yOffset, width, height);
+            ctx.drawImage(
+                image, 
+                xOffset, yOffset, 
+                image.width - (2 * xOffset / ratio), image.height - (2 * yOffset / ratio),
+                x + 8, y + 7, 
+                maxWidth, maxHeight
+            );
     
             ctx.fillStyle = 'white';
             drawCorner(x, y);
