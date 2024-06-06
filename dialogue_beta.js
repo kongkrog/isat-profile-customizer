@@ -260,7 +260,7 @@ function typewriterAnimation() {
     let arrowXOffset = 0;
     let arrowDirection = 1;
     let arrowCounter = 0;
-    const arrowUpdateInterval = 10;
+    const arrowUpdateInterval = 6;
 
     let currentImageNumber = 1;
     let oldImageNumber = 1;
