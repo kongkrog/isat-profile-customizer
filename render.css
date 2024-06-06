@@ -1025,3 +1025,12 @@ div {
     font-size: 1.3rem;
     width: 225px;
 }
+
+.buttonScaleDiv {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+
+    justify-content: center;
+    align-items: center;
+}
