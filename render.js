@@ -13,7 +13,7 @@ document.getElementById('partyButton').addEventListener('mouseout', function() {
 });
 
 document.getElementById('battleButton').addEventListener('mouseover', function() {
-    document.getElementById('appDescription').innerHTML = 'A simple battle protrait maker with scalable HP bar.';
+    document.getElementById('appDescription').innerHTML = 'A battle maker with draggable enemies and customizable portraits.';
 });
 document.getElementById('battleButton').addEventListener('mouseout', function() {
     document.getElementById('appDescription').innerHTML = 'Welcome!!';
