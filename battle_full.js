@@ -381,9 +381,7 @@ function drawBattle() {
         cursorB2.onload = function() {
             ctx.drawImage(cursorB2, 0, 0, cursorB2.width, cursorB2.height, parseInt(x) + 194, parseInt(y), cursorB2.width, cursorB2.height);
         }
-
-        debugger
-
+        
         if (cursorA1.complete) {
             cursorA1.onload();
         }
