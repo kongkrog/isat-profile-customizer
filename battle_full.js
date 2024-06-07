@@ -316,6 +316,20 @@ function drawBattle() {
         ctx.fillRect(x, y, width, height);
     }
 
+    function drawRoundedRect(ctx, x, y, width, height, radius) {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+    }
+
     function drawBackground(x, y, image) {
         if (!image.complete) {
             image.onload = () => {
@@ -344,10 +358,51 @@ function drawBattle() {
         }
     }    
 
+    function drawChoiceOverlay(x, y) {
+        let cursorA1 = document.getElementById('cursorA1');
+        let cursorA2 = document.getElementById('cursorA2');
+        let cursorB1 = document.getElementById('cursorB1');
+        let cursorB2 = document.getElementById('cursorB2');
+
+        drawRoundedRect(ctx, parseInt(x)+17, parseInt(y)+17, 184, 38, 2);
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        cursorA1.onload = function() {
+            ctx.drawImage(cursorA1, 0, 0, cursorA1.width, cursorA1.height, parseInt(x) - 1, parseInt(y) - 4, cursorA1.width, cursorA1.height);
+        }
+        cursorA2.onload = function() {
+            ctx.drawImage(cursorA2, 0, 0, cursorA2.width, cursorA2.height, parseInt(x) + 191, parseInt(y) + 42, cursorA2.width, cursorA2.height);
+        }
+        cursorB1.onload = function() {
+            ctx.drawImage(cursorB1, 0, 0, cursorB1.width, cursorB1.height, parseInt(x) - 4, parseInt(y) + 38, cursorB1.width, cursorB1.height);
+        }
+        cursorB2.onload = function() {
+            ctx.drawImage(cursorB2, 0, 0, cursorB2.width, cursorB2.height, parseInt(x) + 194, parseInt(y), cursorB2.width, cursorB2.height);
+        }
+
+        debugger
+
+        if (cursorA1.complete) {
+            cursorA1.onload();
+        }
+        if (cursorA2.complete) {
+            cursorA2.onload();
+        }
+        if (cursorB1.complete) {
+            cursorB1.onload();
+        }
+        if (cursorB2.complete) {
+            cursorB2.onload();
+        }
+    }
+    
     function drawMenu(x, y) {
         let craftImage = document.getElementById('craftImage');
         let attackTypeValue = document.getElementById('attackType').value;
-    
+        let offsetChoice = document.getElementById('menuSelection').value;
+
         craftImage.onload = function() {
             // Drawing menu after the craftImage has loaded
             drawCorner(x, y);
@@ -364,9 +419,10 @@ function drawBattle() {
             ctx.font = '26px VCR_OSD_MONO';
             ctx.fillText('Attack', 80, 45);
             ctx.fillText('Craft', 269, 45);
-            ctx.fillText('Guard', 446, 45);
+            ctx.fillText('Guard', 466, 45);
             ctx.fillText('Pockets', 648, 45);
             ctx.drawImage(craftImage, 0, 0, craftImage.width, craftImage.height, x + 46, y + 23, 26, 26);
+            drawChoiceOverlay(offsetChoice, 1);
         };
     
         craftImage.src = attackTypeValue;
@@ -510,8 +566,8 @@ function drawBattle() {
         ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
-        drawBackground(0, 91, battleBackground);
         drawMenu(1, 1);
+        drawBackground(0, 91, battleBackground);
 
         const positions = calculatePortraitPositions(portraits.length);
         portraits.forEach((portrait, index) => {

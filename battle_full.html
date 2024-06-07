@@ -49,6 +49,10 @@
         <img id="battle4" src="" style="display: none;">
         <img id="craftImage" src="./assets/craft/scissorcraft.png" style="display: none;">
         <img id="enemy1" src="./assets/enemies/basic.png" style="display: none;">
+        <img id="cursorA1" src="./assets/cursorBorderA.png" style="display: none;">
+        <img id="cursorA2" src="./assets/cursorBorderAFlip.png" style="display: none;">
+        <img id="cursorB1" src="./assets/cursorBorderB.png" style="display: none;">
+        <img id="cursorB2" src="./assets/cursorBorderBFlip.png" style="display: none;">
     </main>
     <div style="display: flex; flex-direction: row;">
         <button class="uiButton" style="margin-top: 20px;" onclick="openSetting()">
@@ -76,6 +80,7 @@
     <p style="font-size: 1rem;">Preferred Image Size: Aspect Ratio 0.55:1 (Ex: 278x506)</p>
     <p style="font-size: 1rem;">ISAT Battle Maker - made by kongkrog(lea) - all assets belong to insertdisc5</p>
     <p style="font-size: 1rem;">If the game's font doesn't load properly, refresh will work.</p>
+    <p style="font-size: 1rem;">Right click the canvas to save image.</p>
     <form id="settingPanel" onsubmit="updateProfile();">
         <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
         <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
@@ -210,6 +215,13 @@
                     <option value="./assets/scissorcraft.png">Scissors</option>
                     <option value="./assets/rockcraft.png">Rock</option>
                     <option value="./assets/papercraft.png">Paper</option>
+                </select>
+                <label for="menuSelection">Menu Selection: </label>
+                <select id="menuSelection">
+                    <option value="1">Attack</option>
+                    <option value="197">Craft</option>
+                    <option value="396">Guard</option>
+                    <option value="594">Pockets</option>
                 </select>
             </div>
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
