@@ -53,16 +53,15 @@ function clearImage(idName, idImage) {
 function calculateScaledHeight(height) {
     let scaledHeight;
 
-    if (height < 500) {
-        let scaleDown1 = imageHeight / 500;
-        let difference = imageHeight - height;
+    if (height <= globalHeightScaling) {
+        let scaleDown1 = imageHeight / globalHeightScaling;
+        let difference = globalHeightScaling - height;
         let scaleDifference = difference * scaleDown1;
         let aimHeight = imageHeight - scaleDifference;
         let scaleDown2 = aimHeight / height;
         scaledHeight = height * scaleDown2;
     } else {
-        let scaleDown1 = imageHeight / height;
-        scaledHeight = height * scaleDown1;
+        scaledHeight = globalHeightScaling;
     }
 
     return scaledHeight;
@@ -458,10 +457,10 @@ function typewriterAnimation() {
     redrawDialogue();
 
     function drawImage(image, xOffset, opacity) {
-        let difference = 500 - image.height;
+        let difference = globalHeightScaling - image.height;
 
-        if (image.height <= 500) {
-            scaleDown1 = imageHeight / 500;
+        if (image.height <= globalHeightScaling) {
+            scaleDown1 = imageHeight / globalHeightScaling;
             scaleDifference = difference*scaleDown1;
             aimHeight = imageHeight - scaleDifference;
             scaleDown2 = aimHeight / image.height;

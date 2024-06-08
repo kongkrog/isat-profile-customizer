@@ -194,12 +194,13 @@
             <p style="font-size: 1.2rem;">Character Name Box will only appear if you clear image ([IMAGE1] is empty).</p>
             
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="dialogueImageOffset">Protrait Horizontal Offset:</label>
+                <label for="dialogueImageOffset">Image Horizontal Offset:</label>
                 <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="300" value="265" step="1" style="flex-grow: 1;">
-                <label for="dialogueImageOffset">Protrait Height Scaling:</label>
-                <input type="range" id="dialogueHeightScaling" name="dialogueHeightScaling" min="400" max="500" value="500" step="1" style="flex-grow: 1;">
+                <label for="dialogueImageOffset">Adjust Image Limit:</label>
+                <input type="range" id="dialogueHeightScaling" name="dialogueHeightScaling" min="100" max="500" value="500" step="1" style="flex-grow: 1;">
             </div>
-            
+            <p style="font-size: 1.2rem;">More images with lower height will fully scale up if "Adjust Image Limit" is low.</p>
+
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="dialogueImageOffset">Gif Scaling (0.5-1):</label>
                 <input type="range" id="gifScaling" name="gifScaling" min="0.5" max="1" step="0.1" value="1" style="flex-grow: 1;">
