@@ -43,6 +43,7 @@
                 </button>
             </div>
         </div>
+        <img id="customBattleBackground" src="" style="display: none;">
         <img id="battle1" src="" style="display: none;">
         <img id="battle2" src="" style="display: none;">
         <img id="battle3" src="" style="display: none;">
@@ -208,6 +209,22 @@
                 </select>
                 <label for="showBackgroundVHS">VHS Background Effect?</label>
                 <input type="checkbox" id="showBackgroundVHS" name="showBackgroundVHS">
+            </div>
+            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+                <label for="backgroundInput">Custom BG Image: </label>
+                <input type="file" id="backgroundInput" accept="image/*" style="width: 250px;">
+                <label for="backgroundType">Render: </label>
+                <select id="backgroundType">
+                    <option value="pattern">Pattern</option>
+                    <option value="full">Full</option>
+                </select>
+                <button class="uiButton" id="clearImage">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    Clear Image
+                </button>
             </div>
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="attackType">Attack Type: </label>

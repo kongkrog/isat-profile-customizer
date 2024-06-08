@@ -111,7 +111,7 @@ function updatePortraits() {
     }
 }
 
-function updateBattlePortrait(fileInput, target) {
+function updateImage(fileInput, target) {
     const fInput = document.getElementById(fileInput);
     const profileImageDiv = document.getElementById(target);
 
@@ -122,6 +122,15 @@ function updateBattlePortrait(fileInput, target) {
             const imageUrl = URL.createObjectURL(file);
             profileImageDiv.src = imageUrl;
         }
+    }
+}
+
+function clearImage(idName, idImage) {
+    document.getElementById(idName).value = null;
+    // Also remove the image from the display
+    const imageElement = document.getElementById(idImage);
+    if (imageElement) {
+        imageElement.src = '';
     }
 }
 
@@ -163,10 +172,11 @@ function updateProfile() {
     name4 = document.getElementById('name4').value;
     
     document.getElementById('battleBackground').src = document.getElementById('selectBackground').value;
-    updateBattlePortrait('imageInput1', 'battle1');
-    updateBattlePortrait('imageInput2', 'battle2');
-    updateBattlePortrait('imageInput3', 'battle3');
-    updateBattlePortrait('imageInput4', 'battle4');
+    updateImage('backgroundInput', 'customBattleBackground');
+    updateImage('imageInput1', 'battle1');
+    updateImage('imageInput2', 'battle2');
+    updateImage('imageInput3', 'battle3');
+    updateImage('imageInput4', 'battle4');
 
     document.getElementById('settingPanel').style.display = 'none';
 }
@@ -176,6 +186,11 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     updateProfile();
     updatePortraits();
     drawBattle();
+});
+
+document.getElementById("clearImage").addEventListener("click", function(event) {
+    event.preventDefault();
+    clearImage('backgroundInput', 'customBattleBackground'); 
 });
 
 let enemies = [];
@@ -330,7 +345,8 @@ function drawBattle() {
         ctx.closePath();
     }
 
-    function drawBackground(x, y, image) {
+    function drawBackground(x, y, image, renderType='') {
+        console.log(image)
         if (!image.complete) {
             image.onload = () => {
                 drawBackgroundImage();
@@ -347,14 +363,24 @@ function drawBattle() {
     
             backgroundCanvas.width = 816;
             backgroundCanvas.height = 335;
-    
-            bCtx.fillStyle = pattern;        
-            bCtx.fillRect(0, 0, 816, 335);
-    
-            if (document.querySelector('#showBackgroundVHS').checked) {
-                drawVHSEffect(bCtx, backgroundCanvas.width, backgroundCanvas.height);
+
+            if (renderType == 'pattern') {
+                bCtx.fillStyle = pattern;        
+                bCtx.fillRect(0, 0, 816, 335);
+        
+                if (document.querySelector('#showBackgroundVHS').checked) {
+                    drawVHSEffect(bCtx, backgroundCanvas.width, backgroundCanvas.height);
+                }
+                ctx.drawImage(backgroundCanvas, 0, 0, 816, 335, x, y, 816, 335);
+            } else if (renderType == 'full') {      
+                bCtx.fillStyle = 'white';
+                bCtx.drawImage(image, 0, 0, image.width, image.height, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
+        
+                if (document.querySelector('#showBackgroundVHS').checked) {
+                    drawVHSEffect(bCtx, backgroundCanvas.width, backgroundCanvas.height);
+                }
+                ctx.drawImage(backgroundCanvas, 0, 0, 816, 335, x, y, 816, 335);
             }
-            ctx.drawImage(backgroundCanvas, 0, 0, 816, 335, x, y, 816, 335);
         }
     }    
 
@@ -561,11 +587,20 @@ function drawBattle() {
     }
 
     function redrawBattle() {
+        let customBackground = document.getElementById("customBattleBackground");
+        let renderType = document.getElementById("backgroundType").value;
+
         ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
         ctx.fillStyle = 'black';
         ctx.fillRect(0, 0, myCanvas.width, myCanvas.height);
         drawMenu(1, 1);
-        drawBackground(0, 91, battleBackground);
+
+        console.log(customBackground);
+        if (customBackground.src !== '' && customBackground.src !== window.location.href) {
+            drawBackground(0, 91, customBackground, renderType);
+        } else {
+            drawBackground(0, 91, battleBackground, 'pattern');
+        }
 
         const positions = calculatePortraitPositions(portraits.length);
         portraits.forEach((portrait, index) => {
