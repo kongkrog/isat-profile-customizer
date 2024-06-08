@@ -3,6 +3,10 @@ var globalImageOffset = 263;
 var globalHeightScaling = 317;
 var globalScale = 1;
 
+const dialogueHeight = 180;
+const dialogueNameboxHeight = 72;
+const imageHeight = 395;
+
 document.getElementById("settingButton").addEventListener("click", function(event) {
     document.getElementById("settingPanel").style.display = "flex"; 
 });
@@ -34,6 +38,40 @@ function clearImage(idName, idImage) {
     if (imageElement) {
         imageElement.src = '';
     }
+}
+
+function trimCanvas(canvas) {
+    var tempCanvas = canvas;
+    var ctx = tempCanvas.getContext('2d');
+
+    var imageData = ctx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+    var data = imageData.data;
+
+    var minX = tempCanvas.width;
+    var minY = tempCanvas.height;
+    var maxX = -1;
+    var maxY = -1;
+
+    for (var y = 0; y < tempCanvas.height; y++) {
+        for (var x = 0; x < tempCanvas.width; x++) {
+            var index = (y * tempCanvas.width + x) * 4;
+            var alpha = data[index + 3];
+            if (alpha > 0) {
+                minX = Math.min(minX, x);
+                minY = Math.min(minY, y);
+                maxX = Math.max(maxX, x);
+                maxY = Math.max(maxY, y);
+            }
+        }
+    }
+
+    var trimmedWidth = maxX - minX + 1;
+    var trimmedHeight = maxY - minY + 1;
+    var trimmedImageData = ctx.getImageData(minX, minY, trimmedWidth, trimmedHeight);
+
+    tempCanvas.width = trimmedWidth;
+    tempCanvas.height = trimmedHeight;
+    ctx.putImageData(trimmedImageData, 0, 0);
 }
 
 function updateProfile() {
@@ -268,22 +306,22 @@ function typewriterAnimation() {
         const charWidth = ctx.measureText(nameText).width;
 
         ctx.fillStyle = 'black';
-        ctx.fillRect(0, 65, 44 + charWidth + 6, myCanvas.height - 188);
+        ctx.fillRect(0, myCanvas.height-dialogueHeight-dialogueNameboxHeight-1, 44 + charWidth + 7, myCanvas.height - 188);
 
         ctx.fillStyle = 'gray';
-        ctx.fillText(nameText, 25, 110);
+        ctx.fillText(nameText, 24, myCanvas.height-dialogueHeight-26);
 
         ctx.fillStyle = 'white';
-        drawCorner(1, 66);
-        drawCorner(44 + charWidth, 66);
-        drawCorner(44 + charWidth, myCanvas.height - 187);
-        drawCorner(1, myCanvas.height - 187);
+        drawCorner(1, myCanvas.height-dialogueHeight-dialogueNameboxHeight);
+        drawCorner(44 + charWidth, myCanvas.height-dialogueHeight-dialogueNameboxHeight);
+        drawCorner(44 + charWidth, myCanvas.height-dialogueHeight-7);
+        drawCorner(1, myCanvas.height-dialogueHeight-7);
     
-        drawLineHorizontal(8, 67, 43 + charWidth - 8);
-        drawLineHorizontal(8, myCanvas.height - 186, 43 + charWidth - 8);
+        drawLineHorizontal(8, myCanvas.height-dialogueHeight-dialogueNameboxHeight+1, 43 + charWidth - 8);
+        drawLineHorizontal(8, myCanvas.height-dialogueHeight-6, 43 + charWidth - 8);
     
-        drawLineVertical(2, 73, myCanvas.height - 261);
-        drawLineVertical(44 + charWidth + 1, 73, myCanvas.height - 261);
+        drawLineVertical(2, myCanvas.height-dialogueHeight-dialogueNameboxHeight+7, dialogueNameboxHeight-15);
+        drawLineVertical(44 + charWidth + 1, myCanvas.height-dialogueHeight-dialogueNameboxHeight+7, dialogueNameboxHeight-15);
     }
     
     function redrawDialogue() {
@@ -291,41 +329,58 @@ function typewriterAnimation() {
         ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     
         ctx.fillStyle = 'black';
-        ctx.fillRect(0, 137, myCanvas.width, myCanvas.height);
+        ctx.fillRect(0, myCanvas.height-dialogueHeight, myCanvas.width, myCanvas.height);
     
         if (dName != '') {
             drawNameBox(dName);
         }
         
-        drawCorner(1, 137);
-        drawCorner(myCanvas.width - 7, 137);
+        drawCorner(1, myCanvas.height - dialogueHeight);
+        drawCorner(myCanvas.width - 7, myCanvas.height - dialogueHeight);
         drawCorner(myCanvas.width - 7, myCanvas.height - 7);
         drawCorner(1, myCanvas.height - 7);
     
-        drawLineHorizontal(8, 138, myCanvas.width - 16);
+        drawLineHorizontal(8, myCanvas.height - dialogueHeight + 1, myCanvas.width - 16);
         drawLineHorizontal(8, myCanvas.height - 6, myCanvas.width - 16);
     
-        drawLineVertical(2, 144, myCanvas.height - 152);
-        drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
+        drawLineVertical(2, myCanvas.height - dialogueHeight + 7, dialogueHeight - 15);
+        drawLineVertical(myCanvas.width - 6, myCanvas.height - dialogueHeight + 7, dialogueHeight - 15);
     }
 
     redrawDialogue();
 
-    if (dialogueImage.getAttribute("src") != "") {
-        scale = globalHeightScaling / dialogueImage.height
-        const scaledWidth = dialogueImage.width * scale;
+    function drawImage(image, xOffset, opacity) {
+        let difference = 500 - image.height;
+
+        if (image.height < 500) {
+            scaleDown1 = imageHeight / 500;
+            scaleDifference = difference*scaleDown1;
+            aimHeight = imageHeight - scaleDifference;
+            scaleDown2 = aimHeight / image.height;
+            scaledWidth = image.width * scaleDown2;
+            scaledHeight = image.height * scaleDown2;
+        } else {
+            scaleDown1 = imageHeight / image.height
+            scaledWidth = image.width * scaleDown1;
+            scaledHeight = image.height * scaleDown1;
+        }
+    
+        ctx.globalAlpha = opacity;
         ctx.drawImage(
-            dialogueImage,     
-            0,                              
-            0,                             
-            dialogueImage.width,            
-            dialogueImage.height,             
-            globalImageOffset - scaledWidth,                         
-            canvasHeight - globalHeightScaling,                            
-            scaledWidth,                     
-            canvasHeight - (canvasHeight - globalHeightScaling)
+            image,
+            0,
+            0,
+            image.width,
+            image.height,
+            globalImageOffset - xOffset - scaledWidth,
+            canvasHeight - scaledHeight,
+            scaledWidth,
+            scaledHeight
         );
+        ctx.globalAlpha = 1;
     }
+
+    drawImage(dialogueImage, 0, 1);
 
     ctx.fillStyle = 'white';
     characters.forEach(({ char, xOffset, yOffset, font }) => {
@@ -413,22 +468,7 @@ function typewriterAnimation() {
 
     function animateCharacters() {       
         redrawDialogue();
-
-        if (dialogueImage.getAttribute("src") != "") {
-            scale = globalHeightScaling / dialogueImage.height
-            const scaledWidth = dialogueImage.width * scale;
-            ctx.drawImage(
-                dialogueImage,     
-                0,                              
-                0,                             
-                dialogueImage.width,            
-                dialogueImage.height,             
-                globalImageOffset - scaledWidth,                         
-                canvasHeight - globalHeightScaling,                            
-                scaledWidth,                     
-                canvasHeight - (canvasHeight - globalHeightScaling)
-            );
-        }
+        drawImage(dialogueImage, 0, 1);
 
         ctx.fillStyle = 'white';
 
@@ -459,19 +499,19 @@ function typewriterAnimation() {
 
     function checkRender() {
         if (dialogueImage.getAttribute('src') != '') {
-            drawTextWithWrapping(ctx, textSegments, 21+230, 41+137, canvasWidth - 19, 10);
+            drawTextWithWrapping(ctx, textSegments, 21+230, canvasHeight-dialogueHeight+41, canvasWidth - 19, 10);
             animateCharacters();
         } else {
-            drawTextWithWrapping(ctx, textSegments, 21, 41+137, canvasWidth - 19, 10);
+            drawTextWithWrapping(ctx, textSegments, 21, canvasHeight-dialogueHeight+41, canvasWidth - 19, 10);
             animateCharacters();
         }
     }
-
     function scaleCanvas() {
         let tempCanvas = document.createElement('canvas');
         let scaledCanvas = document.getElementById('gifResult');
         let backgroundCanvas = document.createElement('canvas');
         
+        const tempCtx = tempCanvas.getContext('2d');
         const scaledCtx = scaledCanvas.getContext('2d');
         const backgroundCtx = backgroundCanvas.getContext('2d');
         const debugText = document.getElementById('debug');
@@ -481,16 +521,16 @@ function typewriterAnimation() {
 
         if (dialogueImage.getAttribute('src') != '') {
             tempCanvas.width = 816;
-            tempCanvas.height = 317;
-            tempCanvas = cropCanvas(myCanvas, 0, 0, canvasWidth, 317);
+            tempCanvas.height = imageHeight;
+            tempCanvas = cropCanvas(myCanvas, 0, canvasHeight-imageHeight, canvasWidth, imageHeight);
         } else if (dName != '') {
             tempCanvas.width = 816;
-            tempCanvas.height = 251;
-            tempCanvas = cropCanvas(myCanvas, 0, 66, canvasWidth, 251);
+            tempCanvas.height = dialogueHeight+dialogueNameboxHeight;
+            tempCanvas = cropCanvas(myCanvas, 0, canvasHeight-dialogueHeight-dialogueNameboxHeight, canvasWidth, dialogueHeight+dialogueNameboxHeight);
         } else {
             tempCanvas.width = 816;
             tempCanvas.height = 180;
-            tempCanvas = cropCanvas(myCanvas, 0, 137, canvasWidth, 180);
+            tempCanvas = cropCanvas(myCanvas, 0, canvasHeight-dialogueHeight, canvasWidth, dialogueHeight);
         }
 
         if (backgroundImage.getAttribute('src') != '') {
@@ -502,6 +542,7 @@ function typewriterAnimation() {
 
             scaledCtx.drawImage(backgroundCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
         } else {
+            trimCanvas(tempCanvas);
             scaledCanvas.width = tempCanvas.width * globalScale;
             scaledCanvas.height = tempCanvas.height * globalScale;  
             

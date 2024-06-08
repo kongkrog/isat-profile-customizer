@@ -11,8 +11,8 @@
 </head>
 <body>
     <main id="dialogueMain"> 
-        <canvas id="dialogueCanvas" width="816" height="317" style="display: none"></canvas>
-        <img src='./assets/displayGif.gif' width="816" height="317" id="gifDisplay">
+        <canvas id="dialogueCanvas" width="816" height="395" style="display: none"></canvas>
+        <img src='./assets/displayGif.gif' width="816" height="395" id="gifDisplay">
         <img src='' width="816" id="gifResult" style="display: none">
         <img src='' width="816" id="gifOptimize" style="display: none">
         <img src='' style='display: none;' id="dialogueImage1">
@@ -70,9 +70,10 @@
         <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
         <img src="./assets/settingicon.png"> Image Mode
     </button>
-    <p style="font-size: 1rem; text-align: center;"><strong>If gif's size is too big. Use <a href="https://ezgif.com/optimize">ezgif optimizer</a> to optimize your gif.</strong></p>
     <p style="font-size: 1rem; text-align: center;">ISAT Dialogue Maker - made by kongkrog(lea) - all assets belong to insertdisc5</p>
-    <p style="font-size: 1rem; text-align: center;">Image should be roughly the same size as ISAT's face sprite.</p>
+    <p style="font-size: 1rem; text-align: center;">Due to how the ISAT dialogue image works, any image larger than 500px will be scaled down to 365px.</p>
+    <p style="font-size: 1rem; text-align: center;">Any image's height smaller than 500px will stay unscale.<br>The trade-off is a wasted space, I'll try and fix it later.</p>
+    <p style="font-size: 1rem; text-align: center;">But the dialogue image's height <i>will now be accurate</i> to the game.</p>
     <p style="font-size: 1rem; text-align: center;">Made using <a href="https://github.com/jnordberg/gif.js">gif.js</a> and <a href="https://github.com/renzhezhilu/gifsicle-wasm-browser">gifsicle (the browser version)</a>.</p>
     <p style="font-size: 1.5rem; padding-top: 20px; text-align: center;">Tag guide (Read this): </p>
     <p style="font-size: 1rem; text-align: center;">
@@ -97,7 +98,6 @@
         <strong>[CLEAR]</strong>: Remove all text and reset the dialogue box. You can make multiple dialogue in a same gif this way.<br>
     </p>
     <p style="font-size: 1rem; padding-top: 20px; text-align: center;">Tags are not combinable.</p>
-    <p style="font-size: 1rem; text-align: center;">To emulate how dialogue works in-game, add a [PS] after every sentence/comma.<br>Pause duration is longer after each sentence than for each comma. My guess is 700 and 300 seperately.</p>
     <form id="settingPanel" onsubmit="updateProfile()">
         <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
         <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
@@ -195,9 +195,9 @@
             
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <label for="dialogueImageOffset">Protrait Horizontal Offset:</label>
-                <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="280" value="263" step="1" style="flex-grow: 1;">
+                <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="300" value="265" step="1" style="flex-grow: 1;">
                 <label for="dialogueImageOffset">Protrait Height Scaling:</label>
-                <input type="range" id="dialogueHeightScaling" name="dialogueHeightScaling" min="260" max="317" value="317" step="1" style="flex-grow: 1;">
+                <input type="range" id="dialogueHeightScaling" name="dialogueHeightScaling" min="400" max="500" value="500" step="1" style="flex-grow: 1;">
             </div>
             
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">

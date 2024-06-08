@@ -1,9 +1,20 @@
 var textString = '';
 var globalImageOffset = 263;
-var globalHeightScaling = 317;
+var globalHeightScaling = 500;
 var isTransparent = false;
 var isStatic = false;
 var globalScale = 1;
+
+const dialogueHeight = 180;
+const dialogueNameboxHeight = 72;
+const imageHeight = 395;
+
+let imageIds = [
+    "dialogueImage1", "dialogueImage2", "dialogueImage3", "dialogueImage4",
+    "dialogueImage5", "dialogueImage6", "dialogueImage7", "dialogueImage8",
+    "dialogueImage9", "dialogueImage10", "dialogueImage11", "dialogueImage12",
+    "dialogueImage13"
+];
 
 document.getElementById("settingButton").addEventListener("click", function(event) {
     document.getElementById("settingPanel").style.display = "flex"; 
@@ -36,6 +47,24 @@ function clearImage(idName, idImage) {
     if (imageElement) {
         imageElement.src = '';
     }
+}
+
+function calculateScaledHeight(height) {
+    let scaledHeight;
+
+    if (height < 500) {
+        let scaleDown1 = 365 / 500;
+        let difference = 500 - height;
+        let scaleDifference = difference * scaleDown1;
+        let aimHeight = 365 - scaleDifference;
+        let scaleDown2 = aimHeight / height;
+        scaledHeight = height * scaleDown2;
+    } else {
+        let scaleDown1 = 365 / height;
+        scaledHeight = height * scaleDown1;
+    }
+
+    return scaledHeight;
 }
 
 function updateProfile() {
@@ -134,18 +163,14 @@ document.getElementById("clearBackgroundButton").addEventListener("click", funct
 
 const optimizeFrameColors = (data) => {
     for (let i = 0; i < data.length; i += 4) {
-      // clamp greens to avoid pure greens in the image from turning transparent
-      // basically a hack and it's not really noticeable and it works
       data[i + 1] = data[i + 1] > 250 ? 250 : data[i + 1];
 
-      // Set transparent pixels to green
       if (data[i + 3] < 120) {
         data[i + 0] = 0;
         data[i + 1] = 255;
         data[i + 2] = 0;
       }
 
-      // No more transparent pixels
       data[i + 3] = 255;
     }
   };
@@ -364,22 +389,22 @@ function typewriterAnimation() {
         const charWidth = ctx.measureText(nameText).width;
 
         ctx.fillStyle = 'black';
-        ctx.fillRect(0, 65, 44 + charWidth + 6, myCanvas.height - 188);
+        ctx.fillRect(0, myCanvas.height-dialogueHeight-dialogueNameboxHeight-1, 44 + charWidth + 7, myCanvas.height - 188);
 
         ctx.fillStyle = 'gray';
-        ctx.fillText(nameText, 25, 110);
+        ctx.fillText(nameText, 24, myCanvas.height-dialogueHeight-26);
 
         ctx.fillStyle = 'white';
-        drawCorner(1, 66);
-        drawCorner(44 + charWidth, 66);
-        drawCorner(44 + charWidth, myCanvas.height - 187);
-        drawCorner(1, myCanvas.height - 187);
+        drawCorner(1, myCanvas.height-dialogueHeight-dialogueNameboxHeight);
+        drawCorner(44 + charWidth, myCanvas.height-dialogueHeight-dialogueNameboxHeight);
+        drawCorner(44 + charWidth, myCanvas.height-dialogueHeight-7);
+        drawCorner(1, myCanvas.height-dialogueHeight-7);
     
-        drawLineHorizontal(8, 67, 43 + charWidth - 8);
-        drawLineHorizontal(8, myCanvas.height - 186, 43 + charWidth - 8);
+        drawLineHorizontal(8, myCanvas.height-dialogueHeight-dialogueNameboxHeight+1, 43 + charWidth - 8);
+        drawLineHorizontal(8, myCanvas.height-dialogueHeight-6, 43 + charWidth - 8);
     
-        drawLineVertical(2, 73, myCanvas.height - 261);
-        drawLineVertical(44 + charWidth + 1, 73, myCanvas.height - 261);
+        drawLineVertical(2, myCanvas.height-dialogueHeight-dialogueNameboxHeight+7, dialogueNameboxHeight-15);
+        drawLineVertical(44 + charWidth + 1, myCanvas.height-dialogueHeight-dialogueNameboxHeight+7, dialogueNameboxHeight-15);
     }
     
     function redrawDialogue() {
@@ -387,29 +412,42 @@ function typewriterAnimation() {
         ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
     
         ctx.fillStyle = 'black';
-        ctx.fillRect(0, 137, myCanvas.width, myCanvas.height);
+        ctx.fillRect(0, myCanvas.height-dialogueHeight, myCanvas.width, myCanvas.height);
     
         if (dName != '') {
             drawNameBox(dName);
         }
         
-        drawCorner(1, 137);
-        drawCorner(myCanvas.width - 7, 137);
+        drawCorner(1, myCanvas.height - dialogueHeight);
+        drawCorner(myCanvas.width - 7, myCanvas.height - dialogueHeight);
         drawCorner(myCanvas.width - 7, myCanvas.height - 7);
         drawCorner(1, myCanvas.height - 7);
     
-        drawLineHorizontal(8, 138, myCanvas.width - 16);
+        drawLineHorizontal(8, myCanvas.height - dialogueHeight + 1, myCanvas.width - 16);
         drawLineHorizontal(8, myCanvas.height - 6, myCanvas.width - 16);
     
-        drawLineVertical(2, 144, myCanvas.height - 152);
-        drawLineVertical(myCanvas.width - 6, 144, myCanvas.height - 152);
+        drawLineVertical(2, myCanvas.height - dialogueHeight + 7, dialogueHeight - 15);
+        drawLineVertical(myCanvas.width - 6, myCanvas.height - dialogueHeight + 7, dialogueHeight - 15);
     }
 
     redrawDialogue();
 
     function drawImage(image, xOffset, opacity) {
-        const scale = globalHeightScaling / image.height;
-        const scaledWidth = image.width * scale;
+        let difference = 500 - image.height;
+
+        if (image.height < 500) {
+            scaleDown1 = imageHeight / 500;
+            scaleDifference = difference*scaleDown1;
+            aimHeight = imageHeight - scaleDifference;
+            scaleDown2 = aimHeight / image.height;
+            scaledWidth = image.width * scaleDown2;
+            scaledHeight = image.height * scaleDown2;
+        } else {
+            scaleDown1 = imageHeight / image.height
+            scaledWidth = image.width * scaleDown1;
+            scaledHeight = image.height * scaleDown1;
+        }
+    
         ctx.globalAlpha = opacity;
         ctx.drawImage(
             image,
@@ -418,9 +456,9 @@ function typewriterAnimation() {
             image.width,
             image.height,
             globalImageOffset - xOffset - scaledWidth,
-            canvasHeight - globalHeightScaling,
+            canvasHeight - scaledHeight,
             scaledWidth,
-            canvasHeight - (canvasHeight - globalHeightScaling)
+            scaledHeight
         );
         ctx.globalAlpha = 1;
     }
@@ -653,7 +691,6 @@ function typewriterAnimation() {
                     imageCurrentOffset = imageXOffset;
                 }
                 drawImage(lastImage, imageCurrentOffset, 1);
-                console.log(imageCurrentOffset);
             }
 
             if (showCurrentImage) {
@@ -666,7 +703,6 @@ function typewriterAnimation() {
                 }
 
                 drawImage(currentImage, imageCurrentOffset, 1);
-                console.log(imageCurrentOffset);
             }
 
         } else {
@@ -725,16 +761,16 @@ function typewriterAnimation() {
 
             if (dialogueImage.getAttribute('src') != '') {
                 tempCanvas.width = 816;
-                tempCanvas.height = 317;
-                tempCanvas = cropCanvas(myCanvas, 0, 0, canvasWidth, 317);
+                tempCanvas.height = imageHeight;
+                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight-imageHeight, canvasWidth, imageHeight);
             } else if (dName != '') {
                 tempCanvas.width = 816;
-                tempCanvas.height = 251;
-                tempCanvas = cropCanvas(myCanvas, 0, 66, canvasWidth, 251);
+                tempCanvas.height = dialogueHeight+dialogueNameboxHeight;
+                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight-dialogueHeight-dialogueNameboxHeight, canvasWidth, dialogueHeight+dialogueNameboxHeight);
             } else {
                 tempCanvas.width = 816;
                 tempCanvas.height = 180;
-                tempCanvas = cropCanvas(myCanvas, 0, 137, canvasWidth, 180);
+                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight-dialogueHeight, canvasWidth, dialogueHeight);
             }
 
             if (backgroundImage.getAttribute('src') != '') {
@@ -785,11 +821,11 @@ function typewriterAnimation() {
     let targetHeight = canvasHeight;
 
     if (dialogueImage.getAttribute('src') != '') {
-        targetHeight = 317;
+        targetHeight = imageHeight;
     } else if (dName != '') {
-        targetHeight = 251;
+        targetHeight = dialogueHeight+dialogueNameboxHeight;
     } else {
-        targetHeight = 180;
+        targetHeight = dialogueHeight;
     }
 
     if (backgroundImage.getAttribute('src') != '') {
@@ -833,10 +869,10 @@ function typewriterAnimation() {
 
     function checkRender() {
         if (dialogueImage.getAttribute('src') != '') {
-            drawTextWithWrapping(ctx, textSegments, 21+230, 41+137, canvasWidth - 19, 10);
+            drawTextWithWrapping(ctx, textSegments, 21+230, canvasHeight-dialogueHeight+41, canvasWidth - 19, 10);
             animateCharacters();
         } else {
-            drawTextWithWrapping(ctx, textSegments, 21, 41+137, canvasWidth - 19, 10);
+            drawTextWithWrapping(ctx, textSegments, 21, canvasHeight-dialogueHeight+41, canvasWidth - 19, 10);
             animateCharacters();
         }
     }
