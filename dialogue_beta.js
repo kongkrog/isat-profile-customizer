@@ -54,14 +54,14 @@ function calculateScaledHeight(height) {
     let scaledHeight;
 
     if (height < 500) {
-        let scaleDown1 = 365 / 500;
-        let difference = 500 - height;
+        let scaleDown1 = imageHeight / 500;
+        let difference = imageHeight - height;
         let scaleDifference = difference * scaleDown1;
-        let aimHeight = 365 - scaleDifference;
+        let aimHeight = imageHeight - scaleDifference;
         let scaleDown2 = aimHeight / height;
         scaledHeight = height * scaleDown2;
     } else {
-        let scaleDown1 = 365 / height;
+        let scaleDown1 = imageHeight / height;
         scaledHeight = height * scaleDown1;
     }
 
@@ -147,24 +147,6 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     myCanvas.style.display = 'block';
 
     debugText.innerText = 'Rendering... Please do not use Settings while rendering.'
-
-    function calculateScaledHeight(height) {
-        let scaledHeight;
-
-        if (height < 500) {
-            let scaleDown1 = imageHeight / 500;
-            let difference = 500 - height;
-            let scaleDifference = difference * scaleDown1;
-            let aimHeight = imageHeight - scaleDifference;
-            let scaleDown2 = aimHeight / height;
-            scaledHeight = height * scaleDown2;
-        } else {
-            let scaleDown1 = imageHeight / height;
-            scaledHeight = height * scaleDown1;
-        }
-
-        return scaledHeight;
-    }
 
     let imagesLoaded = 0;
     
