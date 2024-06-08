@@ -181,6 +181,7 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     
             imagesLoaded++;
             if (imagesLoaded === imageIds.length) {
+                maxScaledHeight = Math.ceil(maxScaledHeight);
                 typewriterAnimation(textString);
             }
         };
