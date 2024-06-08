@@ -9,6 +9,7 @@ const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
 const imageHeight = 395;
 
+let maxScaledHeight = 0;
 let imageIds = [
     "dialogueImage1", "dialogueImage2", "dialogueImage3", "dialogueImage4",
     "dialogueImage5", "dialogueImage6", "dialogueImage7", "dialogueImage8",
@@ -147,7 +148,48 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
 
     debugText.innerText = 'Rendering... Please do not use Settings while rendering.'
 
-    typewriterAnimation(textString);
+    function calculateScaledHeight(height) {
+        let scaledHeight;
+
+        if (height < 500) {
+            let scaleDown1 = 365 / 500;
+            let difference = 500 - height;
+            let scaleDifference = difference * scaleDown1;
+            let aimHeight = 365 - scaleDifference;
+            let scaleDown2 = aimHeight / height;
+            scaledHeight = height * scaleDown2;
+        } else {
+            let scaleDown1 = 365 / height;
+            scaledHeight = height * scaleDown1;
+        }
+
+        return scaledHeight;
+    }
+
+    let imagesLoaded = 0;
+    
+    imageIds.forEach(id => {
+        let img = document.getElementById(id);
+    
+        img.onload = function() {
+            let height = img.height;
+            let scaledHeight = calculateScaledHeight(height);
+    
+            if (scaledHeight > maxScaledHeight) {
+                maxScaledHeight = scaledHeight;
+            }
+    
+            imagesLoaded++;
+            if (imagesLoaded === imageIds.length) {
+                typewriterAnimation(textString);
+            }
+        };
+    
+        if (img.complete) {
+            img.onload();
+        }
+    });
+    
     document.getElementById("settingPanel").style.display = "none";
 });
 
@@ -435,7 +477,7 @@ function typewriterAnimation() {
     function drawImage(image, xOffset, opacity) {
         let difference = 500 - image.height;
 
-        if (image.height < 500) {
+        if (image.height <= 500) {
             scaleDown1 = imageHeight / 500;
             scaleDifference = difference*scaleDown1;
             aimHeight = imageHeight - scaleDifference;
@@ -761,8 +803,8 @@ function typewriterAnimation() {
 
             if (dialogueImage.getAttribute('src') != '') {
                 tempCanvas.width = 816;
-                tempCanvas.height = imageHeight;
-                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight-imageHeight, canvasWidth, imageHeight);
+                tempCanvas.height = maxScaledHeight;
+                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight-maxScaledHeight, canvasWidth, maxScaledHeight);
             } else if (dName != '') {
                 tempCanvas.width = 816;
                 tempCanvas.height = dialogueHeight+dialogueNameboxHeight;
@@ -821,7 +863,7 @@ function typewriterAnimation() {
     let targetHeight = canvasHeight;
 
     if (dialogueImage.getAttribute('src') != '') {
-        targetHeight = imageHeight;
+        targetHeight = maxScaledHeight;
     } else if (dName != '') {
         targetHeight = dialogueHeight+dialogueNameboxHeight;
     } else {
@@ -849,7 +891,7 @@ function typewriterAnimation() {
             quality: 10,
             width: canvasWidth * globalScale, 
             height: targetHeight * globalScale,
-            background: "#000"
+            background: "#000000"
         });
     }
 
