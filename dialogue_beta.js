@@ -18,7 +18,7 @@ let imageIds = [
 ];
 
 document.getElementById("settingButton").addEventListener("click", function(event) {
-    document.getElementById("settingPanel").style.display = "flex"; 
+    document.getElementById("settingPanel").style.display = "flex";
 });
 
 document.getElementById("exitButton").addEventListener("click", function(event) {
@@ -32,7 +32,7 @@ function updateProfileImage(fileInput, target) {
     // Check if a file is selected
     if (fInput.files && fInput.files[0]) {
         const file = fInput.files[0];
-        
+
         // Check if the file is an image
         if (file.type.startsWith('image/')) {
             const imageUrl = URL.createObjectURL(file);
@@ -63,7 +63,6 @@ function calculateScaledHeight(height) {
     } else {
         scaledHeight = globalHeightScaling;
     }
-
     return scaledHeight;
 }
 
@@ -76,7 +75,6 @@ function updateProfile() {
     const fileInput = document.getElementById('fileInput');
     const checkTransparent = document.querySelector('#checkTransparent').checked;
     const gifScaling = document.getElementById('gifScaling').value;
-
     switch (dialogueSpeed) {
         case 'veryslow':
             defaultSpeed = 35;
@@ -97,14 +95,12 @@ function updateProfile() {
             defaultSpeed = 10;
             break;
     }
-
     textString = dialogueText;
     globalImageOffset = offsetValue;
     globalHeightScaling = heightScaling;
     globalScale = gifScaling;
     isTransparent = checkTransparent;
     document.getElementById('dName').innerText = dialogueName;
-
     if (fileInput.files.length > 0) {
         document.getElementById('dName').innerText = '';
     }
@@ -148,30 +144,30 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     debugText.innerText = 'Rendering... Please do not use Settings while rendering.'
 
     let imagesLoaded = 0;
-    
+
     imageIds.forEach(id => {
         let img = document.getElementById(id);
-    
+
         img.onload = function() {
             let height = img.height;
             let scaledHeight = calculateScaledHeight(height);
-    
+
             if (scaledHeight > maxScaledHeight) {
                 maxScaledHeight = scaledHeight;
             }
-    
+
             imagesLoaded++;
             if (imagesLoaded === imageIds.length) {
                 maxScaledHeight = Math.ceil(maxScaledHeight);
                 typewriterAnimation(textString);
             }
         };
-    
+
         if (img.complete) {
             img.onload();
         }
     });
-    
+
     document.getElementById("settingPanel").style.display = "none";
 });
 
@@ -187,25 +183,22 @@ document.getElementById("clearBackgroundButton").addEventListener("click", funct
 
 const optimizeFrameColors = (data) => {
     for (let i = 0; i < data.length; i += 4) {
-      data[i + 1] = data[i + 1] > 250 ? 250 : data[i + 1];
+        data[i + 1] = data[i + 1] > 250 ? 250 : data[i + 1];
 
-      if (data[i + 3] < 120) {
-        data[i + 0] = 0;
-        data[i + 1] = 255;
-        data[i + 2] = 0;
-      }
-
-      data[i + 3] = 255;
+        if (data[i + 3] < 120) {
+            data[i + 0] = 0;
+            data[i + 1] = 255;
+            data[i + 2] = 0;
+        }
+        data[i + 3] = 255;
     }
-  };
+};
 
 function parseText(text) {
-    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE(1[0-3]|[1-9])T?\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]/g;
-
+    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE(1[0-3]|[1-9])T?\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]|\[BCLEAR\]|\[SCLEAR\]/g;
     const segments = [];
     let lastIndex = 0;
     let totalPauseDuration = 0;
-
     const createSegment = (overrides) => ({
         text: '',
         size: null,
@@ -221,73 +214,127 @@ function parseText(text) {
         italic: false,
         backgroundImage: null,
         newLine: false,
+        fontSizeChange: null, // new property for BCLEAR and SCLEAR
         ...overrides
     });
 
     let result;
     while ((result = regex.exec(text)) !== null) {
         if (result.index > lastIndex) {
-            segments.push(createSegment({ text: text.slice(lastIndex, result.index) }));
+            segments.push(createSegment({
+                text: text.slice(lastIndex, result.index)
+            }));
         }
 
         const [match, fsSize, fsText, swText, zoomStart, zoomEnd, zoomSpeed, zoomText, thinText, pauseDuration, spdSpeed, spdText, shakeText, imageNum, boldText, italicText, bgImageNum] = result;
 
         if (fsSize) {
-            segments.push(createSegment({ text: fsText, size: fsSize }));
+            segments.push(createSegment({
+                text: fsText,
+                size: fsSize
+            }));
         } else if (swText) {
-            segments.push(createSegment({ text: swText, wave: true }));
+            segments.push(createSegment({
+                text: swText,
+                wave: true
+            }));
         } else if (zoomStart) {
             segments.push(createSegment({
                 text: zoomText,
-                zoom: { start: parseInt(zoomStart), end: parseInt(zoomEnd), speed: parseInt(zoomSpeed) }
+                zoom: {
+                    start: parseInt(zoomStart),
+                    end: parseInt(zoomEnd),
+                    speed: parseInt(zoomSpeed)
+                }
             }));
         } else if (thinText) {
-            segments.push(createSegment({ text: thinText, thin: true }));
+            segments.push(createSegment({
+                text: thinText,
+                thin: true
+            }));
         } else if (pauseDuration) {
-            segments.push(createSegment({ pause: parseInt(pauseDuration) }));
+            segments.push(createSegment({
+                pause: parseInt(pauseDuration)
+            }));
         } else if (spdSpeed) {
             const speed = parseInt(spdSpeed);
-            segments.push(createSegment({ text: spdText, speed }));
+            segments.push(createSegment({
+                text: spdText,
+                speed
+            }));
             totalPauseDuration += speed;
         } else if (shakeText) {
-            segments.push(createSegment({ text: shakeText, shake: true }));
+            segments.push(createSegment({
+                text: shakeText,
+                shake: true
+            }));
         } else if (imageNum) {
             const hasT = match.includes('T');
             if (hasT) {
-                segments.push(createSegment({ text: `[IMAGExT]`, image: parseInt(imageNum) }));
+                segments.push(createSegment({
+                    text: `[IMAGExT]`,
+                    image: parseInt(imageNum)
+                }));
             } else {
-                segments.push(createSegment({ image: parseInt(imageNum) }));
+                segments.push(createSegment({
+                    image: parseInt(imageNum)
+                }));
             }
         } else if (match === '[CLEAR]') {
-            segments.push(createSegment({ clear: true }));
+            segments.push(createSegment({
+                clear: true
+            }));
         } else if (boldText) {
-            segments.push(createSegment({ text: boldText, bold: true }));
+            segments.push(createSegment({
+                text: boldText,
+                bold: true
+            }));
         } else if (italicText) {
-            segments.push(createSegment({ text: italicText, italic: true }));
+            segments.push(createSegment({
+                text: italicText,
+                italic: true
+            }));
         } else if (bgImageNum) {
-            segments.push(createSegment({ backgroundImage: parseInt(bgImageNum) }));
+            segments.push(createSegment({
+                backgroundImage: parseInt(bgImageNum)
+            }));
         } else if (match === '[BR]') {
-            segments.push(createSegment({ newLine: true }));
+            segments.push(createSegment({
+                newLine: true
+            }));
+        } else if (match === '[BCLEAR]') {
+            segments.push(createSegment({
+                fontSizeChange: 'big',
+                clear: true
+            }));
+        } else if (match === '[SCLEAR]') {
+            segments.push(createSegment({
+                fontSizeChange: 'small',
+                clear: true
+            }));
         }
 
         lastIndex = regex.lastIndex;
     }
 
     if (lastIndex < text.length) {
-        segments.push(createSegment({ text: text.slice(lastIndex) }));
+        segments.push(createSegment({
+            text: text.slice(lastIndex)
+        }));
     }
-
-    return { segments, totalPauseDuration };
+    return {
+        segments,
+        totalPauseDuration
+    };
 }
-
-const cropCanvas = (sourceCanvas,left,top,width,height) => {
+const cropCanvas = (sourceCanvas, left, top, width, height) => {
     let destCanvas = document.createElement('canvas');
     destCanvas.width = width;
     destCanvas.height = height;
     destCanvas.getContext("2d").drawImage(
         sourceCanvas,
-        left,top,width,height,  // source rect with content to crop
-        0,0,width,height);      // newCanvas, same size as source rect
+        left, top, width, height, // source rect with content to crop
+        0, 0, width, height); // newCanvas, same size as source rect
     return destCanvas;
 }
 
@@ -298,7 +345,7 @@ function typewriterAnimation() {
     const dName = document.getElementById("dName").innerText;
     const ctx = myCanvas.getContext("2d");
     let backgroundImage = document.getElementById("backgroundImage1");
-    
+
     let animationEnded = false;
 
     let arrowVisible = false;
@@ -319,12 +366,12 @@ function typewriterAnimation() {
     let imageAnimationDuration = 50;
     let showLastImage = false;
     let showCurrentImage = false;
-    let oldImage = "";
     let currentImage = "";
 
     const imageOffsetRate = 7;
 
     let currentBackground = 1;
+    let maxFontSize = 23;
 
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
@@ -336,57 +383,57 @@ function typewriterAnimation() {
     function drawCorner(x, y) {
         ctx.fillStyle = 'lightgray';
 
-        ctx.fillRect(x+2, y, 2, 6);
-        ctx.fillRect(x, y+2, 6, 2);
+        ctx.fillRect(x + 2, y, 2, 6);
+        ctx.fillRect(x, y + 2, 6, 2);
 
         ctx.fillStyle = 'gray';
 
-        ctx.fillRect(x+1, y+1, 4, 4);
+        ctx.fillRect(x + 1, y + 1, 4, 4);
 
         ctx.fillStyle = 'white';
 
-        ctx.fillRect(x+1, y+2, 4, 2);
-        ctx.fillRect(x+2, y+1, 2, 4);
+        ctx.fillRect(x + 1, y + 2, 4, 2);
+        ctx.fillRect(x + 2, y + 1, 2, 4);
     }
 
     function drawLineHorizontal(x, y, lineWidth) {
         ctx.fillStyle = 'lightgray';
-        
-        ctx.fillRect(x, y+1, 4, 2);
-        ctx.fillRect(x+3, y, 1, 4);
-        ctx.fillRect(x+lineWidth-4, y+1, 4, 2);
-        ctx.fillRect(x+lineWidth-4, y, 1, 4);
+
+        ctx.fillRect(x, y + 1, 4, 2);
+        ctx.fillRect(x + 3, y, 1, 4);
+        ctx.fillRect(x + lineWidth - 4, y + 1, 4, 2);
+        ctx.fillRect(x + lineWidth - 4, y, 1, 4);
 
         ctx.fillStyle = 'gray';
 
-        ctx.fillRect(x+1, y, 2, 4);
-        ctx.fillRect(x+lineWidth-3, y, 2, 4);
+        ctx.fillRect(x + 1, y, 2, 4);
+        ctx.fillRect(x + lineWidth - 3, y, 2, 4);
 
         ctx.fillStyle = 'white';
 
-        ctx.fillRect(x+1, y+1, 4, 2);
-        ctx.fillRect(x+lineWidth-5, y+1, 4, 2);
-        ctx.fillRect(x+4, y, lineWidth-8, 4)
+        ctx.fillRect(x + 1, y + 1, 4, 2);
+        ctx.fillRect(x + lineWidth - 5, y + 1, 4, 2);
+        ctx.fillRect(x + 4, y, lineWidth - 8, 4)
     }
 
     function drawLineVertical(x, y, lineHeight) {
         ctx.fillStyle = 'lightgray';
-        
-        ctx.fillRect(x+1, y, 2, 4);
-        ctx.fillRect(x, y+3, 4, 1);
-        ctx.fillRect(x+1, y+lineHeight-4, 2, 4);
-        ctx.fillRect(x, y+lineHeight-4, 4, 1);
+
+        ctx.fillRect(x + 1, y, 2, 4);
+        ctx.fillRect(x, y + 3, 4, 1);
+        ctx.fillRect(x + 1, y + lineHeight - 4, 2, 4);
+        ctx.fillRect(x, y + lineHeight - 4, 4, 1);
 
         ctx.fillStyle = 'gray';
 
-        ctx.fillRect(x, y+1, 4, 2);
-        ctx.fillRect(x, y+lineHeight-3, 4, 2);
+        ctx.fillRect(x, y + 1, 4, 2);
+        ctx.fillRect(x, y + lineHeight - 3, 4, 2);
 
         ctx.fillStyle = 'white';
 
-        ctx.fillRect(x+1, y+1, 2, 4);
-        ctx.fillRect(x+1, y+lineHeight-5, 2, 4);
-        ctx.fillRect(x, y+4, 4, lineHeight-8)
+        ctx.fillRect(x + 1, y + 1, 2, 4);
+        ctx.fillRect(x + 1, y + lineHeight - 5, 2, 4);
+        ctx.fillRect(x, y + 4, 4, lineHeight - 8)
     }
 
     function drawArrow(x, y, opacity) {
@@ -413,43 +460,43 @@ function typewriterAnimation() {
         const charWidth = ctx.measureText(nameText).width;
 
         ctx.fillStyle = 'black';
-        ctx.fillRect(0, myCanvas.height-dialogueHeight-dialogueNameboxHeight-1, 44 + charWidth + 7, myCanvas.height - 188);
+        ctx.fillRect(0, myCanvas.height - dialogueHeight - dialogueNameboxHeight - 1, 44 + charWidth + 7, myCanvas.height - 188);
 
         ctx.fillStyle = 'gray';
-        ctx.fillText(nameText, 24, myCanvas.height-dialogueHeight-26);
+        ctx.fillText(nameText, 24, myCanvas.height - dialogueHeight - 26);
 
         ctx.fillStyle = 'white';
-        drawCorner(1, myCanvas.height-dialogueHeight-dialogueNameboxHeight);
-        drawCorner(44 + charWidth, myCanvas.height-dialogueHeight-dialogueNameboxHeight);
-        drawCorner(44 + charWidth, myCanvas.height-dialogueHeight-7);
-        drawCorner(1, myCanvas.height-dialogueHeight-7);
-    
-        drawLineHorizontal(8, myCanvas.height-dialogueHeight-dialogueNameboxHeight+1, 43 + charWidth - 8);
-        drawLineHorizontal(8, myCanvas.height-dialogueHeight-6, 43 + charWidth - 8);
-    
-        drawLineVertical(2, myCanvas.height-dialogueHeight-dialogueNameboxHeight+7, dialogueNameboxHeight-15);
-        drawLineVertical(44 + charWidth + 1, myCanvas.height-dialogueHeight-dialogueNameboxHeight+7, dialogueNameboxHeight-15);
+        drawCorner(1, myCanvas.height - dialogueHeight - dialogueNameboxHeight);
+        drawCorner(44 + charWidth, myCanvas.height - dialogueHeight - dialogueNameboxHeight);
+        drawCorner(44 + charWidth, myCanvas.height - dialogueHeight - 7);
+        drawCorner(1, myCanvas.height - dialogueHeight - 7);
+
+        drawLineHorizontal(8, myCanvas.height - dialogueHeight - dialogueNameboxHeight + 1, 43 + charWidth - 8);
+        drawLineHorizontal(8, myCanvas.height - dialogueHeight - 6, 43 + charWidth - 8);
+
+        drawLineVertical(2, myCanvas.height - dialogueHeight - dialogueNameboxHeight + 7, dialogueNameboxHeight - 15);
+        drawLineVertical(44 + charWidth + 1, myCanvas.height - dialogueHeight - dialogueNameboxHeight + 7, dialogueNameboxHeight - 15);
     }
-    
+
     function redrawDialogue() {
         if (ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
         ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-    
+
         ctx.fillStyle = 'black';
-        ctx.fillRect(0, myCanvas.height-dialogueHeight, myCanvas.width, myCanvas.height);
-    
+        ctx.fillRect(0, myCanvas.height - dialogueHeight, myCanvas.width, myCanvas.height);
+
         if (dName != '') {
             drawNameBox(dName);
         }
-        
+
         drawCorner(1, myCanvas.height - dialogueHeight);
         drawCorner(myCanvas.width - 7, myCanvas.height - dialogueHeight);
         drawCorner(myCanvas.width - 7, myCanvas.height - 7);
         drawCorner(1, myCanvas.height - 7);
-    
+
         drawLineHorizontal(8, myCanvas.height - dialogueHeight + 1, myCanvas.width - 16);
         drawLineHorizontal(8, myCanvas.height - 6, myCanvas.width - 16);
-    
+
         drawLineVertical(2, myCanvas.height - dialogueHeight + 7, dialogueHeight - 15);
         drawLineVertical(myCanvas.width - 6, myCanvas.height - dialogueHeight + 7, dialogueHeight - 15);
     }
@@ -461,59 +508,50 @@ function typewriterAnimation() {
 
         if (image.height <= globalHeightScaling) {
             scaleDown1 = imageHeight / globalHeightScaling;
-            scaleDifference = difference*scaleDown1;
+            scaleDifference = difference * scaleDown1;
             aimHeight = imageHeight - scaleDifference;
             scaleDown2 = aimHeight / image.height;
             scaledWidth = image.width * scaleDown2;
             scaledHeight = image.height * scaleDown2;
         } else {
-            scaleDown1 = imageHeight / image.height
+            scaleDown1 = imageHeight / image.height;
             scaledWidth = image.width * scaleDown1;
             scaledHeight = image.height * scaleDown1;
         }
-    
         ctx.globalAlpha = opacity;
-        ctx.drawImage(
-            image,
-            0,
-            0,
-            image.width,
-            image.height,
-            globalImageOffset - xOffset - scaledWidth,
-            canvasHeight - scaledHeight,
-            scaledWidth,
-            scaledHeight
-        );
+        ctx.drawImage(image, 0, 0, image.width, image.height, globalImageOffset - xOffset - scaledWidth, canvasHeight - scaledHeight, scaledWidth, scaledHeight);
         ctx.globalAlpha = 1;
     }
-
     drawImage(dialogueImage, 0, 1);
-
     ctx.fillStyle = 'white';
-    characters.forEach(({ char, xOffset, yOffset, font }) => {
+    characters.forEach(({
+        char,
+        xOffset,
+        yOffset,
+        font
+    }) => {
         ctx.font = font;
         ctx.fillText(char, xOffset, yOffset);
     });
 
     function drawTextWithWrapping(ctx, segments, globalxOffset, globalyOffset, canvasWidth, lineHeight) {
         let xOffset = globalxOffset;
-        let yOffset = globalyOffset;
+        let yOffset = globalyOffset + maxFontSize;
         let currentSegmentIndex = 0;
         let currentTextIndex = 0;
         let currentSpeed = 25;
-        let maxFontSize = 23;
         let nextWordWidth = 0;
         let pauseDuration = null;
 
         function drawNextCharacter() {
-            ctx.font = 'normal 23px VCR_OSD_MONO';
+            ctx.font = 'normal ' + String(maxFontSize) +'px VCR_OSD_MONO';
 
             if (currentSegmentIndex >= segments.length) {
-                pauseDuration = 2000; 
+                pauseDuration = 2000;
                 playArrowAnimation();
                 setTimeout(() => {
                     playArrowAnimation(false);
-                    animationEnded = true; 
+                    animationEnded = true;
                 }, pauseDuration);
                 return;
             }
@@ -522,13 +560,25 @@ function typewriterAnimation() {
             const text = segment.text;
 
             if (segment.clear) {
-                xOffset = globalxOffset;
-                yOffset = globalyOffset;
-                currentSegmentIndex++;
-                currentTextIndex = 0;
-                characters = [];
-                drawNextCharacter();
-                return;
+                if (segment) {
+                    if (segment.fontSizeChange == 'big') {
+                        maxFontSize = 36;
+                        yOffset = globalyOffset + maxFontSize-5;
+                    } else if (segment.fontSizeChange == 'small') {
+                        maxFontSize = 16;
+                        yOffset = globalyOffset + maxFontSize;
+                    } else {
+                        maxFontSize = 23;
+                        yOffset = globalyOffset + maxFontSize;
+                    }
+
+                    xOffset = globalxOffset;
+                    currentSegmentIndex++;
+                    currentTextIndex = 0;
+                    characters = [];
+                    drawNextCharacter();
+                    return;
+                }
             }
 
             if (segment.backgroundImage) {
@@ -538,12 +588,11 @@ function typewriterAnimation() {
             if (segment.newLine) {
                 xOffset = globalxOffset;
                 yOffset += maxFontSize + lineHeight;
-                maxFontSize = 23;
                 currentSegmentIndex++;
                 drawNextCharacter();
                 return;
             }
-            
+
             if (segment.pause !== null) {
                 pauseDuration = segment.pause;
                 playArrowAnimation(true);
@@ -568,7 +617,7 @@ function typewriterAnimation() {
                             currentTextIndex = 0;
                             drawNextCharacter();
                         }, imageAnimationDuration);
-    
+
                         oldImageNumber = currentImageNumber;
                         return;
                     }
@@ -586,7 +635,7 @@ function typewriterAnimation() {
 
             const char = text[currentTextIndex];
             const charWidth = ctx.measureText(char).width;
-    
+
             let nextSpaceIndex = text.indexOf(' ', currentTextIndex);
             if (nextSpaceIndex === -1) {
                 nextSpaceIndex = text.length;
@@ -597,9 +646,8 @@ function typewriterAnimation() {
             if (xOffset + nextWordWidth > canvasWidth - 16) {
                 xOffset = globalxOffset;
                 yOffset += maxFontSize + lineHeight;
-                maxFontSize = 23;
             }
-    
+
             if (xOffset === globalxOffset && char === ' ') {
                 currentTextIndex++;
                 drawNextCharacter();
@@ -614,7 +662,7 @@ function typewriterAnimation() {
 
             let word = '';
             let wordWidth = 0;
-            
+
             if (segment.shake || segment.wave) {
                 const remainingText = text.substring(currentTextIndex);
                 const spaceIndex = remainingText.indexOf(' ');
@@ -626,13 +674,23 @@ function typewriterAnimation() {
                 wordWidth = ctx.measureText(word).width;
             }
 
-            if ((segment.shake || segment.wave ) && xOffset + wordWidth > canvasWidth - 16) {
+            if ((segment.shake || segment.wave) && xOffset + wordWidth > canvasWidth - 16) {
                 xOffset = globalxOffset;
                 yOffset += maxFontSize + lineHeight;
-                maxFontSize = 23;
             }
 
-            characters.push({ char, xOffset, yOffset, font: ctx.font, wave: segment.wave, shake: segment.shake, image: segment.image, bold: segment.bold, italic: segment.italic, bImage: segment.backgroundImage });
+            characters.push({
+                char,
+                xOffset,
+                yOffset,
+                font: ctx.font,
+                wave: segment.wave,
+                shake: segment.shake,
+                image: segment.image,
+                bold: segment.bold,
+                italic: segment.italic,
+                bImage: segment.backgroundImage
+            });
 
             xOffset += charWidth;
             currentTextIndex++;
@@ -668,28 +726,42 @@ function typewriterAnimation() {
             runImageAnimation = true;
             showLastImage = true;
             showCurrentImage = false;
-        } else {    
-            imageCurrentOffset = imageXOffset;        
+        } else {
+            imageCurrentOffset = imageXOffset;
             showLastImage = false;
             showCurrentImage = true;
         }
     };
 
-    function animateCharacters() {       
+    function animateCharacters() {
         redrawDialogue();
         currentImageBackground = document.getElementById("backgroundImage" + String(currentBackground));
 
         ctx.fillStyle = 'white';
         const time = Date.now();
-        characters.forEach(({ char, xOffset, yOffset, font, wave, shake, image, bold, italic}) => {
+        characters.forEach(({
+            char,
+            xOffset,
+            yOffset,
+            font,
+            wave,
+            shake,
+            image,
+            bold,
+            italic
+        }) => {
             ctx.font = font;
 
-            if (bold) {
-                ctx.font = "bold 23px VCR_OSD_MONO"
+            if (bold && !italic) {
+                ctx.font = "bold " + String(maxFontSize) + "px VCR_OSD_MONO"
             }
 
-            if (italic) {
-                ctx.font = "italic 23px VCR_OSD_MONO"
+            if (italic && !bold) {
+                ctx.font = "italic " + String(maxFontSize) + "px VCR_OSD_MONO"
+            }
+
+            if (bold && italic) {
+                ctx.font = "bold italic " + String(maxFontSize) + "px VCR_OSD_MONO"
             }
 
             if (wave) {
@@ -725,15 +797,12 @@ function typewriterAnimation() {
                     showCurrentImage = false;
                     runImageAnimation = false;
                 }
-
                 drawImage(currentImage, imageCurrentOffset, 1);
             }
-
         } else {
             let currentImage = document.getElementById("dialogueImage" + String(currentImageNumber));
             drawImage(currentImage, 0, 1);
         }
-
         if (arrowVisible) {
             if (fadingIn) {
                 arrowOpacity += fadeSpeed;
@@ -749,7 +818,6 @@ function typewriterAnimation() {
                     fadingOut = false;
                 }
             }
-
             arrowCounter++;
             if (arrowCounter >= arrowUpdateInterval) {
                 if (arrowDirection === 1) {
@@ -765,93 +833,76 @@ function typewriterAnimation() {
                 }
                 arrowCounter = 0;
             }
-
             const arrowX = canvasWidth - 33 + arrowXOffset;
             drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
         }
-        
         if (animationEnded != true) {
             let tempCanvas = document.createElement('canvas');
             let scaledCanvas = document.createElement('canvas');
             let backgroundCanvas = document.createElement('canvas');
             let renderCanvas = document.createElement('canvas');
-            
             const scaledCtx = scaledCanvas.getContext('2d');
             const renderCtx = renderCanvas.getContext('2d');
             const backgroundCtx = backgroundCanvas.getContext('2d');
-
             backgroundCanvas.width = 816;
             backgroundCanvas.height = 650;
-
             if (dialogueImage.getAttribute('src') != '') {
                 tempCanvas.width = 816;
                 tempCanvas.height = maxScaledHeight;
-                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight-maxScaledHeight, canvasWidth, maxScaledHeight);
+                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - maxScaledHeight, canvasWidth, maxScaledHeight);
             } else if (dName != '') {
                 tempCanvas.width = 816;
-                tempCanvas.height = dialogueHeight+dialogueNameboxHeight;
-                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight-dialogueHeight-dialogueNameboxHeight, canvasWidth, dialogueHeight+dialogueNameboxHeight);
+                tempCanvas.height = dialogueHeight + dialogueNameboxHeight;
+                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight - dialogueNameboxHeight, canvasWidth, dialogueHeight + dialogueNameboxHeight);
             } else {
                 tempCanvas.width = 816;
                 tempCanvas.height = 180;
-                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight-dialogueHeight, canvasWidth, dialogueHeight);
+                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight, canvasWidth, dialogueHeight);
             }
-
             if (backgroundImage.getAttribute('src') != '') {
                 backgroundCtx.drawImage(currentImageBackground, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
-                backgroundCtx.drawImage(tempCanvas, 0, backgroundCanvas.height-tempCanvas.height, tempCanvas.width, tempCanvas.height);
-                
+                backgroundCtx.drawImage(tempCanvas, 0, backgroundCanvas.height - tempCanvas.height, tempCanvas.width, tempCanvas.height);
                 scaledCanvas.width = backgroundCanvas.width * globalScale;
-                scaledCanvas.height = backgroundCanvas.height * globalScale;  
-
+                scaledCanvas.height = backgroundCanvas.height * globalScale;
                 scaledCtx.drawImage(backgroundCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
                 let imgData = scaledCtx.getImageData(0, 0, backgroundCanvas.width, backgroundCanvas.height);
-
                 if (isTransparent) {
                     optimizeFrameColors(imgData.data);
                 };
-
                 renderCanvas.width = scaledCanvas.width;
                 renderCanvas.height = scaledCanvas.height;
-    
                 renderCtx.putImageData(imgData, 0, 0);
             } else {
                 scaledCanvas.width = tempCanvas.width * globalScale;
-                scaledCanvas.height = tempCanvas.height * globalScale;  
-                
+                scaledCanvas.height = tempCanvas.height * globalScale;
                 scaledCtx.drawImage(tempCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
                 let imgData = scaledCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-
                 if (isTransparent) {
                     optimizeFrameColors(imgData.data);
                 };
-
                 renderCanvas.width = scaledCanvas.width;
                 renderCanvas.height = scaledCanvas.height;
-    
                 renderCtx.putImageData(imgData, 0, 0);
             }
-
             if (!isStatic) {
-                gif.addFrame(renderCtx, { copy: true, delay: 20 });
+                gif.addFrame(renderCtx, {
+                    copy: true,
+                    delay: 20
+                });
             }
             requestAnimationFrame(animateCharacters);
-            
         } else {
             gif.render();
         }
     }
-
     let targetHeight = canvasHeight;
-
     if (dialogueImage.getAttribute('src') != '') {
         targetHeight = maxScaledHeight;
     } else if (dName != '') {
-        targetHeight = dialogueHeight+dialogueNameboxHeight;
+        targetHeight = dialogueHeight + dialogueNameboxHeight;
     } else {
         targetHeight = dialogueHeight;
     }
-
     if (backgroundImage.getAttribute('src') != '') {
         var gif = new GIF({
             workers: 4,
@@ -871,37 +922,30 @@ function typewriterAnimation() {
         var gif = new GIF({
             workers: 4,
             quality: 10,
-            width: canvasWidth * globalScale, 
+            width: canvasWidth * globalScale,
             height: targetHeight * globalScale,
             background: "#000000"
         });
     }
-
     gif.on('finished', function(blob) {
         const gifOptimize = document.getElementById('gifOptimize');
         const myCanvas = document.getElementById('dialogueCanvas');
         const debugText = document.getElementById('debug');
-        
         debugText.innerText = 'Optimizing GIF...'
         myCanvas.style.display = 'none';
-        
         gifOptimize.src = URL.createObjectURL(blob);
     });
-
     const parseResult = parseText(textString);
     const textSegments = parseResult.segments;
 
     function checkRender() {
         if (dialogueImage.getAttribute('src') != '') {
-            drawTextWithWrapping(ctx, textSegments, 21+230, canvasHeight-dialogueHeight+41, canvasWidth - 19, 10);
+            drawTextWithWrapping(ctx, textSegments, 21 + 230, canvasHeight - dialogueHeight + 18, canvasWidth - 19, 10);
             animateCharacters();
         } else {
-            drawTextWithWrapping(ctx, textSegments, 21, canvasHeight-dialogueHeight+41, canvasWidth - 19, 10);
+            drawTextWithWrapping(ctx, textSegments, 21, canvasHeight - dialogueHeight + 18, canvasWidth - 19, 10);
             animateCharacters();
         }
     }
-
-    setTimeout(
-        checkRender, 100
-    );
+    setTimeout(checkRender, 100);
 }
