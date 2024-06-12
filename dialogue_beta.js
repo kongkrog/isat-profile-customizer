@@ -563,10 +563,10 @@ function typewriterAnimation() {
                 if (segment) {
                     if (segment.fontSizeChange == 'big') {
                         maxFontSize = 36;
-                        yOffset = globalyOffset + maxFontSize-5;
+                        yOffset = globalyOffset + maxFontSize-3;
                     } else if (segment.fontSizeChange == 'small') {
                         maxFontSize = 16;
-                        yOffset = globalyOffset + maxFontSize;
+                        yOffset = globalyOffset + maxFontSize+2;
                     } else {
                         maxFontSize = 23;
                         yOffset = globalyOffset + maxFontSize;
