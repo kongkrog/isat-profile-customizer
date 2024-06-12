@@ -127,12 +127,10 @@ document.getElementById("clearBackgroundButton").addEventListener("click", funct
 });
 
 function parseText(text) {
-    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE([1-9])\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]/g;
-
+    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[ZOOM=(\d+)-(\d+)-(\d+)\](.*?)\[\/ZOOM\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE(1[0-3]|[1-9])T?\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]|\[BCLEAR\]|\[SCLEAR\]/g;
     const segments = [];
     let lastIndex = 0;
     let totalPauseDuration = 0;
-
     const createSegment = (overrides) => ({
         text: '',
         size: null,
@@ -148,58 +146,118 @@ function parseText(text) {
         italic: false,
         backgroundImage: null,
         newLine: false,
+        fontSizeChange: null, // new property for BCLEAR and SCLEAR
         ...overrides
     });
 
     let result;
     while ((result = regex.exec(text)) !== null) {
         if (result.index > lastIndex) {
-            segments.push(createSegment({ text: text.slice(lastIndex, result.index) }));
+            segments.push(createSegment({
+                text: text.slice(lastIndex, result.index)
+            }));
         }
 
         const [match, fsSize, fsText, swText, zoomStart, zoomEnd, zoomSpeed, zoomText, thinText, pauseDuration, spdSpeed, spdText, shakeText, imageNum, boldText, italicText, bgImageNum] = result;
 
         if (fsSize) {
-            segments.push(createSegment({ text: fsText, size: fsSize }));
+            segments.push(createSegment({
+                text: fsText,
+                size: fsSize
+            }));
         } else if (swText) {
-            segments.push(createSegment({ text: swText, wave: true }));
+            segments.push(createSegment({
+                text: swText,
+                wave: true
+            }));
         } else if (zoomStart) {
             segments.push(createSegment({
                 text: zoomText,
-                zoom: { start: parseInt(zoomStart), end: parseInt(zoomEnd), speed: parseInt(zoomSpeed) }
+                zoom: {
+                    start: parseInt(zoomStart),
+                    end: parseInt(zoomEnd),
+                    speed: parseInt(zoomSpeed)
+                }
             }));
         } else if (thinText) {
-            segments.push(createSegment({ text: thinText, thin: true }));
+            segments.push(createSegment({
+                text: thinText,
+                thin: true
+            }));
         } else if (pauseDuration) {
-            segments.push(createSegment({ pause: parseInt(pauseDuration) }));
+            segments.push(createSegment({
+                pause: parseInt(pauseDuration)
+            }));
         } else if (spdSpeed) {
             const speed = parseInt(spdSpeed);
-            segments.push(createSegment({ text: spdText, speed }));
+            segments.push(createSegment({
+                text: spdText,
+                speed
+            }));
             totalPauseDuration += speed;
         } else if (shakeText) {
-            segments.push(createSegment({ text: shakeText, shake: true }));
+            segments.push(createSegment({
+                text: shakeText,
+                shake: true
+            }));
         } else if (imageNum) {
-            segments.push(createSegment({ image: parseInt(imageNum) }));
+            const hasT = match.includes('T');
+            if (hasT) {
+                segments.push(createSegment({
+                    text: `[IMAGExT]`,
+                    image: parseInt(imageNum)
+                }));
+            } else {
+                segments.push(createSegment({
+                    image: parseInt(imageNum)
+                }));
+            }
         } else if (match === '[CLEAR]') {
-            segments.push(createSegment({ clear: true }));
+            segments.push(createSegment({
+                clear: true
+            }));
         } else if (boldText) {
-            segments.push(createSegment({ text: boldText, bold: true }));
+            segments.push(createSegment({
+                text: boldText,
+                bold: true
+            }));
         } else if (italicText) {
-            segments.push(createSegment({ text: italicText, italic: true }));
+            segments.push(createSegment({
+                text: italicText,
+                italic: true
+            }));
         } else if (bgImageNum) {
-            segments.push(createSegment({ backgroundImage: parseInt(bgImageNum) }));
+            segments.push(createSegment({
+                backgroundImage: parseInt(bgImageNum)
+            }));
         } else if (match === '[BR]') {
-            segments.push(createSegment({ newLine: true }));
+            segments.push(createSegment({
+                newLine: true
+            }));
+        } else if (match === '[BCLEAR]') {
+            segments.push(createSegment({
+                fontSizeChange: 'big',
+                clear: true
+            }));
+        } else if (match === '[SCLEAR]') {
+            segments.push(createSegment({
+                fontSizeChange: 'small',
+                clear: true
+            }));
         }
 
         lastIndex = regex.lastIndex;
     }
 
     if (lastIndex < text.length) {
-        segments.push(createSegment({ text: text.slice(lastIndex) }));
+        segments.push(createSegment({
+            text: text.slice(lastIndex)
+        }));
     }
-
-    return { segments, totalPauseDuration };
+    return {
+        segments,
+        totalPauseDuration
+    };
 }
 
 const cropCanvas = (sourceCanvas,left,top,width,height) => {
@@ -222,6 +280,7 @@ function typewriterAnimation() {
     let backgroundImage = document.getElementById("backgroundImage");
 
     let animationEnded = false;
+    let maxFontSize = 23;
 
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
@@ -390,14 +449,13 @@ function typewriterAnimation() {
 
     function drawTextWithWrapping(ctx, segments, globalxOffset, globalyOffset, canvasWidth, lineHeight) {
         let xOffset = globalxOffset;
-        let yOffset = globalyOffset;
+        let yOffset = globalyOffset + maxFontSize;
         let currentSegmentIndex = 0;
         let currentTextIndex = 0;
-        let maxFontSize = 23;
         let nextWordWidth = 0;
 
         function drawNextCharacter() {
-            ctx.font = 'normal 23px VCR_OSD_MONO';
+            ctx.font = 'normal ' + String(maxFontSize) +'px VCR_OSD_MONO';
             if (currentSegmentIndex >= segments.length) {
                 animationEnded = true; 
                 return;
@@ -406,10 +464,31 @@ function typewriterAnimation() {
             const segment = segments[currentSegmentIndex];
             const text = segment.text;
 
+            if (segment.clear) {
+                if (segment) {
+                    if (segment.fontSizeChange == 'big') {
+                        maxFontSize = 36;
+                        yOffset = globalyOffset + maxFontSize-3;
+                    } else if (segment.fontSizeChange == 'small') {
+                        maxFontSize = 16;
+                        yOffset = globalyOffset + maxFontSize+2;
+                    } else {
+                        maxFontSize = 23;
+                        yOffset = globalyOffset + maxFontSize;
+                    }
+
+                    xOffset = globalxOffset;
+                    currentSegmentIndex++;
+                    currentTextIndex = 0;
+                    characters = [];
+                    drawNextCharacter();
+                    return;
+                }
+            }
+
             if (segment.newLine) {
                 xOffset = globalxOffset;
                 yOffset += maxFontSize + lineHeight;
-                maxFontSize = 23;
                 currentSegmentIndex++;
                 drawNextCharacter();
                 return;
@@ -437,7 +516,6 @@ function typewriterAnimation() {
             if (xOffset + nextWordWidth > canvasWidth - 16) {
                 xOffset = globalxOffset;
                 yOffset += maxFontSize + lineHeight;
-                maxFontSize = 23;
             }
     
             if (xOffset === globalxOffset && char === ' ') {
@@ -475,14 +553,17 @@ function typewriterAnimation() {
         characters.forEach(({ char, xOffset, yOffset, font, bold, italic }) => {
             ctx.font = font;
 
-            if (bold) {
-                ctx.font = "bold 23px VCR_OSD_MONO"
+            if (bold && !italic) {
+                ctx.font = "bold " + String(maxFontSize) + "px VCR_OSD_MONO"
             }
 
-            if (italic) {
-                ctx.font = "italic 23px VCR_OSD_MONO"
+            if (italic && !bold) {
+                ctx.font = "italic " + String(maxFontSize) + "px VCR_OSD_MONO"
             }
 
+            if (bold && italic) {
+                ctx.font = "bold italic " + String(maxFontSize) + "px VCR_OSD_MONO"
+            }
 
             ctx.fillText(char, xOffset, yOffset);
         });
@@ -499,10 +580,10 @@ function typewriterAnimation() {
 
     function checkRender() {
         if (dialogueImage.getAttribute('src') != '') {
-            drawTextWithWrapping(ctx, textSegments, 21+230, canvasHeight-dialogueHeight+41, canvasWidth - 19, 10);
+            drawTextWithWrapping(ctx, textSegments, 21+230, canvasHeight-dialogueHeight+18, canvasWidth - 19, 10);
             animateCharacters();
         } else {
-            drawTextWithWrapping(ctx, textSegments, 21, canvasHeight-dialogueHeight+41, canvasWidth - 19, 10);
+            drawTextWithWrapping(ctx, textSegments, 21, canvasHeight-dialogueHeight+18, canvasWidth - 19, 10);
             animateCharacters();
         }
     }
