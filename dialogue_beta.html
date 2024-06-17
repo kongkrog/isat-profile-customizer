@@ -15,6 +15,7 @@
         <img src='./assets/displayGif.gif' width="816" height="395" id="gifDisplay">
         <img src='' width="816" id="gifResult" style="display: none">
         <img src='' width="816" id="gifOptimize" style="display: none">
+        <img src='' style='display: none;' id="dialogueImage0">
         <img src='' style='display: none;' id="dialogueImage1">
         <img src='' style='display: none;' id="dialogueImage2">
         <img src='' style='display: none;' id="dialogueImage3">
@@ -72,8 +73,7 @@
     </button>
     <p style="font-size: 1rem; text-align: center;">In Stars And Time Dialogue Maker - made by kongkrog(lea) - all assets belong to insertdisc5</p>
     <p style="font-size: 1rem; text-align: center;">Due to how the ISAT dialogue image works, any image larger than 500px will be scaled down to 395px.</p>
-    <p style="font-size: 1rem; text-align: center;">Any image's height smaller than 500px will stay unscale.<br>The gif will auto-crop to the highest image height.</p>
-    <p style="font-size: 1rem; text-align: center;">But the dialogue image's height <i>will now be accurate</i> to the game.</p>
+    <p style="font-size: 1rem; text-align: center;">Any image's height smaller than 500px will stay unscale. The gif will auto-crop to the highest image height.</p>
     <p style="font-size: 1rem; text-align: center;">Made using <a href="https://github.com/jnordberg/gif.js">gif.js</a> and <a href="https://github.com/renzhezhilu/gifsicle-wasm-browser">gifsicle (the browser version)</a>.</p>
     <p style="font-size: 1.5rem; padding-top: 20px; text-align: center;">Tag guide (Read this): </p>
     <p style="font-size: 1rem; text-align: center;">
@@ -96,6 +96,9 @@
     </p>
     <p style="font-size: 1rem; text-align: center;">
         <strong>[CLEAR] | [SCLEAR] | [BCLEAR]</strong>: Remove all text and change font size to default | small | big. Effects are compatible to different font size.<br>
+    </p>
+    <p style="font-size: 1rem; text-align: center;">
+        <strong>[CLRIMG] | [DIALBOX=x]</strong>: Remove image and reset | Set dialogue box to x(text), set x to '' to remove it.<br>
     </p>
     <p style="font-size: 1rem; padding-top: 20px; text-align: center;">Tags are not combinable.</p>
     <form id="settingPanel" onsubmit="updateProfile()">
