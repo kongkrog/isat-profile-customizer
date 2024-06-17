@@ -901,7 +901,6 @@ function typewriterAnimation() {
             drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
         }
         if (animationEnded != true) {
-            debugger;
             let tempCanvas = document.createElement('canvas');
             let scaledCanvas = document.createElement('canvas');
             let backgroundCanvas = document.createElement('canvas');
