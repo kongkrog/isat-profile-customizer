@@ -68,7 +68,9 @@ function calculateScaledHeight(height) {
 
 function containsImageTag(parsedResult) {
     for (let segment of parsedResult.segments) {
-        if (segment.image !== null) {
+        imageIDName = document.getElementById('dialogueImage' + String(segment.image));
+
+        if ((segment.image !== null) && (imageIDName.getAttribute('src') != '')) {
             return true;
         }
     }
@@ -899,6 +901,7 @@ function typewriterAnimation() {
             drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
         }
         if (animationEnded != true) {
+            debugger;
             let tempCanvas = document.createElement('canvas');
             let scaledCanvas = document.createElement('canvas');
             let backgroundCanvas = document.createElement('canvas');
@@ -918,9 +921,10 @@ function typewriterAnimation() {
                 tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight - dialogueNameboxHeight, canvasWidth, dialogueHeight + dialogueNameboxHeight);
             } else {
                 tempCanvas.width = 816;
-                tempCanvas.height = 180;
+                tempCanvas.height = dialogueHeight;
                 tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight, canvasWidth, dialogueHeight);
             }
+            console.log(tempCanvas.width, tempCanvas.height);
             if (backgroundImage.getAttribute('src') != '') {
                 backgroundCtx.drawImage(currentImageBackground, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
                 backgroundCtx.drawImage(tempCanvas, 0, backgroundCanvas.height - tempCanvas.height, tempCanvas.width, tempCanvas.height);
