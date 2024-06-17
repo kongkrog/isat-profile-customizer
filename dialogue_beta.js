@@ -66,6 +66,24 @@ function calculateScaledHeight(height) {
     return scaledHeight;
 }
 
+function containsImageTag(parsedResult) {
+    for (let segment of parsedResult.segments) {
+        if (segment.image !== null) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function containsDialogBoxTag(parsedResult) {
+    for (let segment of parsedResult.segments) {
+        if (segment.dialogBox !== null) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function updateProfile() {
     const dialogueText = document.getElementById('charDialogue').value;
     const dialogueName = document.getElementById('charDialogueName').value;
@@ -369,6 +387,9 @@ function typewriterAnimation() {
     let showCurrentImage = false;
     let currentImage = "";
 
+    let containImage = false;
+    let containDialogueBox = false;
+
     const imageOffsetRate = 7;
 
     let currentBackground = 1;
@@ -643,6 +664,10 @@ function typewriterAnimation() {
                     characters = [];
                 }
 
+                if (dName != '') {
+                    dName = '';
+                }
+                
                 currentImageNumber = segment.image;
 
                 if (segment.text == "[IMAGExT]") {
@@ -883,11 +908,11 @@ function typewriterAnimation() {
             const backgroundCtx = backgroundCanvas.getContext('2d');
             backgroundCanvas.width = 816;
             backgroundCanvas.height = 650;
-            if (dialogueImage.getAttribute('src') != '') {
+            if (containImage) {
                 tempCanvas.width = 816;
                 tempCanvas.height = maxScaledHeight;
                 tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - maxScaledHeight, canvasWidth, maxScaledHeight);
-            } else if (dName != '') {
+            } else if (containDialogueBox) {
                 tempCanvas.width = 816;
                 tempCanvas.height = dialogueHeight + dialogueNameboxHeight;
                 tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight - dialogueNameboxHeight, canvasWidth, dialogueHeight + dialogueNameboxHeight);
@@ -932,14 +957,30 @@ function typewriterAnimation() {
             gif.render();
         }
     }
-    let targetHeight = canvasHeight;
+
+    const parseResult = parseText(textString);
+    const textSegments = parseResult.segments;
+
+    containImage = containsImageTag(parseResult);
+    containDialogueBox = containsDialogBoxTag(parseResult);
+
+    if (dName != '') {
+        containDialogueBox = true;
+    }
+
     if (dialogueImage.getAttribute('src') != '') {
+        containImage = true;
+    }
+
+    let targetHeight = canvasHeight;
+    if (containImage) {
         targetHeight = maxScaledHeight;
-    } else if (dName != '') {
+    } else if (containDialogueBox) {
         targetHeight = dialogueHeight + dialogueNameboxHeight;
     } else {
         targetHeight = dialogueHeight;
     }
+
     if (backgroundImage.getAttribute('src') != '') {
         var gif = new GIF({
             workers: 4,
@@ -972,8 +1013,6 @@ function typewriterAnimation() {
         myCanvas.style.display = 'none';
         gifOptimize.src = URL.createObjectURL(blob);
     });
-    const parseResult = parseText(textString);
-    const textSegments = parseResult.segments;
 
     function checkRender() {
         if (dialogueImage.getAttribute('src') != '') {
