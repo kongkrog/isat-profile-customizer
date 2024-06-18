@@ -8,7 +8,13 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-    <main id="battleUIFull" style="position: relative;">
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;">
+        <div style="margin-top: 10px; border-radius: 100px; width: 100px; height: 100px; background-image: url('./assets/profilePic.png'); background-repeat: no-repeat; background-position: center center; background-size: cover;"></div>
+        <p style="font-size: 1.7rem; font-weight: bold;">In Stars And Time Battle Maker</p>
+        <p style="font-size: 1.3rem;">Made by kongkrog(lea)</p>
+        <p style="font-size: 1.3rem;">All assets belong to insertdisc5</p>
+    </div>
+    <main id="battleUIFull" style="position: relative; padding-top: 20px;">
         <img id="battleBackground" src="./assets/battlebacks/pattern_bomb.png" style="display: none;">
         <div style="display: flex; flex-direction: row; position: relativel">
             <canvas id="battleCanvas" width="816" height="624"></canvas>
@@ -79,10 +85,9 @@
         </button>
     </div>
     <p style="font-size: 1rem;">Preferred Image Size: Aspect Ratio 0.55:1 (Ex: 278x506)</p>
-    <p style="font-size: 1rem;">In Stars And Time Battle Maker - made by kongkrog(lea) - all assets belong to insertdisc5</p>
     <p style="font-size: 1rem;">If the game's font doesn't load properly, refresh will work.</p>
     <p style="font-size: 1rem;">Right click the canvas to save image.</p>
-    <form id="settingPanel" onsubmit="updateProfile();">
+    <form id="settingPanel" onsubmit="updateProfile();" style="font-size: 1.5rem;">
         <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
         <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
         <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
@@ -99,7 +104,7 @@
         <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
         <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
-        <div style="display: flex; flex-direction: column; gap: 10px; margin: auto;">
+        <div style="display: flex; flex-direction: column; gap: 10px; width: 1000px;">
             <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
                 <i><strong>Char 1:</strong></i>
                 <label for="hp1">HP:</label>

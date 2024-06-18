@@ -10,9 +10,15 @@
     <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.worker.js"></script>
 </head>
 <body>
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;">
+        <div style="margin-top: 10px; border-radius: 100px; width: 100px; height: 100px; background-image: url('./assets/profilePic.png'); background-repeat: no-repeat; background-position: center center; background-size: cover;"></div>
+        <p style="font-size: 1.7rem; font-weight: bold;">In Stars And Time Game Over Maker</p>
+        <p style="font-size: 1.3rem;">Made by kongkrog(lea)</p>
+        <p style="font-size: 1.3rem;">All assets belong to insertdisc5</p>
+    </div>
     <main id="dialogueMain"> 
         <canvas id="gameOverCanvas" width="816" height="623" style="visibility: hidden; z-index: -1; position: absolute;"></canvas>
-        <img src='assets/displayGameOver.gif' width="816" height="623" id="gifDisplay">
+        <img src='assets/displayGameOver.gif' width="816" id="gifDisplay">
         <img src='' width="816" id="gifResult" style="display: none">
         <img src='' width="816" id="gifOptimize" style="display: none">
     </main>
@@ -43,7 +49,6 @@
         </button>
     </div>
     <p style="font-size: 1rem; text-align: center;"><strong>For those who want to change the game over animation.</strong><br> Download this <a href="https://github.com/kongkrog/isat-profile-customizer">repo</a> and replace the images in the "frames" folder.<br> You will need to host a local server and run the gameover.html file.</p> 
-    <p style="font-size: 1rem;">In Stars And Time Game Over Customizer - made by kongkrog(lea) - all assets belong to insertdisc5</p>
     <p style="font-size: 1rem;">Made using <a href="https://github.com/jnordberg/gif.js">gif.js</a> and <a href="https://github.com/renzhezhilu/gifsicle-wasm-browser">gifsicle (the browser version)</a>.</p>
     <form id="settingPanel" onsubmit="updateProfile()">
         <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>

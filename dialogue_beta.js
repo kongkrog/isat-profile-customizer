@@ -354,8 +354,8 @@ const cropCanvas = (sourceCanvas, left, top, width, height) => {
     destCanvas.height = height;
     destCanvas.getContext("2d").drawImage(
         sourceCanvas,
-        left, top, width, height, // source rect with content to crop
-        0, 0, width, height); // newCanvas, same size as source rect
+        left, top, width, height,
+        0, 0, width, height); 
     return destCanvas;
 }
 
@@ -377,7 +377,7 @@ function typewriterAnimation() {
     let arrowXOffset = 0;
     let arrowDirection = 1;
     let arrowCounter = 0;
-    const arrowUpdateInterval = 6;
+    const arrowUpdateInterval = 4;
 
     let currentImageNumber = 1;
     let oldImageNumber = 1;
@@ -405,12 +405,12 @@ function typewriterAnimation() {
     };
 
     function drawCorner(x, y) {
-        ctx.fillStyle = 'lightgray';
+        ctx.fillStyle = 'rgb(209,209,209)';
 
         ctx.fillRect(x + 2, y, 2, 6);
         ctx.fillRect(x, y + 2, 6, 2);
 
-        ctx.fillStyle = 'gray';
+        ctx.fillStyle = 'rgb(65,65,65)';
 
         ctx.fillRect(x + 1, y + 1, 4, 4);
 
@@ -421,14 +421,14 @@ function typewriterAnimation() {
     }
 
     function drawLineHorizontal(x, y, lineWidth) {
-        ctx.fillStyle = 'lightgray';
+        ctx.fillStyle = 'rgb(209,209,209)';
 
         ctx.fillRect(x, y + 1, 4, 2);
         ctx.fillRect(x + 3, y, 1, 4);
         ctx.fillRect(x + lineWidth - 4, y + 1, 4, 2);
         ctx.fillRect(x + lineWidth - 4, y, 1, 4);
 
-        ctx.fillStyle = 'gray';
+        ctx.fillStyle = 'rgb(166,166,166)';
 
         ctx.fillRect(x + 1, y, 2, 4);
         ctx.fillRect(x + lineWidth - 3, y, 2, 4);
@@ -441,14 +441,14 @@ function typewriterAnimation() {
     }
 
     function drawLineVertical(x, y, lineHeight) {
-        ctx.fillStyle = 'lightgray';
+        ctx.fillStyle = 'rgb(209,209,209)';
 
         ctx.fillRect(x + 1, y, 2, 4);
         ctx.fillRect(x, y + 3, 4, 1);
         ctx.fillRect(x + 1, y + lineHeight - 4, 2, 4);
         ctx.fillRect(x, y + lineHeight - 4, 4, 1);
 
-        ctx.fillStyle = 'gray';
+        ctx.fillStyle = 'rgb(166,166,166)';
 
         ctx.fillRect(x, y + 1, 4, 2);
         ctx.fillRect(x, y + lineHeight - 3, 4, 2);
@@ -462,10 +462,10 @@ function typewriterAnimation() {
 
     function drawArrow(x, y, opacity) {
         ctx.globalAlpha = opacity;
-        ctx.fillStyle = 'gray';
+        ctx.fillStyle = 'rgb(166,166,166)';
         ctx.fillRect(x, y, 2, 20);
 
-        ctx.fillStyle = 'lightgray';
+        ctx.fillStyle = 'rgb(209,209,209)';
         ctx.fillRect(x + 2, y + 2, 2, 16);
         ctx.fillRect(x + 4, y + 4, 2, 12);
         ctx.fillRect(x + 6, y + 6, 2, 8);
@@ -547,6 +547,7 @@ function typewriterAnimation() {
         ctx.drawImage(image, 0, 0, image.width, image.height, globalImageOffset - xOffset - scaledWidth, canvasHeight - scaledHeight, scaledWidth, scaledHeight);
         ctx.globalAlpha = 1;
     }
+    
     drawImage(dialogueImage, 0, 1);
     ctx.fillStyle = 'white';
     characters.forEach(({
@@ -772,6 +773,7 @@ function typewriterAnimation() {
 
     function playArrowAnimation(showArrow = true) {
         if (showArrow) {
+            arrowXOffset = 0;
             arrowVisible = true;
             fadingIn = true;
             fadingOut = false;
@@ -917,11 +919,11 @@ function typewriterAnimation() {
             } else if (containDialogueBox) {
                 tempCanvas.width = 816;
                 tempCanvas.height = dialogueHeight + dialogueNameboxHeight;
-                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight - dialogueNameboxHeight, canvasWidth, dialogueHeight + dialogueNameboxHeight);
+                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight - dialogueNameboxHeight+1, canvasWidth, dialogueHeight + dialogueNameboxHeight+1);
             } else {
                 tempCanvas.width = 816;
                 tempCanvas.height = dialogueHeight;
-                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight, canvasWidth, dialogueHeight);
+                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight+1, canvasWidth, dialogueHeight+1);
             }
             console.log(tempCanvas.width, tempCanvas.height);
             if (backgroundImage.getAttribute('src') != '') {

@@ -34,6 +34,11 @@ p {
 }
 
 body {
+    top: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+
     display: flex;
 
     font-family: "VCR_OSD_MONO";
@@ -42,8 +47,7 @@ body {
     color: white;
 
     width: 100vw;
-    height: 100vh;
-
+    min-height: 100vh;
     flex-direction: column;
 
     justify-content: center;
@@ -279,13 +283,17 @@ body {
 
 #settingPanel {
     display: none;
-    position: absolute;
+    position: fixed;
     
     padding: 24px;
     z-index: 2;
 
     background-color: black;
     flex-direction: column;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #craftInput {
@@ -781,10 +789,13 @@ input, select {
 }
 
 .hideBlobLeft {
-    position: absolute;
+    position: fixed;
 
-    width: calc(50vw - 390px);
-    height: 100%;
+    top: 0;
+    left: 0;
+
+    width: calc(50vw - 397px);
+    height: 100vh;
 
     z-index: 2;
 
@@ -792,11 +803,13 @@ input, select {
 }
 
 .hideBlobRight {
-    position: absolute;
+    position: fixed;
 
-    width: calc(50vw - 406px);
-    height: 100%;
-
+    top: 0;
+    right: 0;
+    
+    width: calc(50vw - 397px);
+    height: 100vh;
     z-index: 2;
 
     background-color: black;
@@ -1033,4 +1046,172 @@ div {
 
     justify-content: center;
     align-items: center;
+}
+
+table {
+    border-collapse: collapse;
+    font-size: 1rem;
+    text-align: center;
+    width: 100%;
+}
+th, td {
+    border: 1px solid white;
+    padding: 8px;
+}
+
+td {
+    text-align: left;
+}
+
+th {
+    background-color: white;
+    color: black;
+}
+
+#tagTable {
+    position: relative;
+    padding: 10px;
+    width: 60%;
+}
+
+.tutorialImage {
+    width: 40%;
+}
+
+.tutorialImage img {
+    width: 100%;
+    height: auto;
+}
+
+#buttonList {
+    display: flex;
+    flex-direction: row;
+}
+
+@media screen and (max-width: 816px) {
+    #gifDisplay {
+        width: 95%;
+    }
+
+    #tagTable {
+        position: relative;
+        padding: 10px;
+        width: 95%;
+    }
+}
+
+@media screen and (min-width: 817px) and (max-width: 1000px) {
+    #tagTable {
+        position: relative;
+        padding: 10px;
+        width: 95%;
+    }
+
+    .tutorialImage {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1001px) and (max-width: 1100px) {
+    #tagTable {
+        position: relative;
+        padding: 10px;
+        width: 90%;
+    }
+
+    .tutorialImage {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1101px) and (max-width: 1200px) {
+    #tagTable {
+        position: relative;
+        padding: 10px;
+        width: 85%;
+    }
+
+    .tutorialImage {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1201px) and (max-width: 1300px) {
+    #tagTable {
+        position: relative;
+        padding: 10px;
+        width: 80%;
+    }
+
+    .tutorialImage {
+        width: 50%;
+    }
+}
+
+@media screen and (min-width: 1301px) and (max-width: 1400px) {
+    #tagTable {
+        position: relative;
+        padding: 10px;
+        width: 75%;
+    }
+}
+
+@media screen and (min-width: 1401px) and (max-width: 1500px) {
+    #tagTable {
+        position: relative;
+        padding: 10px;
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #buttonList {
+        flex-direction: column;
+    }
+    
+    table, tbody, tr, td {
+        display: block;
+        width: 100%;
+    }
+    thead {
+        display: flex;
+        flex-direction: column;
+    }
+    tr {
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid #ddd;
+    }
+    td {
+        border: none;
+        text-align: left;
+        padding: 8px;
+    }
+    .description {
+        order: 2;
+        width: 95%;
+    }
+    .tutorialImage {
+        order: 1;
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    .tutorialImage img {
+        width: 95%;
+        height: auto;
+    }
+}
+
+.navButton {
+    font-family: "VCR_OSD_MONO";
+    font-size: 1rem;
+
+    color: white;
+
+    border: none;
+    background: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
 }

@@ -10,9 +10,15 @@
     <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.worker.js"></script>
 </head>
 <body>
-    <main id="dialogueMain"> 
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center; margin-top: 20px;">
+        <div style="margin-top: 10px; border-radius: 100px; width: 100px; height: 100px; background-image: url('./assets/profilePic.png'); background-repeat: no-repeat; background-position: center center; background-size: cover;"></div>
+        <p style="font-size: 1.7rem; font-weight: bold;">In Stars And Time Dialogue Maker</p>
+        <p style="font-size: 1.3rem;">Made by kongkrog(lea)</p>
+        <p style="font-size: 1.3rem;">All assets belong to insertdisc5</p>
+    </div>
+    <main id="dialogueMain" style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;"> 
         <canvas id="dialogueCanvas" width="816" height="395" style="display: none"></canvas>
-        <img src='./assets/displayGif.gif' width="816" height="395" id="gifDisplay">
+        <img src='./assets/displayGif.gif' width="816" id="gifDisplay">
         <img src='' width="816" id="gifResult" style="display: none">
         <img src='' width="816" id="gifOptimize" style="display: none">
         <img src='' style='display: none;' id="dialogueImage0">
@@ -49,57 +55,80 @@
             <img src="./assets/settingicon.png" style="display: none;"> Download GIF
         </button>
     </a>
-    <div style="display: flex; flex-direction: row;">
-        <button class="uiButton" style="margin-top: 20px;" id="settingButton">
+    <div id="buttonList" style="padding-top: 20px">
+        <button class="uiButton" id="settingButton">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
             <img id="cornerDownRight" src="./assets/cursorBorderA.png">
             <img id="cornerUpRight" src="./assets/cursorBorderB.png">
             <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
             <img src="./assets/settingicon.png"> Setting
         </button>
-        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./render.html'">
+        <button class="uiButton" onclick="location.href='./render.html'">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
             <img id="cornerDownRight" src="./assets/cursorBorderA.png">
             <img id="cornerUpRight" src="./assets/cursorBorderB.png">
             <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
             <img src="./assets/settingicon.png"> Homepage
+        </button>
+        <button class="uiButton" onclick="location.href='./dialogue_static.html'">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            <img src="./assets/settingicon.png"> Image Mode
+        </button>
     </div>
-    <button class="uiButton" style="margin-top: 10px; width: 250px;" onclick="location.href='./dialogue_static.html'">
-        <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-        <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-        <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-        <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-        <img src="./assets/settingicon.png"> Image Mode
-    </button>
-    <p style="font-size: 1rem; text-align: center;">In Stars And Time Dialogue Maker - made by kongkrog(lea) - all assets belong to insertdisc5</p>
     <p style="font-size: 1rem; text-align: center;">Due to how the ISAT dialogue image works, any image larger than 500px will be scaled down to 395px.</p>
     <p style="font-size: 1rem; text-align: center;">Any image's height smaller than 500px will stay unscale. The gif will auto-crop to the highest image height.</p>
     <p style="font-size: 1rem; text-align: center;">Made using <a href="https://github.com/jnordberg/gif.js">gif.js</a> and <a href="https://github.com/renzhezhilu/gifsicle-wasm-browser">gifsicle (the browser version)</a>.</p>
-    <p style="font-size: 1.5rem; padding-top: 20px; text-align: center;">Tag guide (Read this): </p>
-    <p style="font-size: 1rem; text-align: center;">
-        <strong>[SW]...[/SW] | [SHAKE]...[/SHAKE]</strong>: Applies a wave/shake effect.<br>
-    </p>
-    <p style="font-size: 1rem; text-align: center;">
-        <strong>[B]...[/B] | [I]...[/I]</strong>: Format the text in bold / italic.<br>
-    </p>
-    <p style="font-size: 1rem; text-align: center;">
-        <strong>[BR]</strong>: Force a line break.<br>
-    </p>
-    <p style="font-size: 1rem; text-align: center;">
-        <strong>[PS=x]</strong>: Introduces a pause. The <em>x(ms)</em> specifies the duration of the pause.<br>
-    </p>
-    <p style="font-size: 1rem; text-align: center;">
-        <strong>[IMAGE1], ..., [IMAGE13] | [BIMAGE1], ..., [BIMAGE7]</strong>: Change the dialogue | background image to that associated with tag.<br>
-    </p>
-    <p style="font-size: 1rem; text-align: center;">
-        <strong>[IMAGExT]</strong>: Add a "T" in the IMAGE tag to trigger the switching portrait animation.<br>
-    </p>
-    <p style="font-size: 1rem; text-align: center;">
-        <strong>[CLEAR] | [SCLEAR] | [BCLEAR]</strong>: Remove all text and change font size to default | small | big. Effects are compatible to different font size.<br>
-    </p>
-    <p style="font-size: 1rem; text-align: center;">
-        <strong>[CLRIMG] | [DIALBOX=x]</strong>: Remove image and reset | Set dialogue box to x(text), set x to '' to remove it.<br>
-    </p>
+    <div id="tagTable" style="padding-top: 20px">
+        <table style="position: relative;">
+            <thead>
+                <tr>
+                    <th>Tag and Description</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="description"><strong>[SW]...[/SW] | [SHAKE]...[/SHAKE]</strong>:<br> Applies a wave/shake effect.<br><br><i>Example:</i> <code>[SW]Wavey text[/SW]. [SHAKE]Shaky text[/SHAKE]</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/wave_shake_sample.gif" alt="SW/SHAKE Example"></td>
+                </tr>
+                <tr>
+                    <td class="description"><strong>[B]...[/B] | [I]...[/I]</strong>:<br> Format the text in bold / italic.<br><br><i>Example:</i> <code>[B]Bold text[/B]. [I]Italic text[/I].</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/bold_italic_sample.gif" alt="B/I Example"></td>
+                </tr>
+                <tr>
+                    <td class="description"><strong>[BR]</strong>:<br> Force a line break.<br><br><i>Example:</i> <code>a line[BR]another line[BR]another another line</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/line_break_sample.gif" alt="BR Example"></td>
+                </tr>
+                <tr>
+                    <td class="description"><strong>[PS=x]</strong>:<br> Introduces a pause. The <em>x(ms)</em> specifies the duration of the pause.<br><br><i>Example:</i> <code>300 [PS=300]500 [PS=500]1000 [PS=1000]2000 [PS=2000]End.</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/pause_sample.gif" alt="PS Example"></td>
+                </tr>
+                <tr>
+                    <td class="description"><strong>[IMAGE1], ..., [IMAGE13] | [BIMAGE1], ..., [BIMAGE7]</strong>:<br> Change the dialogue | background image to that associated with tag.<br><br><i>Example:</i> <code>OMG BONIFACE YYAYAYAY!!!! [IMAGE2]HMPFFF!</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/image_sample.gif" alt="IMAGE/BIMAGE Example"></td>
+                </tr>
+                <tr>
+                    <td class="description"><strong>[IMAGExT]</strong>:<br> Add a "T" in the IMAGE tag to trigger the switching portrait animation.<br><br><i>Example:</i> <code>Can I talk using your Fighter? [IMAGE2T]Or the Kid?</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/image_switch_sample.gif" alt="IMAGExT Example"></td>
+                </tr>
+                <tr>
+                    <td class="description"><strong>[CLEAR] | [SCLEAR] | [BCLEAR]</strong>:<br> Remove all text and change font size to default | small | big.<br> Effects are compatible to different font size.<br><br><i>Example:</i> <code>normal text[CLEAR]another text[BCLEAR]big text.[SCLEAR]smol text.</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/clear_sample.gif" alt="CLEAR/SCLEAR/BCLEAR Example"></td>
+                </tr>
+                <tr>
+                    <td class="description"><strong>[CLRIMG]</strong>:<br> Clear text, remove current image and reset back to normal dialogue box.<br><br><i>Example:</i> <code>i'm gonna be gone[PS=500][CLRIMG]aaa</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/clear_image_sample.gif" alt="CLRIMG/DIALBOX Example"></td>
+                </tr>
+                <tr>
+                    <td class="description"><strong>[DIALBOX=x]</strong>:<br> Clear text, remove current image and add dialogue name. Set dialogue name to x(text), set x to '' to remove it.<br><br><i>Example:</i> <code>i'm gonna turn into another person[PS=500][DIALBOX=person]hi.</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/dialogue_box_sample.gif" alt="CLRIMG/DIALBOX Example"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     <p style="font-size: 1rem; padding-top: 20px; text-align: center;">Tags are not combinable.</p>
     <form id="settingPanel" onsubmit="updateProfile()">
         <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
@@ -241,11 +270,12 @@
         import gifsicle from 'https://cdn.jsdelivr.net/npm/gifsicle-wasm-browser/dist/gifsicle.min.js';
 
         const debugText = document.getElementById('debug');
-        const downloadButton = document.getElementById('downloadButton');
         const gifResult = document.getElementById('gifResult');
         var optimized_gif = ""
 
         function optimizeGIF(src, args) {
+            downloadButton.replaceWith(downloadButton.cloneNode(true));
+
             gifsicle.run({
                 input: [{
                     file: src,
@@ -253,19 +283,18 @@
                 }],
                 command: [args]
             }).then(out => {
-                console.log(out);
                 out.map((f, indx) => {
-                    optimized_gif = URL.createObjectURL(f);
+                    let optimized_gif = URL.createObjectURL(f);
+                    let downloadButton = document.getElementById('downloadButton');
+                    let downloadLink = document.getElementById("downloadLink");
+                    
                     document.getElementById('gifResult').src = optimized_gif;
                     gifResult.style.display = 'block';
                     downloadButton.style.display = 'inline-block';
 
-                    downloadButton.addEventListener('click', function() {
-                        const downloadLink = document.getElementById("downloadLink");
-                        downloadLink.href = URL.createObjectURL(f);
-                        downloadLink.download = 'animation.gif';
-                    });
-                debugText.innerText = "Finished optimizing."
+                    downloadLink.href = URL.createObjectURL(f);
+                    downloadLink.download = 'animation.gif';
+                    debugText.innerText = "Finished optimizing."
                 });
             });
         }
