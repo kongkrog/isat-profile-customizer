@@ -201,13 +201,21 @@ body {
 
 #leftButton {
     position: absolute;
+    display: flex;
 
+    justify-content: center;
+    align-items: center;
+    
     right: 12px;
     margin: 0 auto;
 }
 
 #rightButton {
     position: absolute;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
 
     left: 12px;
     margin: 0 auto;
