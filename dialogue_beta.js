@@ -919,11 +919,11 @@ function typewriterAnimation() {
             } else if (containDialogueBox) {
                 tempCanvas.width = 816;
                 tempCanvas.height = dialogueHeight + dialogueNameboxHeight;
-                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight - dialogueNameboxHeight+1, canvasWidth, dialogueHeight + dialogueNameboxHeight+1);
+                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight - dialogueNameboxHeight, canvasWidth, dialogueHeight + dialogueNameboxHeight+2);
             } else {
                 tempCanvas.width = 816;
                 tempCanvas.height = dialogueHeight;
-                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight+1, canvasWidth, dialogueHeight+1);
+                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight, canvasWidth, dialogueHeight+2);
             }
             console.log(tempCanvas.width, tempCanvas.height);
             if (backgroundImage.getAttribute('src') != '') {
