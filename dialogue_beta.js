@@ -738,7 +738,7 @@ function typewriterAnimation() {
             const nextWord = text.substring(currentTextIndex, nextSpaceIndex);
             nextWordWidth = ctx.measureText(nextWord).width;
 
-            if (xOffset + nextWordWidth > canvasWidth - 16) {
+            if (xOffset + nextWordWidth > canvasWidth - 8) {
                 xOffset = globalxOffset;
                 yOffset += maxFontSize + lineHeight;
             }
@@ -769,7 +769,7 @@ function typewriterAnimation() {
                 wordWidth = ctx.measureText(word).width;
             }
 
-            if ((segment.shake || segment.wave) && xOffset + wordWidth > canvasWidth - 16) {
+            if ((segment.shake || segment.wave) && xOffset + wordWidth > canvasWidth - 8) {
                 xOffset = globalxOffset;
                 yOffset += maxFontSize + lineHeight;
             }
