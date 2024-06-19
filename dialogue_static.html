@@ -15,7 +15,7 @@
         <p style="font-size: 1.7rem; font-weight: bold;">In Stars And Time Dialogue Maker</p>
         <p style="font-size: 1.3rem;">Made by kongkrog(lea)</p>
         <p style="font-size: 1.3rem;">All assets belong to insertdisc5</p>
-        <p style="font-size: 1rem;"><i>These webpages don't work on mobile for now, sadly.</i></p>
+        <p style="font-size: 1rem;"><i>This webpage is current avaliable on mobile.<br>Ping me (@kongkrog) in ISAT Official Discord Server for bug reports.</i></p>
     </div>
     <main id="dialogueMain" style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;"> 
         <canvas id="dialogueCanvas" width="816" height="395" style="display: none"></canvas>
@@ -36,22 +36,22 @@
             <img src="./assets/settingicon.png" style="display: none;"> Download GIF
         </button>
     </a>
-    <div style="display: flex; flex-direction: row;">
-        <button class="uiButton" style="margin-top: 20px;" id="settingButton">
+    <div id="buttonList" style="padding-top: 20px">
+        <button class="uiButton" id="settingButton">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
             <img id="cornerDownRight" src="./assets/cursorBorderA.png">
             <img id="cornerUpRight" src="./assets/cursorBorderB.png">
             <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
             <img src="./assets/settingicon.png"> Setting
         </button>
-        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./render.html'">
+        <button class="uiButton" onclick="location.href='./render.html'">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
             <img id="cornerDownRight" src="./assets/cursorBorderA.png">
             <img id="cornerUpRight" src="./assets/cursorBorderB.png">
             <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
             <img src="./assets/settingicon.png"> Homepage
         </button>
-        <button class="uiButton" style="margin-top: 20px; width: 280px;" onclick="location.href='./dialogue_beta.html'">
+        <button class="uiButton" style="width: 280px;" onclick="location.href='./dialogue_beta.html'">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
             <img id="cornerDownRight" src="./assets/cursorBorderA.png">
             <img id="cornerUpRight" src="./assets/cursorBorderB.png">
@@ -86,75 +86,65 @@
             </tbody>
         </table>
     </div>
-    <form id="settingPanel" onsubmit="updateProfile()">
-        <img id="cornerUIUpLeft" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIUpRight" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIDownLeft" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIDownRight" src="./assets/uicorner.svg" width="6px" height="6px">
-        <div id="topUIBar"></div>
-        <div id="bottomUIBar"></div>
-        <div id="leftUIBar"></div>
-        <div id="rightUIBar"></div>
-        <img id="topEndBarLeft" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="topEndBarRight" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="bottomEndBarLeft" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="bottomEndBarRight" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="leftEndBarTop" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="leftEndBarBottom" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="rightEndBarTop" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="rightEndBarBottom" src="./assets/endBar.svg" width="4px" height="4px">
-        
+    <form id="settingPanel" onsubmit="updateProfile()" style="gap: 10px; font-size: 1.3rem;">
+       
         <div style="display: flex; flex-direction: column; gap: 10px;">
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+            <div class="inputRow">
                 <label for="charDialogue">Dialogue:</label>
-                <textarea id="charDialogue" fname="charDialogue" style="flex-grow: 1;">This is what Siffrin would say.</textarea>
+                <textarea id="charDialogue" fname="charDialogue">This is what Siffrin would say.</textarea>
             </div>
             
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="charDialogueImg">Character Image:</label>
+            <h6><span>IMAGE INPUT</span></h6>
+
+            <div class="inputRow">
+                <label for="charDialogueImg">Portrait [IMAGE1]:</label>
+                <button class="uiButton" id="clearButton" style="flex-basis: 5%;">
+                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                    X
+                </button>
                 <input type="file" id="fileInput" accept="image/*">
-                <button class="uiButton" id="clearButton">
-                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    Clear Image
-                </button>
             </div>
-            <p style="font-size: 1.2rem;">This will be the default [IMAGE1]. ISAT Faces directory: In Stars And Time/www/img/faces</p>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="backgroundInput">Background Image (Optional):</label>
-                <input type="file" id="backgroundInput" accept="image/*">
-                <button class="uiButton" id="clearBackgroundButton">
+            <div class="inputRow">
+                <label for="backgroundInput">Background [BIMAGE1]:</label>
+                <button class="uiButton" id="clearBackgroundButton" style="flex-basis: 5%;">
                     <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
                     <img id="cornerDownRight" src="./assets/cursorBorderA.png">
                     <img id="cornerUpRight" src="./assets/cursorBorderB.png">
                     <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    Clear Image
+                    X
                 </button>
+                <input type="file" id="backgroundInput" accept="image/*">
             </div>
             <p style="font-size: 1.2rem;">ISAT Faces directory: In Stars And Time/www/img/faces</p>
-            <p style="font-size: 1.2rem;">Character Name Box will only appear if you clear image.</p>
             
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="dialogueImageOffset">Protrait Horizontal Offset:</label>
-                <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="280" value="263" step="1" style="flex-grow: 1;">
-            </div>
-            
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="dialogueImageOffset">Protrait Height Scaling:</label>
-                <input type="range" id="dialogueHeightScaling" name="dialogueHeightScaling" min="260" max="317" value="317" step="1" style="flex-grow: 1;">
-            </div>
+            <h6><span>DIALOGUE NAME</span></h6>
 
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+            <div class="inputRow">
                 <label for="charDialogueName">Character Name:</label>
                 <input type="text" id="charDialogueName" fname="charDialogueName" style="flex-grow: 1; width: 200px;">
             </div>
             <p style="font-size: 1.2rem;">Character Name Box will only appear if you clear image ([IMAGE1] is empty).</p>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="dialogueImageOffset">Scaling (0.5-1):</label>
-                <input type="range" id="gifScaling" name="gifScaling" min="0.5" max="1" step="0.1" value="1" style="flex-grow: 1;">
+
+            <h6><span>IMAGE SETTING</span></h6>
+
+            <div class="inputRow">
+                <label for="dialogueImageOffset">Protrait Horizontal Offset:</label>
+                <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="280" value="263" step="1">
             </div>
+            
+            <div class="inputRow">
+                <label for="dialogueImageOffset">Protrait Height Scaling:</label>
+                <input type="range" id="dialogueHeightScaling" name="dialogueHeightScaling" min="260" max="317" value="317" step="1">
+            </div>
+
+            <div class="inputRow">
+                <label for="dialogueImageOffset">Scaling (0.5-1):</label>
+                <input type="range" id="gifScaling" name="gifScaling" min="0.5" max="1" step="0.1" value="1">
+            </div>
+
             
             <div style="display: flex; flex-direction: row; gap: 10px;">
                 <button class="uiButton" id="saveButton" style="flex-grow: 1;">

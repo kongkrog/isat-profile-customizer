@@ -2,6 +2,7 @@ var textString = '';
 var globalImageOffset = 263;
 var globalHeightScaling = 317;
 var globalScale = 1;
+var imageTextOffset = 215;
 
 const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
@@ -580,7 +581,7 @@ function typewriterAnimation() {
 
     function checkRender() {
         if (dialogueImage.getAttribute('src') != '') {
-            drawTextWithWrapping(ctx, textSegments, 21+230, canvasHeight-dialogueHeight+18, canvasWidth - 19, 10);
+            drawTextWithWrapping(ctx, textSegments, 21+imageTextOffset, canvasHeight-dialogueHeight+18, canvasWidth - 19, 10);
             animateCharacters();
         } else {
             drawTextWithWrapping(ctx, textSegments, 21, canvasHeight-dialogueHeight+18, canvasWidth - 19, 10);
