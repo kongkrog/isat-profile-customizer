@@ -59,7 +59,11 @@
             <img src="./assets/settingicon.png"> Animated Mode
         </button>
     </div>
-    <p style="font-size: 1rem; text-align: center;"><strong>Right click</strong> the dialogue after it's done to save image.</p>
+
+    <h6 style="padding-top: 20px;"><span>SAVE IMAGE</span></h6>
+    <p style="font-size: 1rem; text-align: center;"><strong>Right click</strong> or <strong>Tap hold (if you're on mobile)</strong> the dialogue after it's done to save image.</p>
+    
+    <h6 style="padding-top: 20px;"><span>DIALOGUE IMAGE SIZE</span></h6>
     <p style="font-size: 1rem; text-align: center;">Due to how the ISAT dialogue image works, any image larger than 500px will be scaled down to 395px.</p>
     <p style="font-size: 1rem; text-align: center;">Any image's height smaller than 500px will stay unscale.</p>
     <div id="tagTable" style="padding-top: 20px">
@@ -135,6 +139,11 @@
                 <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="280" value="263" step="1">
             </div>
             
+            <div class="inputRow">
+                <label for="imageTextOffset">Text Offset (To Portrait):</label>
+                <input type="range" id="imageTextOffset" name="imageTextOffset" min="215" max="250" value="215" step="1" style="width: 100px;">
+            </div>
+
             <div class="inputRow">
                 <label for="dialogueImageOffset">Protrait Height Scaling:</label>
                 <input type="range" id="dialogueHeightScaling" name="dialogueHeightScaling" min="260" max="317" value="317" step="1">

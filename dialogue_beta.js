@@ -4,11 +4,12 @@ var globalHeightScaling = 500;
 var isTransparent = false;
 var isStatic = false;
 var globalScale = 1;
-var imageTextOffset = 215;
+
 const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
 const imageHeight = 395;
 
+let imageTextOffset = 215;
 let maxScaledHeight = 0;
 let imageIds = [
     "dialogueImage1", "dialogueImage2", "dialogueImage3", "dialogueImage4",
@@ -121,6 +122,7 @@ function updateProfile() {
     const dialogueName = document.getElementById('charDialogueName').value;
     const dialogueSpeed = document.getElementById('dialogueSpeed').value;
     const offsetValue = document.getElementById('dialogueImageOffset').value;
+    const textOffset = document.getElementById('imageTextOffset').value;
     const heightScaling = document.getElementById('dialogueHeightScaling').value;
     const fileInput = document.getElementById('fileInput');
     const checkTransparent = document.querySelector('#checkTransparent').checked;
@@ -150,6 +152,7 @@ function updateProfile() {
     globalHeightScaling = heightScaling;
     globalScale = gifScaling;
     isTransparent = checkTransparent;
+    imageTextOffset = parseInt(textOffset);
     document.getElementById('dName').innerText = dialogueName;
     if (fileInput.files.length > 0) {
         document.getElementById('dName').innerText = '';

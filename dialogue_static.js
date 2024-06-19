@@ -2,7 +2,8 @@ var textString = '';
 var globalImageOffset = 263;
 var globalHeightScaling = 317;
 var globalScale = 1;
-var imageTextOffset = 215;
+
+let imageTextOffset = 215;
 
 const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
@@ -80,6 +81,7 @@ function updateProfile() {
     const dialogueName = document.getElementById('charDialogueName').value;
     const offsetValue = document.getElementById('dialogueImageOffset').value;
     const heightScaling = document.getElementById('dialogueHeightScaling').value;
+    const textOffset = document.getElementById('imageTextOffset').value;
     const fileInput = document.getElementById('fileInput');
     const gifScaling = document.getElementById('gifScaling').value;
 
@@ -87,6 +89,8 @@ function updateProfile() {
     globalImageOffset = offsetValue;
     globalHeightScaling = heightScaling;
     globalScale = gifScaling;
+    imageTextOffset = parseInt(textOffset);
+    
     document.getElementById('dName').innerText = dialogueName;
 
     if (fileInput.files.length > 0) {
