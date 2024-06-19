@@ -4,7 +4,7 @@ var globalHeightScaling = 500;
 var isTransparent = false;
 var isStatic = false;
 var globalScale = 1;
-var imageTextOffset = 225;
+var imageTextOffset = 215;
 const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
 const imageHeight = 395;
@@ -738,7 +738,7 @@ function typewriterAnimation() {
             const nextWord = text.substring(currentTextIndex, nextSpaceIndex);
             nextWordWidth = ctx.measureText(nextWord).width;
 
-            if (xOffset + nextWordWidth > canvasWidth - 8) {
+            if (xOffset + nextWordWidth > canvasWidth - 4) {
                 xOffset = globalxOffset;
                 yOffset += maxFontSize + lineHeight;
             }
@@ -769,7 +769,7 @@ function typewriterAnimation() {
                 wordWidth = ctx.measureText(word).width;
             }
 
-            if ((segment.shake || segment.wave) && xOffset + wordWidth > canvasWidth - 8) {
+            if ((segment.shake || segment.wave) && xOffset + wordWidth > canvasWidth - 4) {
                 xOffset = globalxOffset;
                 yOffset += maxFontSize + lineHeight;
             }
