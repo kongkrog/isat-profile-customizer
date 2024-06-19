@@ -1144,7 +1144,7 @@ th {
 
 
 @media screen and (max-width: 816px) {
-    #gifDisplay {
+    #gifDisplay, #gifResult {
         width: 95%;
     }
 
