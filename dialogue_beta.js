@@ -25,6 +25,36 @@ document.getElementById("exitButton").addEventListener("click", function(event) 
     document.getElementById("settingPanel").style.display = "none";
 });
 
+function updateInput(classInput, selector, inputName) {
+    var fileInputs = document.querySelectorAll(classInput);
+    var currentSelector = document.getElementById(selector);
+
+    fileInputs.forEach(function(input) {
+        if ((input.getAttribute("id") != 'fileInput') && (input.getAttribute("id") != 'backgroundInput')) {
+            input.style.display = 'none';
+        }
+    });
+
+    var selectedValue = currentSelector.value;
+
+    var selectedFileInput = document.getElementById(inputName + selectedValue);
+    if (selectedFileInput) {
+        selectedFileInput.style.display = 'block';
+    }
+}
+
+document.getElementById('imageSelector').addEventListener('change', function() {
+    updateInput('.imageInput', 'imageSelector', 'fileInput');
+});
+
+
+document.getElementById('backgroundSelector').addEventListener('change', function() {
+    updateInput('.bImageInput', 'backgroundSelector', 'backgroundInput');
+});
+
+updateInput('.imageInput', 'imageSelector', 'fileInput');
+updateInput('.bImageInput', 'backgroundSelector', 'backgroundInput');
+
 function updateProfileImage(fileInput, target) {
     const fInput = document.getElementById(fileInput);
     const profileImageDiv = document.getElementById(target);

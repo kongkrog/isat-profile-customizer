@@ -15,7 +15,7 @@
         <p style="font-size: 1.7rem; font-weight: bold;">In Stars And Time Dialogue Maker</p>
         <p style="font-size: 1.3rem;">Made by kongkrog(lea)</p>
         <p style="font-size: 1.3rem;">All assets belong to insertdisc5</p>
-        <p style="font-size: 1rem;"><i>These webpages don't work on mobile for now, sadly.</i></p>
+        <p style="font-size: 1rem;"><i>This webpage is current avaliable on mobile.<br>Ping me (@kongkrog) in ISAT Official Discord Server for bug reports.</i></p>
     </div>
     <main id="dialogueMain" style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;"> 
         <canvas id="dialogueCanvas" width="816" height="395" style="display: none"></canvas>
@@ -79,8 +79,11 @@
             <img src="./assets/settingicon.png"> Image Mode
         </button>
     </div>
-    <p style="font-size: 1rem; text-align: center;"><strong>Warning:</strong> You need to supply the image yourself if you're planning to use some.</p>
+    <h6 style="padding-top: 20px;"><span>DISCLAIMER</span></h6>
+    <p style="font-size: 1rem; text-align: center;">You need to supply the image yourself if you're planning to use some.</p>
     <p style="font-size: 1rem; text-align: center;">Images used in this sample gif are taken from the game, you need to own the game/get it somewhere else to use it.</p>
+    
+    <h6 style="padding-top: 20px;"><span>DIALOGUE IMAGE SIZE</span></h6>
     <p style="font-size: 1rem; text-align: center;">Due to how the ISAT dialogue image works, any image larger than 500px will be scaled down to 395px.</p>
     <p style="font-size: 1rem; text-align: center;">Any image's height smaller than 500px will stay unscale. The gif will auto-crop to the highest image height.</p>
     <p style="font-size: 1rem; text-align: center;">Made using <a href="https://github.com/jnordberg/gif.js">gif.js</a> and <a href="https://github.com/renzhezhilu/gifsicle-wasm-browser">gifsicle (the browser version)</a>.</p>
@@ -132,6 +135,9 @@
             </tbody>
         </table>
     </div>
+
+    <p style="font-size: 1rem; padding-top: 20px; text-align: center;">Tags are not combinable.</p>
+
     <div id="tagTable" style="padding-top: 20px">
         <table style="position: relative;">
             <thead>
@@ -148,55 +154,54 @@
             </tbody>
         </table>
     </div>
-    <p style="font-size: 1rem; padding-top: 20px; padding-bottom: 30px; text-align: center;">Tags are not combinable.</p>
-    <form id="settingPanel" onsubmit="updateProfile()">
-        <object id="cornerUIUpLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
-        <object id="cornerUIUpRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
-        <object id="cornerUIDownLeft" data="./assets/uicorner.svg" width="6px" height="6px"></object>
-        <object id="cornerUIDownRight" data="./assets/uicorner.svg" width="6px" height="6px"></object>
-        
-        <div id="topUIBar"></div>
-        <div id="bottomUIBar"></div>
-        <div id="leftUIBar"></div>
-        <div id="rightUIBar"></div>
-        
-        <object id="topEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
-        <object id="topEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
-        <object id="bottomEndBarLeft" data="./assets/endBar.svg" width="4px" height="4px"></object>
-        <object id="bottomEndBarRight" data="./assets/endBar.svg" width="4px" height="4px"></object>
-        <object id="leftEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
-        <object id="leftEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
-        <object id="rightEndBarTop" data="./assets/endBar.svg" width="4px" height="4px"></object>
-        <object id="rightEndBarBottom" data="./assets/endBar.svg" width="4px" height="4px"></object>
-        
-        <div style="display: flex; flex-direction: column; gap: 5px;">
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="charDialogue">Dialogue:</label>
-                <textarea id="charDialogue" fname="charDialogue" style="flex-grow: 1;">I'm [IMAGE6]Siffrin! [PS=1000][IMAGE2T]I'm [SW]Mirabelle[/SW]. [BR][PS=1000][IMAGE3T][SHAKE]Odile[/SHAKE]. [PS=1000][IMAGE4T]Isabeau! [PS=1000][CLEAR][IMAGE5T]New dialogue?[PS=500] Also I'm Loop.</textarea>
-            </div>
-            
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="charDialogueImg">Character Image:</label>
-                <input type="file" id="fileInput" class="imageInput" accept="image/*">
-                <button class="uiButton" id="clearButton">
+    
+    <form id="settingPanel" onsubmit="updateProfile()" style="gap: 10px; font-size: 1.3rem;">
+        <div class="inputRow">
+            <label for="charDialogue">Dialogue:</label>
+            <textarea id="charDialogue" fname="charDialogue">I'm [IMAGE6]Siffrin! [PS=1000][IMAGE2T]I'm [SW]Mirabelle[/SW]. [BR][PS=1000][IMAGE3T][SHAKE]Odile[/SHAKE]. [PS=1000][IMAGE4T]Isabeau! [PS=1000][CLEAR][IMAGE5T]New dialogue?[PS=500] Also I'm Loop.</textarea>
+        </div>
+
+        <h6><span>DIALOGUE IMAGE</span></h6>
+
+        <div>
+            <div class="inputRow">
+                <label for="charDialogueImg">Portrait [IMAGE1]:</label>
+                <button class="uiButton" id="clearButton" style="flex-basis: 5%;">
                     <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
                     <img id="cornerDownRight" src="./assets/cursorBorderA.png">
                     <img id="cornerUpRight" src="./assets/cursorBorderB.png">
                     <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    Clear Image
+                    X
                 </button>
+                <input type="file" id="fileInput" class="imageInput" accept="image/*" style="display: block; width: 100px;">
             </div>
-            <p style="font-size: 1.2rem;">This will be the default [IMAGE1]. ISAT Faces directory: In Stars And Time/www/img/faces</p>
-            <div style="display: flex; flex-direction: row; gap: 10px;">
+
+            <div class="inputRow">
+                <label for="imageSelector">Image Tags:</label>
+                <select id="imageSelector">
+                    <option value="2">[IMAGE2]</option>
+                    <option value="3">[IMAGE3]</option>
+                    <option value="4">[IMAGE4]</option>
+                    <option value="5">[IMAGE5]</option>
+                    <option value="6">[IMAGE6]</option>
+                    <option value="7">[IMAGE7]</option>
+                    <option value="8">[IMAGE8]</option>
+                    <option value="9">[IMAGE9]</option>
+                    <option value="10">[IMAGE10]</option>
+                    <option value="11">[IMAGE11]</option>
+                    <option value="12">[IMAGE12]</option>
+                    <option value="13">[IMAGE13]</option>
+                </select>
+            </div>
+
+            <div class="inputRow">
+                <label>Tag Input:</label>
                 <input type="file" id="fileInput2" class="imageInput" accept="image/*"> 
                 <input type="file" id="fileInput3" class="imageInput" accept="image/*"> 
                 <input type="file" id="fileInput4" class="imageInput" accept="image/*"> 
                 <input type="file" id="fileInput5" class="imageInput" accept="image/*"> 
                 <input type="file" id="fileInput6" class="imageInput" accept="image/*"> 
                 <input type="file" id="fileInput7" class="imageInput" accept="image/*"> 
-            </div>
-            <p style="font-size: 1.2rem;">Image tags: [IMAGE2], [IMAGE3], [IMAGE4], [IMAGE5], [IMAGE6], [IMAGE7] (All Optional)</p>
-            <div style="display: flex; flex-direction: row; gap: 10px;">
                 <input type="file" id="fileInput8" class="imageInput" accept="image/*"> 
                 <input type="file" id="fileInput9" class="imageInput" accept="image/*"> 
                 <input type="file" id="fileInput10" class="imageInput" accept="image/*"> 
@@ -204,36 +209,59 @@
                 <input type="file" id="fileInput12" class="imageInput" accept="image/*"> 
                 <input type="file" id="fileInput13" class="imageInput" accept="image/*"> 
             </div>
-            <p style="font-size: 1.2rem;">Image tags: [IMAGE8], [IMAGE9], [IMAGE10], [IMAGE11], [IMAGE12], [IMAGE13] (All Optional)</p>
-            <p style="font-size: 1.2rem;">Add a "T" in the tag ([IMAGExT]) (x is a number) to run the portrait switch animation.</p>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="backgroundInput">Background Image (Optional):</label>
-                <input type="file" id="backgroundInput" class="imageInput" accept="image/*">
-                <button class="uiButton" id="clearBackgroundButton">
+        </div>
+
+        <p style="font-size: 1rem;">ISAT Faces directory: In Stars And Time/www/img/faces</p>
+
+        <h6><span>BACKGROUND IMAGE</span></h6>
+
+        <div>
+            <div class="inputRow">
+                <label for="backgroundInput">Background [BIMAGE1]:</label>
+                <button class="uiButton" id="clearBackgroundButton" style="flex-basis: 5%;">
                     <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
                     <img id="cornerDownRight" src="./assets/cursorBorderA.png">
                     <img id="cornerUpRight" src="./assets/cursorBorderB.png">
                     <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    Clear Image
+                    X
                 </button>
+                <input type="file" id="backgroundInput" class="imageInput" accept="image/*" style="display: block; width: 100px;">
             </div>
-            <p style="font-size: 1.2rem;">Default [BIMAGE1]. Background image's size should be 816x650 or higher (1.26:1) else it'll warp itself to the background.</p>
 
-            <div style="display: flex; flex-direction: row; gap: 10px;">
-                <input type="file" id="backgroundInput2" class="imageInput" accept="image/*"> 
-                <input type="file" id="backgroundInput3" class="imageInput" accept="image/*"> 
-                <input type="file" id="backgroundInput4" class="imageInput" accept="image/*"> 
-                <input type="file" id="backgroundInput5" class="imageInput" accept="image/*"> 
-                <input type="file" id="backgroundInput6" class="imageInput" accept="image/*"> 
-                <input type="file" id="backgroundInput7" class="imageInput" accept="image/*"> 
+            <div class="inputRow">
+                <label for="backgroundSelector">Background Tags:</label>
+                <select id="backgroundSelector">
+                    <option value="2">[BIMAGE2]</option>
+                    <option value="3">[BIMAGE3]</option>
+                    <option value="4">[BIMAGE4]</option>
+                    <option value="5">[BIMAGE5]</option>
+                    <option value="6">[BIMAGE6]</option>
+                    <option value="7">[BIMAGE7]</option>
+                </select>
             </div>
-            <p style="font-size: 1.2rem;">Background image tags: [BIMAGE2], [BIMAGE3], [BIMAGE4], [BIMAGE5], [BIMAGE6], [BIMAGE7] (All Optional)</p>
 
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+            <div class="inputRow">
+                <label>Tag Input:</label>
+                <input type="file" id="backgroundInput2" class="bImageInput" accept="image/*"> 
+                <input type="file" id="backgroundInput3" class="bImageInput" accept="image/*"> 
+                <input type="file" id="backgroundInput4" class="bImageInput" accept="image/*"> 
+                <input type="file" id="backgroundInput5" class="bImageInput" accept="image/*"> 
+                <input type="file" id="backgroundInput6" class="bImageInput" accept="image/*"> 
+                <input type="file" id="backgroundInput7" class="bImageInput" accept="image/*"> 
+            </div>
+        </div>
+
+        <h6><span>DIALOGUE SETTING</span></h6>
+
+        <div>
+            <div class="inputRow">
                 <label for="charDialogueName">Character Name:</label>
-                <input type="text" id="charDialogueName" fname="charDialogueName" style="flex-grow: 1; width: 200px;">
+                <input type="text" id="charDialogueName" fname="charDialogueName" style="width: 100px;">
+            </div>
+
+            <div class="inputRow">
                 <label for="dialogueSpeed">Dialogue Speed:</label>
-                <select id="dialogueSpeed" fname="dialogueSpeed" default="veryfast" style="flex-grow: 1;">
+                <select id="dialogueSpeed" fname="dialogueSpeed" default="veryfast">
                     <option value="veryslow">Very Slow</option>
                     <option value="slow">Slow</option>
                     <option value="medium">Medium</option>
@@ -242,46 +270,56 @@
                     <option value="nearinstant">Near Instant</option>
                 </select>
             </div>
-            <p style="font-size: 1.2rem;">Character Name Box will only appear if you clear image ([IMAGE1] is empty).</p>
-            
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="dialogueImageOffset">Image Horizontal Offset:</label>
-                <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="300" value="265" step="1" style="flex-grow: 1;">
-                <label for="dialogueImageOffset">Adjust Image Limit:</label>
-                <input type="range" id="dialogueHeightScaling" name="dialogueHeightScaling" min="100" max="500" value="500" step="1" style="flex-grow: 1;">
-            </div>
-            <p style="font-size: 1.2rem;">More images with lower height will fully scale up if "Adjust Image Limit" is low.</p>
+        </div>
 
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="dialogueImageOffset">Gif Scaling (0.5-1):</label>
-                <input type="range" id="gifScaling" name="gifScaling" min="0.5" max="1" step="0.1" value="1" style="flex-grow: 1;">
+        <h6><span>IMAGE SETTING AND SCALING</span></h6>
+
+        <div>
+            <div class="inputRow">
+                <label for="dialogueImageOffset">Image Horizontal Offset:</label>
+                <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="300" value="265" step="1" style="width: 100px;">
             </div>
-            
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+
+            <div class="inputRow">
+                <label for="dialogueHeightScaling">Adjust Image Limit:</label>
+                <input type="range" id="dialogueHeightScaling" name="dialogueHeightScaling" min="100" max="500" value="500" step="1" style="width: 100px;">
+            </div>
+
+            <div class="inputRow">
+                <label for="gifScaling">Gif Scaling (0.5-1):</label>
+                <input type="range" id="gifScaling" name="gifScaling" min="0.5" max="1" step="0.1" value="1" style="width: 100px;">
+            </div>
+        </div>
+
+        <h6><span>TRANSPARENCY</span></h6>
+
+        <div>
+            <div class="inputRow">
                 <label for="checkTransparent">Transparency?</label>
                 <input type="checkbox" id="checkTransparent" name="checkTransparent">
-                <label for="checkTransparent">Disable Transparency Optimization?</label>
+            </div>
+
+            <div class="inputRow">
+                <label for="checkTransparentOptimize">Disable Transparency Optimization?</label>
                 <input type="checkbox" id="checkTransparentOptimize" name="checkTransparentOptimize">
             </div>
-            <p style="font-size: 1.2rem;">If discord is crabbing up gif transparency, enable "Disable Transparency Optimization?" might work.</p>
-            <p style="font-size: 1.2rem;">If transparent rendering doesn't work on Firefox, switching to Chromium browers might work.</p>
-            
-            <div style="display: flex; flex-direction: row; gap: 10px;">
-                <button class="uiButton" id="saveButton" style="flex-grow: 1;">
-                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    <img src="./assets/saveicon.png"> Save
-                </button>
-                <button class="uiButton" type="button" id="exitButton" style="flex-grow: 1;">
-                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    <img src="./assets/quiticon.png"> Exit  
-                </button>
-            </div>
+        </div>
+
+        <div class="inputRow">
+            <button class="uiButton" id="saveButton">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/saveicon.png"> Save
+            </button>
+            <button class="uiButton" type="button" id="exitButton">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/quiticon.png"> Exit  
+            </button>
         </div>
     </form>
     <script src="dialogue_beta.js"></script>
@@ -326,12 +364,12 @@
                 if(change.attributeName.includes('src')){
                     if (document.querySelector('#checkTransparent').checked) {
                         if (document.querySelector('#checkTransparentOptimize').checked) {
-                            optimizeGIF(displayGif.src, "--lossy=30 optimized.gif -o /out/out.gif")
+                            optimizeGIF(displayGif.src, "--lossy=30 --colors 256 optimized.gif -o /out/out.gif")
                         } else {
-                            optimizeGIF(displayGif.src, "-O2 --lossy=30 optimized.gif -o /out/out.gif")
+                            optimizeGIF(displayGif.src, "-O2 --lossy=30 --colors 256 optimized.gif -o /out/out.gif")
                         }
                     } else {
-                        optimizeGIF(displayGif.src, "-O1 --lossy=60 optimized.gif -o /out/out.gif");
+                        optimizeGIF(displayGif.src, "-O1 --lossy=60 --dither --colors 256 optimized.gif -o /out/out.gif");
                     }
                 }
             });

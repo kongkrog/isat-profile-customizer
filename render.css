@@ -296,12 +296,41 @@ body {
     padding: 24px;
     z-index: 2;
 
+    max-height: 80vh;
+
     background-color: black;
     flex-direction: column;
 
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    overflow-y: scroll;
+
+    border: white 2px solid;
+}
+
+
+.inputRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+}
+.inputRow label {
+    flex-basis: 50%;
+    text-align: left;
+    margin-right: 10px;
+}
+.inputRow input, .inputRow select, .inputRow textarea, .inputRow button {
+    flex-basis: 50%;
+}
+.inputRow button img {
+    margin-right: 5px;
+}
+.inputRow input[type="range"] {
+    flex-basis: 50%;
+    width: auto;
 }
 
 #craftInput {
@@ -1045,6 +1074,15 @@ div {
 .imageInput {
     font-size: 1.3rem;
     width: 225px;
+
+    display: none;
+}
+
+.bImageInput {
+    font-size: 1.3rem;
+    width: 225px;
+
+    display: none;
 }
 
 .buttonScaleDiv {
@@ -1095,6 +1133,15 @@ th {
     display: flex;
     flex-direction: row;
 }
+
+
+@media screen and (max-width: 550px) {
+    #settingPanel {
+        width: 85%;
+        font-size: 0.8rem;
+    }
+}
+
 
 @media screen and (max-width: 816px) {
     #gifDisplay {
@@ -1222,4 +1269,17 @@ th {
     cursor: pointer;
     margin: 0;
     padding: 0;
+}
+
+h6 {
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid #fff; 
+    line-height: 0.1em;
+    margin: 10px 0 10px; 
+} 
+ 
+h6 span { 
+    background:#000; 
+    padding:0 10px; 
 }
