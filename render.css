@@ -1263,3 +1263,8 @@ h6 span {
     background:#000; 
     padding:0 10px; 
 }
+
+#debug {
+    text-align: center;
+    font-size: 1.3rem;
+}

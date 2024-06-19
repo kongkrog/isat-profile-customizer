@@ -10,15 +10,15 @@
     <script src="https://cdn.jsdelivr.net/npm/gif.js/dist/gif.worker.js"></script>
 </head>
 <body>
-    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;">
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center; margin-top: 20px;">
         <div style="margin-top: 10px; border-radius: 100px; width: 100px; height: 100px; background-image: url('./assets/profilePic.png'); background-repeat: no-repeat; background-position: center center; background-size: cover;"></div>
-        <p style="font-size: 1.7rem; font-weight: bold;">In Stars And Time Game Over Maker</p>
+        <p style="font-size: 1.7rem; font-weight: bold;">In Stars And Time Dialogue Maker</p>
         <p style="font-size: 1.3rem;">Made by kongkrog(lea)</p>
         <p style="font-size: 1.3rem;">All assets belong to insertdisc5</p>
-        <p style="font-size: 1rem;"><i>These webpages don't work on mobile for now, sadly.</i></p>
+        <p style="font-size: 1rem;"><i>This webpage is currently avaliable on mobile.<br>Ping me (@kongkrog) in ISAT Official Discord Server for bug reports.</i></p>
     </div>
-    <main id="dialogueMain"> 
-        <canvas id="gameOverCanvas" width="816" height="623" style="visibility: hidden; z-index: -1; position: absolute;"></canvas>
+    <main id="dialogueMain" style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;"> 
+        <canvas id="gameOverCanvas" width="816" height="623" style="visibility: hidden; z-index: -1; position: fixed;"></canvas>
         <img src='assets/displayGameOver.gif' width="816" id="gifDisplay">
         <img src='' width="816" id="gifResult" style="display: none">
         <img src='' width="816" id="gifOptimize" style="display: none">
@@ -33,15 +33,15 @@
             <img src="./assets/settingicon.png" style="display: none;"> Download GIF
         </button>
     </a>
-    <div style="display: flex; flex-direction: row;">
-        <button class="uiButton" style="margin-top: 20px;" id="settingButton">
+    <div id="buttonList">
+        <button class="uiButton" id="settingButton">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
             <img id="cornerDownRight" src="./assets/cursorBorderA.png">
             <img id="cornerUpRight" src="./assets/cursorBorderB.png">
             <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
             <img src="./assets/settingicon.png"> Setting
         </button>
-        <button class="uiButton" style="margin-top: 20px;" onclick="location.href='./render.html'">
+        <button class="uiButton" onclick="location.href='./render.html'">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
             <img id="cornerDownRight" src="./assets/cursorBorderA.png">
             <img id="cornerUpRight" src="./assets/cursorBorderB.png">
@@ -50,88 +50,88 @@
         </button>
     </div>
     <p style="font-size: 1rem; text-align: center;"><strong>For those who want to change the game over animation.</strong><br> Download this <a href="https://github.com/kongkrog/isat-profile-customizer">repo</a> and replace the images in the "frames" folder.<br> You will need to host a local server and run the gameover.html file.</p> 
-    <p style="font-size: 1rem;">Made using <a href="https://github.com/jnordberg/gif.js">gif.js</a> and <a href="https://github.com/renzhezhilu/gifsicle-wasm-browser">gifsicle (the browser version)</a>.</p>
-    <form id="settingPanel" onsubmit="updateProfile()">
-        <img id="cornerUIUpLeft" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIUpRight" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIDownLeft" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIDownRight" src="./assets/uicorner.svg" width="6px" height="6px">
-        
-        <div id="topUIBar"></div>
-        <div id="bottomUIBar"></div>
-        <div id="leftUIBar"></div>
-        <div id="rightUIBar"></div>
-        
-        <img id="topEndBarLeft" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="topEndBarRight" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="bottomEndBarLeft" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="bottomEndBarRight" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="leftEndBarTop" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="leftEndBarBottom" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="rightEndBarTop" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="rightEndBarBottom" src="./assets/endBar.svg" width="4px" height="4px">
-        
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="deathMessage">Death Message:</label>
-                <input type="text" id="deathMessage" fname="deathMessage" style="flex-grow: 1;">
-            </div>
+    <p style="font-size: 1rem; text-align: center;">Made using <a href="https://github.com/jnordberg/gif.js">gif.js</a> and <a href="https://github.com/renzhezhilu/gifsicle-wasm-browser">gifsicle (the browser version)</a>.</p>
+    
+    <form id="settingPanel" onsubmit="updateProfile()" style="gap: 10px; font-size: 1.3rem;">
+        <div class="inputRow">
+            <label for="deathMessage">Death Message:</label>
+            <input style="width: 100px;" type="text" id="deathMessage" fname="deathMessage" style="flex-grow: 1;">
+        </div>
 
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="textAfterLoop">After Loop Message:</label>
-                <input type="text" id="textAfterLoop" fname="textAfterLoop" style="flex-grow: 1;">
-            </div>
-            <p style="font-size: 1.2rem;">Leave this empty to skip the looping back part of the gif.</p>
-            <div>
-                <label for="cursorPosition">Cursor Position:</label>
-                <select id="cursorPosition" fname="cursorPosition" default="left" style="flex-grow: 1;" value="left">
-                    <option value="left">Left</option>
-                    <option value="right">Right</option>
-                    <option value="none">None</option>
-                </select>
-            </div>
-            <p style="font-size: 1.2rem;">Select this to None to remove the cursor.</p>
+        <div class="inputRow">
+            <label for="textAfterLoop">After Loop Message:</label>
+            <input style="width: 100px;" type="text" id="textAfterLoop" fname="textAfterLoop" style="flex-grow: 1;">
+        </div>
+        <p style="font-size: 1.2rem;">Leave this empty to skip the looping back part of the gif.</p>
+        
+        <div class="inputRow">
+            <label for="cursorPosition">Cursor Position:</label>
+            <select id="cursorPosition" fname="cursorPosition" default="left" style="flex-grow: 1;" value="left">
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+                <option value="none">None</option>
             </select>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px; flex-grow: 1;">
-                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; flex-grow: 1;">
-                    <label for="textAfterLoop">Left text:</label>
-                    <input type="text" id="leftText1" fname="leftText1" style="flex-grow: 1;" value="START">
-                    <input type="text" id="leftText2" fname="leftText2" style="flex-grow: 1;" value="AGAIN">
-                </div>
-                <div style="display: flex; flex-direction: column; align-items: center; gap: 10px; flex-grow: 1;">
-                    <label for="textAfterLoop">Right text:</label>
-                    <input type="text" id="rightText1" fname="rightText1" style="flex-grow: 1;" value="QUIT">
-                    <input type="text" id="rightText2" fname="rightText2" style="flex-grow: 1;" value="">
-                </div>
-            </div>
-            <p style="font-size: 1.2rem;">Leave these boxes empty to remove the text.</p>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="isNoise">Noise Effect?</label>
-                <input type="checkbox" id="isNoise" fname="isNoise" style="flex-grow: 1;">
-                <label for="isVHS">VHS Effect?</label>
-                <input type="checkbox" id="isVHS" fname="isVHS" style="flex-grow: 1;">
-            </div>
-            <p style="font-size: 1.2rem;">Using Noise/VSH effect or both will significantly increase gif file size.</p>
-            <div>
-                <label for="isSkipLoopBack">Skipping Looping Back Animation?</label>
-                <input type="checkbox" id="isSkipLoopBack" fname="isSkipLoopBack" style="flex-grow: 1;">
-            </div>
-            <div style="display: flex; flex-direction: row; gap: 10px;">
-                <button class="uiButton" id="saveButton" style="flex-grow: 1;">
-                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    <img src="./assets/saveicon.png"> Save
-                </button>
-                <button class="uiButton" type="button" id="exitButton" style="flex-grow: 1;">
-                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    <img src="./assets/quiticon.png"> Exit  
-                </button>
-            </div>
+        </div>
+
+        <p style="font-size: 1.2rem;">Select this to None to remove the cursor.</p>
+        </select>
+
+        <h6><span>LEFT TEXT</span></h6>
+
+        <div class="inputRow">
+            <label for="textAfterLoop">Left text 1:</label>
+            <input style="width: 100px;" type="text" id="leftText1" fname="leftText1" style="flex-grow: 1;" value="START">
+        </div>
+        
+        <div class="inputRow">
+            <label for="textAfterLoop">Left text 2:</label>
+            <input style="width: 100px;" type="text" id="leftText2" fname="leftText2" style="flex-grow: 1;" value="AGAIN">
+        </div>
+
+        <h6><span>RIGHT TEXT</span></h6>
+
+        <div class="inputRow">
+            <label for="textAfterLoop">Right text 1:</label>
+            <input style="width: 100px;" type="text" id="rightText1" fname="rightText1" style="flex-grow: 1;" value="QUIT">
+        </div>
+        
+        <div class="inputRow">
+            <label for="textAfterLoop">Right text 2:</label>
+            <input style="width: 100px;" type="text" id="rightText2" fname="rightText2" style="flex-grow: 1;" value="">
+        </div>
+
+        <p style="font-size: 1.2rem;">Leave these boxes empty to remove the text.</p>
+
+        <h6><span>EFFECT OPTIONS</span></h6>
+
+        <div class="inputRow">
+            <label for="isNoise">Noise Effect?</label>
+            <input style="width: 100px;" type="checkbox" id="isNoise" fname="isNoise" style="flex-grow: 1;">
+        </div>
+        <div class="inputRow">
+            <label for="isVHS">VHS Effect?</label>
+            <input style="width: 100px;" type="checkbox" id="isVHS" fname="isVHS" style="flex-grow: 1;">
+        </div>
+        <p style="font-size: 1.2rem;">Using Noise/VSH effect or both will significantly increase gif file size.</p>
+        <div class="inputRow">
+            <label for="isSkipLoopBack">Skipping Looping Back Animation?</label>
+            <input style="width: 100px;" type="checkbox" id="isSkipLoopBack" fname="isSkipLoopBack" style="flex-grow: 1;">
+        </div>
+        <div class="inputRow">
+            <button class="uiButton" type="button" id="saveButton" style="flex-grow: 1;">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/saveicon.png"> Save
+            </button>
+            <button class="uiButton" type="button" id="exitButton" style="flex-grow: 1;">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/quiticon.png"> Exit  
+            </button>
         </div>
     </form>
     <script src="gameover.js"></script>
