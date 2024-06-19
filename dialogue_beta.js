@@ -4,7 +4,7 @@ var globalHeightScaling = 500;
 var isTransparent = false;
 var isStatic = false;
 var globalScale = 1;
-
+var imageTextOffset = 225;
 const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
 const imageHeight = 395;
@@ -692,7 +692,7 @@ function typewriterAnimation() {
 
             if (segment.image) {
                 if (globalxOffset == 21) {
-                    globalxOffset = 21 + 230;
+                    globalxOffset = 21 + imageTextOffset;
                     xOffset = globalxOffset;
                     characters = [];
                 }
@@ -1051,7 +1051,7 @@ function typewriterAnimation() {
 
     function checkRender() {
         if (dialogueImage.getAttribute('src') != '') {
-            drawTextWithWrapping(ctx, textSegments, 21 + 230, canvasHeight - dialogueHeight + 18, canvasWidth - 19, 10);
+            drawTextWithWrapping(ctx, textSegments, 21 + imageTextOffset, canvasHeight - dialogueHeight + 18, canvasWidth - 19, 10);
             animateCharacters();
         } else {
             drawTextWithWrapping(ctx, textSegments, 21, canvasHeight - dialogueHeight + 18, canvasWidth - 19, 10);
