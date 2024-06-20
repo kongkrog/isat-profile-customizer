@@ -3,13 +3,15 @@ var globalImageOffset = 263;
 var globalHeightScaling = 500;
 var isTransparent = false;
 var isStatic = false;
+var isFixedOffset = false;
+var offsetThreshold = 55;
 var globalScale = 1;
 
 const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
-const imageHeight = 395;
+const imageHeight = 400;
+const defaultTextOffset = 220;
 
-let imageTextOffset = 215;
 let maxScaledHeight = 0;
 let imageIds = [
     "dialogueImage1", "dialogueImage2", "dialogueImage3", "dialogueImage4",
@@ -127,6 +129,8 @@ function updateProfile() {
     const fileInput = document.getElementById('fileInput');
     const checkTransparent = document.querySelector('#checkTransparent').checked;
     const gifScaling = document.getElementById('gifScaling').value;
+    const checkFixedOffset = document.querySelector('#fixedTextOffset').checked;
+
     switch (dialogueSpeed) {
         case 'veryslow':
             defaultSpeed = 35;
@@ -147,13 +151,16 @@ function updateProfile() {
             defaultSpeed = 10;
             break;
     }
+
     textString = dialogueText;
     globalImageOffset = offsetValue;
     globalHeightScaling = heightScaling;
     globalScale = gifScaling;
     isTransparent = checkTransparent;
     imageTextOffset = parseInt(textOffset);
+    isFixedOffset = checkFixedOffset;
     document.getElementById('dName').innerText = dialogueName;
+
     if (fileInput.files.length > 0) {
         document.getElementById('dName').innerText = '';
     }
@@ -248,7 +255,7 @@ const optimizeFrameColors = (data) => {
 };
 
 function parseText(text) {
-    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE(1[0-3]|[1-9])T?\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]|\[BCLEAR\]|\[SCLEAR\]|\[CLRIMG\]|\[DIALBOX=(.*?)\]/g;
+    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE(1[0-3]|[1-9])T?\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]|\[BCLEAR\]|\[SCLEAR\]|\[CLRIMG\]|\[DIALBOX=(.*?)\]|\[OFFSET=(\d+|IMG|DEFAULT)\]/g;
     const segments = [];
     let lastIndex = 0;
     let totalPauseDuration = 0;
@@ -266,9 +273,10 @@ function parseText(text) {
         italic: false,
         backgroundImage: null,
         newLine: false,
-        fontSizeChange: null, // new property for BCLEAR and SCLEAR
-        clearImage: false,    // new property for CLRIMG
-        dialogBox: null,      // new property for DIALBOX
+        fontSizeChange: null, // property for BCLEAR and SCLEAR
+        clearImage: false,    // property for CLRIMG
+        dialogBox: null,      // property for DIALBOX
+        offset: null,         // new property for OFFSET
         ...overrides
     });
 
@@ -280,7 +288,9 @@ function parseText(text) {
             }));
         }
 
-        const [match, fsSize, fsText, swText, thinText, pauseDuration, spdSpeed, spdText, shakeText, imageNum, boldText, italicText, bgImageNum, dialogBoxName] = result;
+        const [
+            match, fsSize, fsText, swText, thinText, pauseDuration, spdSpeed, spdText, shakeText, imageNum, boldText, italicText, bgImageNum, dialogBoxName, offsetValue
+        ] = result;
 
         if (fsSize) {
             segments.push(createSegment({
@@ -365,6 +375,10 @@ function parseText(text) {
             segments.push(createSegment({
                 dialogBox: dialogBoxName === '' ? null : dialogBoxName
             }));
+        } else if (offsetValue !== undefined) {
+            segments.push(createSegment({
+                offset: offsetValue === 'IMG' || offsetValue === 'DEFAULT' ? offsetValue : parseInt(offsetValue)
+            }));
         }
 
         lastIndex = regex.lastIndex;
@@ -375,6 +389,7 @@ function parseText(text) {
             text: text.slice(lastIndex)
         }));
     }
+
     return {
         segments,
         totalPauseDuration
@@ -429,6 +444,7 @@ function typewriterAnimation() {
 
     let currentBackground = 1;
     let maxFontSize = 23;
+    let imageTextOffset = defaultTextOffset;
 
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
@@ -543,7 +559,6 @@ function typewriterAnimation() {
         ctx.fillRect(0, myCanvas.height - dialogueHeight, myCanvas.width, myCanvas.height);
 
         if (dName) {
-            console.log(dName);
             drawNameBox(dName);
         }
 
@@ -576,8 +591,17 @@ function typewriterAnimation() {
             scaledWidth = image.width * scaleDown1;
             scaledHeight = image.height * scaleDown1;
         }
+
+        currentOffset = 0;
+
+        if (isFixedOffset) {
+            currentOffset = globalImageOffset;    
+        } else {
+            currentOffset = scaledWidth * 0.8;
+        }
+
         ctx.globalAlpha = opacity;
-        ctx.drawImage(image, 0, 0, image.width, image.height, globalImageOffset - xOffset - scaledWidth, canvasHeight - scaledHeight, scaledWidth, scaledHeight);
+        ctx.drawImage(image, 0, 0, image.width, image.height, currentOffset - xOffset - scaledWidth, canvasHeight - scaledHeight, scaledWidth, scaledHeight);
         ctx.globalAlpha = 1;
     }
     
@@ -593,7 +617,20 @@ function typewriterAnimation() {
         ctx.fillText(char, xOffset, yOffset);
     });
 
-    function drawTextWithWrapping(ctx, segments, globalxOffset, globalyOffset, canvasWidth, lineHeight) {
+    function drawTextWithWrapping(ctx, segments, globalyOffset, canvasWidth, lineHeight) {
+        if (dialogueImage.getAttribute('src') != '') {
+            if (isFixedOffset) {
+                globalxOffset = 21 + imageTextOffset;
+            } else {
+                if (dialogueImage.width * 0.64 > (21 + imageTextOffset + offsetThreshold)) {
+                    imageTextOffset = (dialogueImage.width * 0.64) - 10;
+                } 
+                globalxOffset = 21 + imageTextOffset;
+            }
+        }
+
+        console.log(dialogueImage.width * 0.64, 21 + imageTextOffset);
+
         let xOffset = globalxOffset;
         let yOffset = globalyOffset + maxFontSize;
         let currentSegmentIndex = 0;
@@ -643,7 +680,38 @@ function typewriterAnimation() {
             if (segment.clearImage) {
                 globalxOffset = 21;
                 xOffset = globalxOffset;
+                yOffset = globalyOffset + maxFontSize;
                 currentImageNumber = 0;
+                currentSegmentIndex++;
+                currentTextIndex = 0;
+                characters = [];
+                drawNextCharacter();
+                return;
+            }
+
+            if (segment.offset) {
+                if (segment.offset == 'IMG') {
+                    let imagePlaceholder = document.getElementById("dialogueImage" + String(currentImageNumber));
+
+                    if (imagePlaceholder.getAttribute('src') != "") {
+                        imageTextOffset = imagePlaceholder.width * 0.64 - 10;
+                        globalxOffset = 21 + imageTextOffset;
+                        xOffset = globalxOffset;
+                    } else {
+                        globalxOffset = 21;
+                        xOffset = globalxOffset;
+                    }
+
+                } else if (segment.offset == 'DEFAULT') {
+                    imageTextOffset = defaultTextOffset;
+                    globalxOffset = 21 + imageTextOffset;
+                    xOffset = globalxOffset;
+                } else {
+                    imageTextOffset = segment.offset;
+                    globalxOffset = 21 + imageTextOffset;
+                    xOffset = globalxOffset;
+                }
+
                 currentSegmentIndex++;
                 currentTextIndex = 0;
                 characters = [];
@@ -658,6 +726,7 @@ function typewriterAnimation() {
             if (segment.dialogBox) {
                 globalxOffset = 21;
                 xOffset = globalxOffset;
+                yOffset = globalyOffset + maxFontSize;
 
                 if (segment.dialogBox != "''") {
                     dName = segment.dialogBox;           
@@ -696,6 +765,7 @@ function typewriterAnimation() {
             if (segment.image) {
                 if (globalxOffset == 21) {
                     globalxOffset = 21 + imageTextOffset;
+                    console.log(imageTextOffset);
                     xOffset = globalxOffset;
                     characters = [];
                 }
@@ -958,7 +1028,6 @@ function typewriterAnimation() {
                 tempCanvas.height = dialogueHeight;
                 tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight, canvasWidth, dialogueHeight+2);
             }
-            console.log(tempCanvas.width, tempCanvas.height);
             if (backgroundImage.getAttribute('src') != '') {
                 backgroundCtx.drawImage(currentImageBackground, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
                 backgroundCtx.drawImage(tempCanvas, 0, backgroundCanvas.height - tempCanvas.height, tempCanvas.width, tempCanvas.height);
@@ -1053,13 +1122,8 @@ function typewriterAnimation() {
     });
 
     function checkRender() {
-        if (dialogueImage.getAttribute('src') != '') {
-            drawTextWithWrapping(ctx, textSegments, 21 + imageTextOffset, canvasHeight - dialogueHeight + 18, canvasWidth - 19, 10);
-            animateCharacters();
-        } else {
-            drawTextWithWrapping(ctx, textSegments, 21, canvasHeight - dialogueHeight + 18, canvasWidth - 19, 10);
-            animateCharacters();
-        }
+        drawTextWithWrapping(ctx, textSegments, canvasHeight - dialogueHeight + 18, canvasWidth - 19, 10);
+        animateCharacters();
     }
     setTimeout(checkRender, 100);
 }

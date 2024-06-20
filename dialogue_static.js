@@ -1,13 +1,18 @@
 var textString = '';
 var globalImageOffset = 263;
-var globalHeightScaling = 317;
+var globalHeightScaling = 500;
+var isTransparent = false;
+var isStatic = false;
+var isFixedOffset = false;
+var offsetThreshold = 55;
 var globalScale = 1;
-
-let imageTextOffset = 215;
 
 const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
-const imageHeight = 395;
+const imageHeight = 400;
+const defaultTextOffset = 220;
+
+let imageTextOffset = defaultTextOffset;
 
 document.getElementById("settingButton").addEventListener("click", function(event) {
     document.getElementById("settingPanel").style.display = "flex"; 
@@ -80,16 +85,16 @@ function updateProfile() {
     const dialogueText = document.getElementById('charDialogue').value;
     const dialogueName = document.getElementById('charDialogueName').value;
     const offsetValue = document.getElementById('dialogueImageOffset').value;
-    const heightScaling = document.getElementById('dialogueHeightScaling').value;
     const textOffset = document.getElementById('imageTextOffset').value;
     const fileInput = document.getElementById('fileInput');
     const gifScaling = document.getElementById('gifScaling').value;
+    const checkFixedOffset = document.querySelector('#fixedTextOffset').checked;
 
     textString = dialogueText;
     globalImageOffset = offsetValue;
-    globalHeightScaling = heightScaling;
     globalScale = gifScaling;
     imageTextOffset = parseInt(textOffset);
+    isFixedOffset = checkFixedOffset;
     
     document.getElementById('dName').innerText = dialogueName;
 
@@ -283,7 +288,7 @@ function typewriterAnimation() {
     const dName = document.getElementById("dName").innerText;
     const ctx = myCanvas.getContext("2d");
     let backgroundImage = document.getElementById("backgroundImage");
-
+    let imageTextOffset = defaultTextOffset;
     let animationEnded = false;
     let maxFontSize = 23;
 
@@ -414,33 +419,32 @@ function typewriterAnimation() {
     redrawDialogue();
 
     function drawImage(image, xOffset, opacity) {
-        let difference = 500 - image.height;
+        let difference = globalHeightScaling - image.height;
 
-        if (image.height < 500) {
-            scaleDown1 = imageHeight / 500;
-            scaleDifference = difference*scaleDown1;
+        console.log(globalHeightScaling, image.height);
+        if (image.height <= globalHeightScaling) {
+            scaleDown1 = imageHeight / globalHeightScaling;
+            scaleDifference = difference * scaleDown1;
             aimHeight = imageHeight - scaleDifference;
             scaleDown2 = aimHeight / image.height;
             scaledWidth = image.width * scaleDown2;
             scaledHeight = image.height * scaleDown2;
         } else {
-            scaleDown1 = imageHeight / image.height
+            scaleDown1 = imageHeight / image.height;
             scaledWidth = image.width * scaleDown1;
             scaledHeight = image.height * scaleDown1;
         }
-    
+
+        currentOffset = 0;
+
+        if (isFixedOffset) {
+            currentOffset = globalImageOffset;    
+        } else {
+            currentOffset = scaledWidth * 0.8;
+        }
+
         ctx.globalAlpha = opacity;
-        ctx.drawImage(
-            image,
-            0,
-            0,
-            image.width,
-            image.height,
-            globalImageOffset - xOffset - scaledWidth,
-            canvasHeight - scaledHeight,
-            scaledWidth,
-            scaledHeight
-        );
+        ctx.drawImage(image, 0, 0, image.width, image.height, currentOffset - xOffset - scaledWidth, canvasHeight - scaledHeight, scaledWidth, scaledHeight);
         ctx.globalAlpha = 1;
     }
 
@@ -452,7 +456,21 @@ function typewriterAnimation() {
         ctx.fillText(char, xOffset, yOffset);
     });
 
-    function drawTextWithWrapping(ctx, segments, globalxOffset, globalyOffset, canvasWidth, lineHeight) {
+    function drawTextWithWrapping(ctx, segments, globalyOffset, canvasWidth, lineHeight) {
+        let globalxOffset = 21;
+
+        if (dialogueImage.getAttribute('src') != '') {
+            if (isFixedOffset) {
+                globalxOffset = 21 + imageTextOffset;
+            } else {
+                if (dialogueImage.width * 0.64 > (21 + imageTextOffset + offsetThreshold)) {
+                    imageTextOffset = (dialogueImage.width * 0.64) - 10;
+                    globalxOffset = 21 + imageTextOffset;
+                } 
+                globalxOffset = 21 + imageTextOffset;
+            }
+        }
+
         let xOffset = globalxOffset;
         let yOffset = globalyOffset + maxFontSize;
         let currentSegmentIndex = 0;
@@ -584,14 +602,10 @@ function typewriterAnimation() {
     const textSegments = parseResult.segments;
 
     function checkRender() {
-        if (dialogueImage.getAttribute('src') != '') {
-            drawTextWithWrapping(ctx, textSegments, 21+imageTextOffset, canvasHeight-dialogueHeight+18, canvasWidth - 19, 10);
-            animateCharacters();
-        } else {
-            drawTextWithWrapping(ctx, textSegments, 21, canvasHeight-dialogueHeight+18, canvasWidth - 19, 10);
-            animateCharacters();
-        }
+        drawTextWithWrapping(ctx, textSegments, canvasHeight-dialogueHeight+18, canvasWidth - 19, 10);
+        animateCharacters();
     }
+
     function scaleCanvas() {
         let tempCanvas = document.createElement('canvas');
         let scaledCanvas = document.getElementById('gifResult');

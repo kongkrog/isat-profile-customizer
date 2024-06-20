@@ -141,20 +141,18 @@
             
             <div class="inputRow">
                 <label for="imageTextOffset">Text Offset (To Portrait):</label>
-                <input type="range" style="width: 100px;" id="imageTextOffset" name="imageTextOffset" min="215" max="250" value="215" step="1" style="width: 100px;">
+                <input type="range" style="width: 100px;" id="imageTextOffset" name="imageTextOffset" min="215" max="250" value="220" step="1" style="width: 100px;">
             </div>
-
-            <div class="inputRow">
-                <label for="dialogueImageOffset">Protrait Height Scaling:</label>
-                <input type="range" style="width: 100px;" id="dialogueHeightScaling" name="dialogueHeightScaling" min="260" max="317" value="317" step="1">
-            </div>
-
+            
             <div class="inputRow">
                 <label for="dialogueImageOffset">Scaling (0.5-1):</label>
                 <input type="range" style="width: 100px;" id="gifScaling" name="gifScaling" min="0.5" max="1" step="0.1" value="1">
             </div>
 
-            
+            <div class="inputRow">
+                <label for="fixedTextOffset">Fixed Text Offset?:</label>
+                <input type="checkbox" id="fixedTextOffset" name="fixedTextOffset">
+            </div>
             <div style="display: flex; flex-direction: row; gap: 10px;">
                 <button class="uiButton" id="saveButton" style="flex-grow: 1;">
                     <img id="cornerUpLeft" src="./assets/cursorBorderA.png">

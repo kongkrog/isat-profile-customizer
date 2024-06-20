@@ -84,8 +84,16 @@
     <p style="font-size: 1rem; text-align: center;">Images used in this sample gif are taken from the game, you need to own the game/get it somewhere else to use it.</p>
     
     <h6 style="padding-top: 20px;"><span>DIALOGUE IMAGE SIZE</span></h6>
-    <p style="font-size: 1rem; text-align: center;">Due to how the ISAT dialogue image works, any image larger than 500px will be scaled down to 395px.</p>
+    <p style="font-size: 1rem; text-align: center;">Due to how the ISAT dialogue image works, any image larger than 500px will be scaled down to 400px.</p>
     <p style="font-size: 1rem; text-align: center;">Any image's height smaller than 500px will stay unscale. The gif will auto-crop to the highest image height.</p>
+    <p style="font-size: 1rem; text-align: center;">Make sure your image's size is 450x500 or smaller.</p>
+
+    <h6 style="padding-top: 20px;"><span>DIALOGUE IMAGE OFFSET</span></h6>
+    <p style="font-size: 1rem; text-align: center;">The ISAT portrait is coded to be offset from the right 80% of the image's width.</p>
+    <p style="font-size: 1rem; text-align: center;">Due to this, sometimes the portrait would overlap the text.</p>
+    <p style="font-size: 1rem; text-align: center;">If you don't want this behavior, check Fixed Text Offset in the Setting menu.</p>
+    <p style="font-size: 1rem; text-align: center;">This will make all the portrait offset from a certain point instead.</p>
+    <p style="font-size: 1rem; text-align: center;">Or you can offset the text manually using [OFFSET] tag.</p>
     <p style="font-size: 1rem; text-align: center;">Made using <a href="https://github.com/jnordberg/gif.js">gif.js</a> and <a href="https://github.com/renzhezhilu/gifsicle-wasm-browser">gifsicle (the browser version)</a>.</p>
     <div id="tagTable" style="padding-top: 20px">
         <table style="position: relative;">
@@ -126,11 +134,15 @@
                 </tr>
                 <tr>
                     <td class="description"><strong>[CLRIMG]</strong>:<br> Clear text, remove current image and reset back to normal dialogue box.<br><br><i>Example:</i> <code>i'm gonna be gone[PS=500][CLRIMG]aaa</code></td>
-                    <td class="tutorialImage"><img src="./assets/tutorial/clear_image_sample.gif" alt="CLRIMG/DIALBOX Example"></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/clear_image_sample.gif" alt="CLRIMG Example"></td>
                 </tr>
                 <tr>
                     <td class="description"><strong>[DIALBOX=x]</strong>:<br> Clear text, remove current image and add dialogue name. Set dialogue name to x(text), set x to '' to remove it.<br><br><i>Example:</i> <code>i'm gonna turn into another person[PS=500][DIALBOX=person]hi.</code></td>
-                    <td class="tutorialImage"><img src="./assets/tutorial/dialogue_box_sample.gif" alt="CLRIMG/DIALBOX Example"></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/dialogue_box_sample.gif" alt="DIALBOX Example"></td>
+                </tr>
+                <tr>
+                    <td class="description"><strong>[OFFSET=x]</strong>:<br> Clear all text and manually offset the text (to image), 215 or higher.<br>Set [OFFSET=IMG] to automatically adjust offset according to the image.<br>Set [OFFSET=DEFAULT] to revert back to the normal text to image offset.<br><strong>Make sure</strong> to put this after an [IMAGE] tag.<br>This tag is irrelevant when Fixed Offset Text is on.<br><br><i>Example:</i> <code>This is a normal text. [PS=500][IMAGE2][OFFSET=DEFAULT]Oh, there's an image. [PS=500][IMAGE3][OFFSET=IMG]There's a bigger image. [PS=500][IMAGE2][OFFSET=DEFAULT]Back to normal. [PS=500][CLRIMG]Done.</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/offset_sample.gif" alt="OFFSET Example"></td>
                 </tr>
             </tbody>
         </table>
@@ -149,7 +161,13 @@
             <tbody>
                 <tr>
                     <td class="description"><strong>Transparency [✓]</strong>:<br> Allow the gif's background to be transparent.<br><br><strong>Disable Transparency Optimization?</strong><br>Sometimes websites mess up transparent gifs, turn this on to fix it but file size will increase.</td>
-                    <td class="tutorialImage"><img src="./assets/tutorial/transparency_sample.gif" style="background-image: url('./assets/funny_fire.gif'); background-repeat: no-repeat; background-position: center center; background-size: cover;"" alt="Transparency Example"></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/transparency_sample.gif" style="background-image: url('./assets/funny_fire.gif'); background-repeat: no-repeat; background-position: center center; background-size: cover;" alt="Transparency Example"></td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr>
+                    <td class="description"><strong>Fixed Text Offset [✓]</strong>:<br> Make image and text offset from a certain point instead. No hassle adjusting offset manually.<br><br>Compare this to the example at the [OFFSET] tag to see the differnce.</td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/fixed_offset_sample.gif" alt="Fixed Offset Example"></td>
                 </tr>
             </tbody>
         </table>
@@ -282,17 +300,17 @@
 
             <div class="inputRow">
                 <label for="imageTextOffset">Text Offset (To Portrait):</label>
-                <input type="range" id="imageTextOffset" name="imageTextOffset" min="215" max="250" value="215" step="1" style="width: 100px;">
-            </div>
-
-            <div class="inputRow">
-                <label for="dialogueHeightScaling">Adjust Image Limit:</label>
-                <input type="range" id="dialogueHeightScaling" name="dialogueHeightScaling" min="100" max="500" value="500" step="1" style="width: 100px;">
+                <input type="range" id="imageTextOffset" name="imageTextOffset" min="215" max="250" value="220" step="1" style="width: 100px;">
             </div>
 
             <div class="inputRow">
                 <label for="gifScaling">Gif Scaling (0.5-1):</label>
                 <input type="range" id="gifScaling" name="gifScaling" min="0.5" max="1" step="0.1" value="1" style="width: 100px;">
+            </div>
+
+            <div class="inputRow">
+                <label for="fixedTextOffset">Fixed Text Offset?:</label>
+                <input type="checkbox" id="fixedTextOffset" name="fixedTextOffset">
             </div>
         </div>
 
