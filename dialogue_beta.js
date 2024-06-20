@@ -10,8 +10,8 @@ var globalScale = 1;
 const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
 const imageHeight = 400;
-const defaultTextOffset = 220;
 
+let defaultTextOffset = 220;
 let maxScaledHeight = 0;
 let imageIds = [
     "dialogueImage1", "dialogueImage2", "dialogueImage3", "dialogueImage4",
@@ -125,7 +125,6 @@ function updateProfile() {
     const dialogueSpeed = document.getElementById('dialogueSpeed').value;
     const offsetValue = document.getElementById('dialogueImageOffset').value;
     const textOffset = document.getElementById('imageTextOffset').value;
-    const heightScaling = document.getElementById('dialogueHeightScaling').value;
     const fileInput = document.getElementById('fileInput');
     const checkTransparent = document.querySelector('#checkTransparent').checked;
     const gifScaling = document.getElementById('gifScaling').value;
@@ -154,10 +153,9 @@ function updateProfile() {
 
     textString = dialogueText;
     globalImageOffset = offsetValue;
-    globalHeightScaling = heightScaling;
     globalScale = gifScaling;
     isTransparent = checkTransparent;
-    imageTextOffset = parseInt(textOffset);
+    defaultTextOffset = parseInt(textOffset);
     isFixedOffset = checkFixedOffset;
     document.getElementById('dName').innerText = dialogueName;
 
@@ -627,6 +625,8 @@ function typewriterAnimation() {
                 } 
                 globalxOffset = 21 + imageTextOffset;
             }
+        } else {
+            globalxOffset = 21;
         }
 
         console.log(dialogueImage.width * 0.64, 21 + imageTextOffset);

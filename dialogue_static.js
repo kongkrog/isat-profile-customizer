@@ -10,8 +10,8 @@ var globalScale = 1;
 const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
 const imageHeight = 400;
-const defaultTextOffset = 220;
 
+let defaultTextOffset = 220;
 let imageTextOffset = defaultTextOffset;
 
 document.getElementById("settingButton").addEventListener("click", function(event) {
@@ -93,7 +93,7 @@ function updateProfile() {
     textString = dialogueText;
     globalImageOffset = offsetValue;
     globalScale = gifScaling;
-    imageTextOffset = parseInt(textOffset);
+    defaultTextOffset = parseInt(textOffset);
     isFixedOffset = checkFixedOffset;
     
     document.getElementById('dName').innerText = dialogueName;
@@ -469,6 +469,8 @@ function typewriterAnimation() {
                 } 
                 globalxOffset = 21 + imageTextOffset;
             }
+        } else {
+            globalxOffset = 21;
         }
 
         let xOffset = globalxOffset;
