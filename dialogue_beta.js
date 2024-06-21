@@ -256,7 +256,9 @@ const optimizeFrameColors = (data) => {
 };
 
 function parseText(text) {
-    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE(1[0-3]|[1-9])T?\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]|\[BCLEAR\]|\[SCLEAR\]|\[CLRIMG\]|\[DIALBOX=(.*?)\]|\[OFFSET=(\d+|IMG|DEFAULT)\]/g;
+    const regex = /\[FS=(\d+)\](.*?)\[\/FS\]|\[SW\](.*?)\[\/SW\]|\[THIN\](.*?)\[\/THIN\]|\[PS=(\d+)\]|\[SPD=(\d+)\](.*?)\[\/SPD\]|\[SHAKE\](.*?)\[\/SHAKE\]|\[IMAGE(1[0-3]|[1-9])T?\]|\[CLEAR\]|\[B\](.*?)\[\/B\]|\[I\](.*?)\[\/I\]|\[BIMAGE([1-9])\]|\[BR\]|\[BCLEAR\]|\[SCLEAR\]|\[CLRIMG\]|\[DIALBOX=(.*?)\]|\[OFFSET=(\d+|IMG|DEFAULT)\]|\[CHOICES=(\d+)\](.*?)\[\/CHOICES\]/g;
+    const choiceRegex = /\[OPTION\](.*?)\[\/OPTION\]|\[OPTIONT\](.*?)\[\/OPTIONT\]/g;
+    const quoteRegex = /\[QUOTE\](.*?)\[\/QUOTE\]/;
     const segments = [];
     let lastIndex = 0;
     let totalPauseDuration = 0;
@@ -278,6 +280,7 @@ function parseText(text) {
         clearImage: false,    // property for CLRIMG
         dialogBox: null,      // property for DIALBOX
         offset: null,         // new property for OFFSET
+        choices: null,        // new property for CHOICES
         ...overrides
     });
 
@@ -290,7 +293,7 @@ function parseText(text) {
         }
 
         const [
-            match, fsSize, fsText, swText, thinText, pauseDuration, spdSpeed, spdText, shakeText, imageNum, boldText, italicText, bgImageNum, dialogBoxName, offsetValue
+            match, fsSize, fsText, swText, thinText, pauseDuration, spdSpeed, spdText, shakeText, imageNum, boldText, italicText, bgImageNum, dialogBoxName, offsetValue, choicesDuration, choicesText
         ] = result;
 
         if (fsSize) {
@@ -380,6 +383,26 @@ function parseText(text) {
             segments.push(createSegment({
                 offset: offsetValue === 'IMG' || offsetValue === 'DEFAULT' ? offsetValue : parseInt(offsetValue)
             }));
+        } else if (choicesDuration !== undefined) {
+            const duration = parseInt(choicesDuration);
+            let quote = null;
+            const quoteMatch = quoteRegex.exec(choicesText);
+            const choices = [];
+            let choiceResult;
+            while ((choiceResult = choiceRegex.exec(choicesText)) !== null) {
+                const [choiceMatch, choiceText, choiceTextCorrect] = choiceResult;
+                if (choiceText !== undefined) {
+                    choices.push({ text: choiceText, correct: false });
+                } else if (choiceTextCorrect !== undefined) {
+                    choices.push({ text: choiceTextCorrect, correct: true });
+                }
+            }
+            if (quoteMatch) {
+                quote = quoteMatch[1];
+            }
+            segments.push(createSegment({
+                choices: { duration, options: choices, quote: quote },
+            }));
         }
 
         lastIndex = regex.lastIndex;
@@ -397,6 +420,7 @@ function parseText(text) {
     };
 }
 
+
 const cropCanvas = (sourceCanvas, left, top, width, height) => {
     let destCanvas = document.createElement('canvas');
     destCanvas.width = width;
@@ -412,6 +436,11 @@ function typewriterAnimation() {
     var characters = [];
     const myCanvas = document.getElementById("dialogueCanvas");
     const textCanvas = document.getElementById("textOverlay");
+
+    const cornerUpLeft = document.getElementById("assetUpLeft");
+    const cornerDownLeft = document.getElementById("assetDownLeft");
+    const cornerUpRight = document.getElementById("assetUpRight");
+    const cornerDownRight = document.getElementById("assetDownRight");
 
     const dialogueImage = document.getElementById("dialogueImage1");
    
@@ -442,15 +471,23 @@ function typewriterAnimation() {
     let showLastImage = false;
     let showCurrentImage = false;
     let currentImage = "";
+    const imageOffsetRate = 7;
 
     let containImage = false;
     let containDialogueBox = false;
 
-    const imageOffsetRate = 7;
-
     let currentBackground = 1;
     let maxFontSize = 23;
     let imageTextOffset = defaultTextOffset;
+
+    let runChoiceAnimation = false;
+    let optionList = [];
+    let choiceQuote = '';
+    let cornerOffset = 0;
+    let cornerOffsetLimit = 8;
+    let cornerReverse = false;
+    let choiceHasImage = false;
+    const CornerUpdateInterval = 0.4;
 
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
@@ -458,6 +495,20 @@ function typewriterAnimation() {
     if (isTransparent) {
         ctx.imageSmoothingEnabled = false;
     };
+
+    function drawRoundedRect(ctx, x, y, width, height, radius) {
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.lineTo(x + width - radius, y);
+        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+        ctx.lineTo(x + width, y + height - radius);
+        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+        ctx.lineTo(x + radius, y + height);
+        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+        ctx.lineTo(x, y + radius);
+        ctx.quadraticCurveTo(x, y, x + radius, y);
+        ctx.closePath();
+    }
 
     function drawCorner(x, y) {
         ctx.fillStyle = 'rgb(209,209,209)';
@@ -531,7 +582,7 @@ function typewriterAnimation() {
         ctx.fillRect(x + 2, y + 4, 2, 12);
         ctx.fillRect(x + 4, y + 6, 2, 8);
         ctx.fillRect(x + 6, y + 8, 2, 4);
-        ctx.globalAlpha = 1.0; // Reset opacity
+        ctx.globalAlpha = 1.0;
     }
 
     function drawNameBox(nameText) {
@@ -632,6 +683,7 @@ function typewriterAnimation() {
             globalxOffset = 21 + imageTextOffset;
         } else {
             globalxOffset = 21;
+            currentImageNumber = 0;
         }
 
         let xOffset = globalxOffset;
@@ -722,6 +774,29 @@ function typewriterAnimation() {
                 return;
             }
 
+            if (segment.choices !== null) {
+                let imagePlaceholder = document.getElementById("dialogueImage" + String(currentImageNumber));
+
+                if (imagePlaceholder.getAttribute('src') != "") {
+                    choiceHasImage = true;
+                } else {
+                    choiceHasImage = false;
+                }
+
+                characters = [];
+                pauseDuration = segment.choices.duration;
+                playChoiceAnimation(segment.choices.options, segment.choices.quote, true);
+                setTimeout(() => {
+                    xOffset = globalxOffset;
+                    yOffset = globalyOffset + maxFontSize;
+                    playChoiceAnimation(segment.choices.options, segment.choices.quote, false);
+                    currentSegmentIndex++;
+                    currentTextIndex = 0;
+                    drawNextCharacter();
+                }, pauseDuration);
+                return;
+            }
+
             if (segment.backgroundImage) {
                 currentBackground = segment.backgroundImage;
             }
@@ -764,11 +839,10 @@ function typewriterAnimation() {
                 }, pauseDuration);
                 return;
             }
-
+            
             if (segment.image) {
                 if (globalxOffset == 21) {
                     globalxOffset = 21 + imageTextOffset;
-                    console.log(imageTextOffset);
                     xOffset = globalxOffset;
                     characters = [];
                 }
@@ -784,6 +858,7 @@ function typewriterAnimation() {
                         playImageAnimation(currentImageNumber, oldImageNumber, true);
                         setTimeout(() => {
                             playImageAnimation(currentImageNumber, oldImageNumber, false);
+                            redrawDialogue();
                             currentSegmentIndex++;
                             currentTextIndex = 0;
                             drawNextCharacter();
@@ -877,6 +952,19 @@ function typewriterAnimation() {
         drawNextCharacter();
     }
 
+    function playChoiceAnimation(targetList, targetQuote, showChoice = true) {
+        if (showChoice) {
+            optionList = targetList;
+            choiceQuote = targetQuote;
+            runChoiceAnimation = true;
+            cornerReverse = false;
+        } else {
+            optionList = [];
+            choiceQuote = '';
+            runChoiceAnimation = false;
+        }
+    };
+
     function playArrowAnimation(showArrow = true) {
         if (showArrow) {
             arrowXOffset = 0;
@@ -947,9 +1035,68 @@ function typewriterAnimation() {
                 xOffset += Math.random() * shakeIntensity - shakeIntensity / 2;
                 yOffset += Math.random() * shakeIntensity - shakeIntensity / 2;
             }
+
             textCtx.strokeText(char, xOffset, yOffset);
             textCtx.fillText(char, xOffset, yOffset);
         });
+
+        if (runChoiceAnimation) {
+            let optionXOffset = 21;
+
+            if (choiceHasImage) {
+                optionXOffset = 236;
+            }
+
+            let optionYOffset = 72;
+            let quoteOptionOffset = 22;
+            let optionSpacing = 36;
+
+            textCtx.font = 'normal 23px VCR_OSD_MONO';
+            textCtx.style = 'white';
+            textCtx.strokeText(choiceQuote, optionXOffset, canvasHeight-dialogueHeight+40);
+            textCtx.fillText(choiceQuote, optionXOffset, canvasHeight-dialogueHeight+40);
+
+            for (let i = 0; i < optionList.length; i += 1) {
+                textCtx.strokeStyle = 'black';
+                textCtx.lineWidth = 3;
+                textCtx.strokeText(optionList[i].text, optionXOffset+quoteOptionOffset, canvasHeight-dialogueHeight+optionYOffset);
+                textCtx.fillText(optionList[i].text, optionXOffset+quoteOptionOffset, canvasHeight-dialogueHeight+optionYOffset);
+
+                let choiceBoxLength = canvasWidth - optionXOffset - optionSpacing - 5;
+
+                if (optionList[i].correct == true) {
+                    if (cornerReverse) {
+                        cornerOffset -= CornerUpdateInterval;
+                    } else {
+                        cornerOffset += CornerUpdateInterval;
+                    }
+
+                    if (cornerOffset > cornerOffsetLimit) {
+                        cornerOffset = cornerOffsetLimit;
+                        cornerReverse = true;
+                    }
+
+                    if (cornerOffset < 0) {
+                        cornerOffset = 0;
+                        cornerReverse = false;
+                    }
+
+                    drawRoundedRect(textCtx, optionXOffset+optionSpacing-20, canvasHeight-dialogueHeight+optionYOffset-25, choiceBoxLength, 37, 2);
+                    textCtx.strokeStyle = 'white';
+                    textCtx.lineWidth = 2;
+                    textCtx.stroke();
+
+                    textCtx.drawImage(cornerUpLeft, optionXOffset-cornerOffset, canvasHeight-dialogueHeight+optionYOffset-cornerUpLeft.height-6-cornerOffset);
+                    textCtx.drawImage(cornerUpRight, optionXOffset+choiceBoxLength+cornerOffset, canvasHeight-dialogueHeight+optionYOffset-cornerUpLeft.height-6-cornerOffset);
+                    textCtx.drawImage(cornerDownLeft, optionXOffset-3-cornerOffset, canvasHeight-dialogueHeight+optionYOffset-12+cornerOffset);
+                    textCtx.drawImage(cornerDownRight, optionXOffset+choiceBoxLength+cornerOffset, canvasHeight-dialogueHeight+optionYOffset-8+cornerOffset);
+                }
+
+                optionYOffset += optionSpacing;
+            }
+            textCtx.strokeStyle = 'black';
+            textCtx.lineWidth = 3;
+        }
 
         if (runImageAnimation) {
             if (showLastImage) {
@@ -975,6 +1122,7 @@ function typewriterAnimation() {
             let currentImage = document.getElementById("dialogueImage" + String(currentImageNumber));
             drawImage(currentImage, 0, 1);
         }
+
         if (arrowVisible) {
             if (fadingIn) {
                 arrowOpacity += fadeSpeed;
@@ -1008,6 +1156,7 @@ function typewriterAnimation() {
             const arrowX = canvasWidth - 33 + arrowXOffset;
             drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
         }
+        
         if (animationEnded != true) {
             ctx.drawImage(textCanvas, 0, 0);
 
