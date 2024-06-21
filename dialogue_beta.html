@@ -18,7 +18,10 @@
         <p style="font-size: 1rem;"><i>This webpage is currently avaliable on mobile.<br>Ping me (@kongkrog) in ISAT Official Discord Server for bug reports.</i></p>
     </div>
     <main id="dialogueMain" style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;"> 
-        <canvas id="dialogueCanvas" width="816" height="395" style="display: none"></canvas>
+        <div id="canvasDiv" style="position: relative;">
+            <canvas id="dialogueCanvas" width="816" height="400" style="display: none"></canvas>
+            <canvas id="textOverlay" width="816" height="400" style="display: none; position: absolute; top: 0; left: 0;"></canvas>
+        </div>
         <img src='./assets/displayGif.gif' width="816" id="gifDisplay">
         <img src='' width="816" id="gifResult" style="display: none">
         <img src='' width="816" id="gifOptimize" style="display: none">
@@ -300,7 +303,7 @@
 
             <div class="inputRow">
                 <label for="imageTextOffset">Text Offset (To Portrait):</label>
-                <input type="range" id="imageTextOffset" name="imageTextOffset" min="215" max="250" value="220" step="1" style="width: 100px;">
+                <input type="range" id="imageTextOffset" name="imageTextOffset" min="215" max="250" value="215" step="1" style="width: 100px;">
             </div>
 
             <div class="inputRow">
@@ -392,7 +395,7 @@
                             optimizeGIF(displayGif.src, "-O2 --lossy=30 --colors 256 optimized.gif -o /out/out.gif")
                         }
                     } else {
-                        optimizeGIF(displayGif.src, "-O1 --lossy=60 --dither --colors 256 optimized.gif -o /out/out.gif");
+                        optimizeGIF(displayGif.src, "-O1 --lossy=60 --colors 256 optimized.gif -o /out/out.gif");
                     }
                 }
             });

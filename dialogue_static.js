@@ -11,7 +11,7 @@ const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
 const imageHeight = 400;
 
-let defaultTextOffset = 220;
+let defaultTextOffset = 215;
 let imageTextOffset = defaultTextOffset;
 
 document.getElementById("settingButton").addEventListener("click", function(event) {
@@ -284,9 +284,13 @@ const cropCanvas = (sourceCanvas,left,top,width,height) => {
 function typewriterAnimation() {
     var characters = [];
     const myCanvas = document.getElementById("dialogueCanvas");
+    const textCanvas = document.getElementById("textOverlay");
+
     const dialogueImage = document.getElementById("dialogueImage1");
     const dName = document.getElementById("dName").innerText;
+
     const ctx = myCanvas.getContext("2d");
+    const textCtx = textCanvas.getContext("2d");
     let backgroundImage = document.getElementById("backgroundImage");
     let imageTextOffset = defaultTextOffset;
     let animationEnded = false;
@@ -396,7 +400,8 @@ function typewriterAnimation() {
     function redrawDialogue() {
         if (ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
         ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
-    
+        textCtx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        
         ctx.fillStyle = 'black';
         ctx.fillRect(0, myCanvas.height-dialogueHeight, myCanvas.width, myCanvas.height);
     
@@ -450,25 +455,18 @@ function typewriterAnimation() {
 
     drawImage(dialogueImage, 0, 1);
 
-    ctx.fillStyle = 'white';
+    textCtx.fillStyle = 'white';
+    textCtx.strokeStyle = 'black';
+    textCtx.lineWidth = 3;
     characters.forEach(({ char, xOffset, yOffset, font }) => {
-        ctx.font = font;
-        ctx.fillText(char, xOffset, yOffset);
+        textCtx.font = font;
+        textCtx.strokeText(char, xOffset, yOffset);
+        textCtx.fillText(char, xOffset, yOffset);
     });
 
     function drawTextWithWrapping(ctx, segments, globalyOffset, canvasWidth, lineHeight) {
-        let globalxOffset = 21;
-
         if (dialogueImage.getAttribute('src') != '') {
-            if (isFixedOffset) {
-                globalxOffset = 21 + imageTextOffset;
-            } else {
-                if (dialogueImage.width * 0.64 > (21 + imageTextOffset + offsetThreshold)) {
-                    imageTextOffset = (dialogueImage.width * 0.64) - 10;
-                    globalxOffset = 21 + imageTextOffset;
-                } 
-                globalxOffset = 21 + imageTextOffset;
-            }
+            globalxOffset = 21 + imageTextOffset;
         } else {
             globalxOffset = 21;
         }
@@ -480,7 +478,7 @@ function typewriterAnimation() {
         let nextWordWidth = 0;
 
         function drawNextCharacter() {
-            ctx.font = 'normal ' + String(maxFontSize) +'px VCR_OSD_MONO';
+            textCtx.font = 'normal ' + String(maxFontSize) +'px VCR_OSD_MONO';
             if (currentSegmentIndex >= segments.length) {
                 animationEnded = true; 
                 return;
@@ -527,7 +525,7 @@ function typewriterAnimation() {
             }
 
             const char = text[currentTextIndex];
-            const charWidth = ctx.measureText(char).width;
+            const charWidth = textCtx.measureText(char).width;
 
             // Calculate the width of the next word
             let nextSpaceIndex = text.indexOf(' ', currentTextIndex);
@@ -535,7 +533,7 @@ function typewriterAnimation() {
                 nextSpaceIndex = text.length;
             }
             const nextWord = text.substring(currentTextIndex, nextSpaceIndex);
-            nextWordWidth = ctx.measureText(nextWord).width;
+            nextWordWidth = textCtx.measureText(nextWord).width;
     
             // Wrap text if next word exceeds canvas width
             if (xOffset + nextWordWidth > canvasWidth - 16) {
@@ -555,7 +553,7 @@ function typewriterAnimation() {
                 return;
             }
             
-            characters.push({ char, xOffset, yOffset, font: ctx.font, bold: segment.bold, italic: segment.italic });
+            characters.push({ char, xOffset, yOffset, font: textCtx.font, bold: segment.bold, italic: segment.italic });
 
             xOffset += charWidth;
             currentTextIndex++;
@@ -573,24 +571,25 @@ function typewriterAnimation() {
         redrawDialogue();
         drawImage(dialogueImage, 0, 1);
 
-        ctx.fillStyle = 'white';
+        textCtx.fillStyle = 'white';
 
         characters.forEach(({ char, xOffset, yOffset, font, bold, italic }) => {
-            ctx.font = font;
+            textCtx.font = font;
 
             if (bold && !italic) {
-                ctx.font = "bold " + String(maxFontSize) + "px VCR_OSD_MONO"
+                textCtx.font = "bold " + String(maxFontSize) + "px VCR_OSD_MONO"
             }
 
             if (italic && !bold) {
-                ctx.font = "italic " + String(maxFontSize) + "px VCR_OSD_MONO"
+                textCtx.font = "italic " + String(maxFontSize) + "px VCR_OSD_MONO"
             }
 
             if (bold && italic) {
-                ctx.font = "bold italic " + String(maxFontSize) + "px VCR_OSD_MONO"
+                textCtx.font = "bold italic " + String(maxFontSize) + "px VCR_OSD_MONO"
             }
 
-            ctx.fillText(char, xOffset, yOffset);
+            textCtx.strokeText(char, xOffset, yOffset);
+            textCtx.fillText(char, xOffset, yOffset);
         });
         
         drawArrow(myCanvas.width - 33, myCanvas.height - 37, 1);
@@ -609,11 +608,12 @@ function typewriterAnimation() {
     }
 
     function scaleCanvas() {
+        ctx.drawImage(textCanvas, 0, 0);
+
         let tempCanvas = document.createElement('canvas');
         let scaledCanvas = document.getElementById('gifResult');
         let backgroundCanvas = document.createElement('canvas');
         
-        const tempCtx = tempCanvas.getContext('2d');
         const scaledCtx = scaledCanvas.getContext('2d');
         const backgroundCtx = backgroundCanvas.getContext('2d');
         const debugText = document.getElementById('debug');

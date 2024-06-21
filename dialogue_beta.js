@@ -11,8 +11,9 @@ const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
 const imageHeight = 400;
 
-let defaultTextOffset = 220;
+let defaultTextOffset = 215;
 let maxScaledHeight = 0;
+
 let imageIds = [
     "dialogueImage1", "dialogueImage2", "dialogueImage3", "dialogueImage4",
     "dialogueImage5", "dialogueImage6", "dialogueImage7", "dialogueImage8",
@@ -193,11 +194,13 @@ document.getElementById("saveButton").addEventListener("click", function(event) 
     const gifResult = document.getElementById('gifResult');
     const gifDisplay = document.getElementById('gifDisplay');
     const myCanvas = document.getElementById('dialogueCanvas');
+    const textCanvas = document.getElementById('textOverlay');
     downloadButton.style.display = 'none';
 
     gifDisplay.style.display = 'none';
     gifResult.style.display = 'none';
     myCanvas.style.display = 'block';
+    textCanvas.style.display = 'block';
 
     debugText.innerText = 'Rendering... Please do not use Settings while rendering.'
 
@@ -408,9 +411,14 @@ const cropCanvas = (sourceCanvas, left, top, width, height) => {
 function typewriterAnimation() {
     var characters = [];
     const myCanvas = document.getElementById("dialogueCanvas");
+    const textCanvas = document.getElementById("textOverlay");
+
     const dialogueImage = document.getElementById("dialogueImage1");
-    let dName = document.getElementById("dName").innerText;
+   
     const ctx = myCanvas.getContext("2d");
+    const textCtx = textCanvas.getContext("2d");
+    
+    let dName = document.getElementById("dName").innerText;
     let backgroundImage = document.getElementById("backgroundImage1");
 
     let animationEnded = false;
@@ -528,7 +536,7 @@ function typewriterAnimation() {
 
     function drawNameBox(nameText) {
         ctx.font = '23px VCR_OSD_MONO';
-        const charWidth = ctx.measureText(nameText).width;
+        const charWidth = textCtx.measureText(nameText).width;
 
         ctx.fillStyle = 'black';
         ctx.fillRect(0, myCanvas.height - dialogueHeight - dialogueNameboxHeight - 1, 44 + charWidth + 7, myCanvas.height - 188);
@@ -552,6 +560,7 @@ function typewriterAnimation() {
     function redrawDialogue() {
         if (ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
         ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        textCtx.clearRect(0, 0, myCanvas.width, myCanvas.height);
 
         ctx.fillStyle = 'black';
         ctx.fillRect(0, myCanvas.height - dialogueHeight, myCanvas.width, myCanvas.height);
@@ -604,32 +613,26 @@ function typewriterAnimation() {
     }
     
     drawImage(dialogueImage, 0, 1);
-    ctx.fillStyle = 'white';
+    textCtx.fillStyle = 'white';
+    textCtx.strokeStyle = 'black';
+    textCtx.lineWidth = 3;
     characters.forEach(({
         char,
         xOffset,
         yOffset,
         font
     }) => {
-        ctx.font = font;
-        ctx.fillText(char, xOffset, yOffset);
+        textCtx.font = font;
+        textCtx.strokeText(char, xOffset, yOffset);
+        textCtx.fillText(char, xOffset, yOffset);
     });
 
     function drawTextWithWrapping(ctx, segments, globalyOffset, canvasWidth, lineHeight) {
         if (dialogueImage.getAttribute('src') != '') {
-            if (isFixedOffset) {
-                globalxOffset = 21 + imageTextOffset;
-            } else {
-                if (dialogueImage.width * 0.64 > (21 + imageTextOffset + offsetThreshold)) {
-                    imageTextOffset = (dialogueImage.width * 0.64) - 10;
-                } 
-                globalxOffset = 21 + imageTextOffset;
-            }
+            globalxOffset = 21 + imageTextOffset;
         } else {
             globalxOffset = 21;
         }
-
-        console.log(dialogueImage.width * 0.64, 21 + imageTextOffset);
 
         let xOffset = globalxOffset;
         let yOffset = globalyOffset + maxFontSize;
@@ -640,7 +643,7 @@ function typewriterAnimation() {
         let pauseDuration = null;
 
         function drawNextCharacter() {
-            ctx.font = 'normal ' + String(maxFontSize) +'px VCR_OSD_MONO';
+            textCtx.font = 'normal ' + String(maxFontSize) +'px VCR_OSD_MONO';
 
             if (currentSegmentIndex >= segments.length) {
                 pauseDuration = 2000;
@@ -802,14 +805,14 @@ function typewriterAnimation() {
             }
 
             const char = text[currentTextIndex];
-            const charWidth = ctx.measureText(char).width;
+            const charWidth = textCtx.measureText(char).width;
 
             let nextSpaceIndex = text.indexOf(' ', currentTextIndex);
             if (nextSpaceIndex === -1) {
                 nextSpaceIndex = text.length;
             }
             const nextWord = text.substring(currentTextIndex, nextSpaceIndex);
-            nextWordWidth = ctx.measureText(nextWord).width;
+            nextWordWidth = textCtx.measureText(nextWord).width;
 
             if (xOffset + nextWordWidth > canvasWidth - 4) {
                 xOffset = globalxOffset;
@@ -839,7 +842,7 @@ function typewriterAnimation() {
                 } else {
                     word = remainingText;
                 }
-                wordWidth = ctx.measureText(word).width;
+                wordWidth = textCtx.measureText(word).width;
             }
 
             if ((segment.shake || segment.wave) && xOffset + wordWidth > canvasWidth - 4) {
@@ -851,7 +854,7 @@ function typewriterAnimation() {
                 char,
                 xOffset,
                 yOffset,
-                font: ctx.font,
+                font: textCtx.font,
                 wave: segment.wave,
                 shake: segment.shake,
                 image: segment.image,
@@ -906,7 +909,7 @@ function typewriterAnimation() {
         redrawDialogue();
         currentImageBackground = document.getElementById("backgroundImage" + String(currentBackground));
 
-        ctx.fillStyle = 'white';
+        textCtx.fillStyle = 'white';
         const time = Date.now();
         characters.forEach(({
             char,
@@ -919,18 +922,18 @@ function typewriterAnimation() {
             bold,
             italic
         }) => {
-            ctx.font = font;
+            textCtx.font = font;
 
             if (bold && !italic) {
-                ctx.font = "bold " + String(maxFontSize) + "px VCR_OSD_MONO"
+                textCtx.font = "bold " + String(maxFontSize) + "px VCR_OSD_MONO"
             }
 
             if (italic && !bold) {
-                ctx.font = "italic " + String(maxFontSize) + "px VCR_OSD_MONO"
+                textCtx.font = "italic " + String(maxFontSize) + "px VCR_OSD_MONO"
             }
 
             if (bold && italic) {
-                ctx.font = "bold italic " + String(maxFontSize) + "px VCR_OSD_MONO"
+                textCtx.font = "bold italic " + String(maxFontSize) + "px VCR_OSD_MONO"
             }
 
             if (wave) {
@@ -944,8 +947,8 @@ function typewriterAnimation() {
                 xOffset += Math.random() * shakeIntensity - shakeIntensity / 2;
                 yOffset += Math.random() * shakeIntensity - shakeIntensity / 2;
             }
-
-            ctx.fillText(char, xOffset, yOffset);
+            textCtx.strokeText(char, xOffset, yOffset);
+            textCtx.fillText(char, xOffset, yOffset);
         });
 
         if (runImageAnimation) {
@@ -1006,6 +1009,8 @@ function typewriterAnimation() {
             drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
         }
         if (animationEnded != true) {
+            ctx.drawImage(textCanvas, 0, 0);
+
             let tempCanvas = document.createElement('canvas');
             let scaledCanvas = document.createElement('canvas');
             let backgroundCanvas = document.createElement('canvas');
@@ -1118,6 +1123,7 @@ function typewriterAnimation() {
         const debugText = document.getElementById('debug');
         debugText.innerText = 'Optimizing GIF...'
         myCanvas.style.display = 'none';
+        textCanvas.style.display = 'none';
         gifOptimize.src = URL.createObjectURL(blob);
     });
 
