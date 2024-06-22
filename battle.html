@@ -57,41 +57,29 @@
     </div>
     <p style="font-size: 1rem;">Preferred Image Size: Aspect Ratio 0.55:1 (Ex: 278x506)</p>
     <p style="font-size: 1rem;">You can zoom in and screenshot.</p>
-    <form id="settingPanel" onsubmit="updateProfile();">
-        <img id="cornerUIUpLeft" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIUpRight" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIDownLeft" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIDownRight" src="./assets/uicorner.svg" width="6px" height="6px">
-        <div id="topUIBar"></div>
-        <div id="bottomUIBar"></div>
-        <div id="leftUIBar"></div>
-        <div id="rightUIBar"></div>
-        <img id="topEndBarLeft" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="topEndBarRight" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="bottomEndBarLeft" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="bottomEndBarRight" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="leftEndBarTop" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="leftEndBarBottom" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="rightEndBarTop" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="rightEndBarBottom" src="./assets/endBar.svg" width="4px" height="4px">
+    <form id="settingPanel" onsubmit="updateProfile();" style="font-size: 1.3rem; gap: 10px;">
         <p>Enter Character Name to replace "HP"</p>
-        <div>
+        <h6><span>CHARACTER</span></h6>
+        <div class="inputRow">
             <label for="charHP">HP:</label>
             <input type="number" id="charHP" fname="charHP">
         </div>
-        <div>
+        <div class="inputRow">
             <label for="charMaxHP">Max HP:</label>
             <input type="number" id="charMaxHP" fname="charMaxHP">
         </div>
-        <div>
+        <div class="inputRow">
             <label for="charName">Character Name:</label>
             <input type="text" id="charName" fname="charName">
         </div>
-        <div>
+        <div class="inputRow">
             <label for="checkMaxHP">Show Max HP?</label>
             <input type="checkbox" id="checkMaxHP" fname="checkMaxHP">
         </div>
-        Image: <input type="file" id="fileInput" accept="image/*"> 
+        <div class="inputRow">
+            <label for="fileInput">Image:</label>
+            <input type="file" id="fileInput" accept="image/*"> 
+        </div>
         <div style="display: flex; flex-direction: row;">
             <button class="uiButton" id="saveButton">
                 <img id="cornerUpLeft" src="./assets/cursorBorderA.png">

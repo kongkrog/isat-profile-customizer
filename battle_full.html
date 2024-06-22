@@ -88,182 +88,221 @@
     <p style="font-size: 1rem;">Preferred Image Size: Aspect Ratio 0.55:1 (Ex: 278x506)</p>
     <p style="font-size: 1rem;">If the game's font doesn't load properly, refresh will work.</p>
     <p style="font-size: 1rem;">Right click the canvas to save image.</p>
-    <form id="settingPanel" onsubmit="updateProfile();" style="font-size: 1.5rem;">
-        <img id="cornerUIUpLeft" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIUpRight" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIDownLeft" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIDownRight" src="./assets/uicorner.svg" width="6px" height="6px">
-        <div id="topUIBar"></div>
-        <div id="bottomUIBar"></div>
-        <div id="leftUIBar"></div>
-        <div id="rightUIBar"></div>
-        <img id="topEndBarLeft" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="topEndBarRight" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="bottomEndBarLeft" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="bottomEndBarRight" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="leftEndBarTop" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="leftEndBarBottom" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="rightEndBarTop" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="rightEndBarBottom" src="./assets/endBar.svg" width="4px" height="4px">
-        <div style="display: flex; flex-direction: column; gap: 10px; width: 1000px;">
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <i><strong>Char 1:</strong></i>
-                <label for="hp1">HP:</label>
-                <input style="width: 100px;" type="number" id="hp1" name="hp1" value="100">
-                <label for="maxHp1">Max HP:</label>
-                <input style="width: 100px;" type="number" id="maxHp1" name="maxHp1" value="100">
-                <label for="checkMaxHp1">Show Max HP?</label>
-                <input type="checkbox" id="checkMaxHp1" name="checkMaxHp1">
-                <label for="showChar1">Show Character?</label>
-                <input type="checkbox" id="showChar1" name="showChar1" checked>
-            </div>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="thyme1">Thyme Bar:</label>
-                <input style="width: 100px;" type="range" id="thyme1" name="thyme1" min="0" max="1" value="1" step="0.05" style="flex-grow: 1;">
-                <label for="name1">Name:</label>
-                <input style="width: 100px;" type="text" id="name1" name="name1">
-                Image: <input type="file" id="imageInput1" accept="image/*">
-            </div>
-    
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <i><strong>Char 2:</strong></i>
-                <label for="hp2">HP:</label>
-                <input style="width: 100px;" style="width: 100px;" type="number" id="hp2" name="hp2" value="100">
-                <label for="maxHp2">Max HP:</label>
-                <input style="width: 100px;" type="number" id="maxHp2" name="maxHp2" value="100">
-                <label for="checkMaxHp2">Show Max HP?</label>
-                <input type="checkbox" id="checkMaxHp2" name="checkMaxHp2">
-                <label for="showChar2">Show Character?</label>
-                <input type="checkbox" id="showChar2" name="showChar2" checked>
-            </div>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="thyme2">Thyme Bar:</label>
-                <input style="width: 100px;" type="range" id="thyme2" name="thyme2" min="0" max="1" value="1" step="0.05" style="flex-grow: 1;">
-                <label for="name2">Name:</label>
-                <input style="width: 100px;" type="text" id="name2" name="name2">
-                Image: <input type="file" id="imageInput2" accept="image/*">
-            </div>
-    
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <i><strong>Char 3:</strong></i>
-                <label for="hp3">HP:</label>
-                <input style="width: 100px;" type="number" id="hp3" name="hp3" value="100">
-                <label for="maxHp3">Max HP:</label>
-                <input style="width: 100px;" type="number" id="maxHp3" name="maxHp3" value="100">
-                <label for="checkMaxHp3">Show Max HP?</label>
-                <input type="checkbox" id="checkMaxHp3" name="checkMaxHp3">
-                <label for="showChar3">Show Character?</label>
-                <input type="checkbox" id="showChar3" name="showChar3" checked>
-            </div>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="thyme3">Thyme Bar:</label>
-                <input style="width: 100px;" type="range" id="thyme3" name="thyme3" min="0" max="1" value="1" step="0.05" style="flex-grow: 1;">
-                <label for="name3">Name:</label>
-                <input style="width: 100px;" type="text" id="name3" name="name3">
-                Image: <input type="file" id="imageInput3" accept="image/*">
-            </div>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <i><strong>Char 4:</strong></i>
-                <label for="hp4">HP:</label>
-                <input style="width: 100px;" type="number" id="hp4" name="hp4" value="100">
-                <label for="maxHp4">Max HP:</label>
-                <input style="width: 100px;" type="number" id="maxHp4" name="maxHp4" value="100">
-                <label for="checkMaxHp4">Show Max HP?</label>
-                <input type="checkbox" id="checkMaxHp4" name="checkMaxHp4">
-                <label for="showChar4">Show Character?</label>
-                <input type="checkbox" id="showChar4" name="showChar4" checked>
-            </div>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="thyme4">Thyme Bar:</label>
-                <input style="width: 100px;" type="range" id="thyme4" name="thyme4" min="0" max="1" value="1" step="0.05" style="flex-grow: 1;">
-                <label for="name4">Name:</label>
-                <input style="width: 100px;" type="text" id="name4" name="name4">
-                Image: <input type="file" id="imageInput4" accept="image/*">
-            </div>
-            <p style="font-size: 1.2rem;">Input Character Name will be replace the "HP" text.</p>
-            <p style="font-size: 1.2rem;">Enemies' sprite location is in /In Stars And Time/www/img/enemies/.</p>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                Enemy Image: <input type="file" id="fileInput" accept="image/*"> 
-                <button class="uiButton" id="addEnemyButton">
-                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    <img src="./assets/saveicon.png"> Add Enemy
-                </button>
-            </div>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="selectBackground">Background Image: </label>
-                <select id="selectBackground">
-                    <option value="./assets/battlebacks/pattern_weak.png">pattern_weak.png</option>
-                    <option value="./assets/battlebacks/pattern_midboss2.png">pattern_midboss2.png</option>
-                    <option value="./assets/battlebacks/pattern_basic.png">pattern_basic.png</option>
-                    <option value="./assets/battlebacks/pattern_bomb.png">pattern_bomb.png</option>
-                    <option value="./assets/battlebacks/pattern_crest.png">pattern_crest.png</option>
-                    <option value="./assets/battlebacks/pattern_tutokid.png">pattern_tutokid.png</option>
-                    <option value="./assets/battlebacks/pattern_MDP.png">pattern_MDP.png</option>
-                    <option value="./assets/battlebacks/pattern_midboss3.png">pattern_midboss3.png</option>
-                    <option value="./assets/battlebacks/pattern_exp.png">pattern_exp.png</option>
-                    <option value="./assets/battlebacks/pattern_king.png">pattern_king.png</option>
-                    <option value="./assets/battlebacks/pattern_shield.png">pattern_shield.png</option>
-                    <option value="./assets/battlebacks/pattern_upperdowner.png">pattern_upperdowner.png</option>
-                    <option value="./assets/battlebacks/pattern_basic2.png">pattern_basic2.png</option>
-                    <option value="./assets/battlebacks/pattern_king_5.png">pattern_king_5.png</option>
-                    <option value="./assets/battlebacks/pattern_slow.png">pattern_slow.png</option>
-                    <option value="./assets/battlebacks/pattern_knots.png">pattern_knots.png</option>
-                    <option value="./assets/battlebacks/pattern_midboss1.png">pattern_midboss1.png</option>
-                </select>
-                <label for="showBackgroundVHS">VHS Background Effect?</label>
-                <input type="checkbox" id="showBackgroundVHS" name="showBackgroundVHS">
-            </div>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="backgroundInput">Custom BG Image: </label>
-                <input type="file" id="backgroundInput" accept="image/*" style="width: 250px;">
-                <label for="backgroundType">Render: </label>
-                <select id="backgroundType">
-                    <option value="pattern">Pattern</option>
-                    <option value="full">Full</option>
-                </select>
-                <button class="uiButton" id="clearImage">
-                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    Clear Image
-                </button>
-            </div>
-            <p style="font-size: 1.2rem;">Full Render Custom BG size should be 816x335. Clear Image to remove.</p>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <label for="attackType">Attack Type: </label>
-                <select id="attackType">
-                    <option value="./assets/scissorcraft.png">Scissors</option>
-                    <option value="./assets/rockcraft.png">Rock</option>
-                    <option value="./assets/papercraft.png">Paper</option>
-                </select>
-                <label for="menuSelection">Menu Selection: </label>
-                <select id="menuSelection">
-                    <option value="1">Attack</option>
-                    <option value="197">Craft</option>
-                    <option value="396">Guard</option>
-                    <option value="594">Pockets</option>
-                </select>
-            </div>
-            <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
-                <button class="uiButton" id="saveButton">
-                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    <img src="./assets/saveicon.png"> Save
-                </button>
-                <button class="uiButton" type="button" onclick="exitSetting()">
-                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    <img src="./assets/quiticon.png"> Exit
-                </button>
-            </div>
+    <form id="settingPanel" onsubmit="updateProfile();" style="font-size: 1.3rem; gap: 10px;">
+        <p style="font-size: 1.2rem;">Input Character Name will be replace the "HP" text.</p>
+        <h6><span>CHARACTER 1</span></h6>
+        <div class="inputRow">
+            <label for="name1">Name:</label>
+            <input style="width: 100px;" type="text" id="name1" name="name1">
+        </div>
+        <div class="inputRow">
+            <label for="name1">Portrait:</label>
+            <input type="file" style="width: 100px;" id="imageInput1" accept="image/*">
+        </div>
+        <div class="inputRow">
+            <label for="hp1">HP:</label>
+            <input style="width: 100px;" type="number" id="hp1" name="hp1" value="100">
+        </div>
+        <div class="inputRow">
+            <label for="maxHp1">Max HP:</label>
+            <input style="width: 100px;" type="number" id="maxHp1" name="maxHp1" value="100">
+        </div>
+        <div class="inputRow">
+            <label for="checkMaxHp1">Show Max HP?</label>
+            <input type="checkbox" id="checkMaxHp1" name="checkMaxHp1">
+        </div>
+        <div class="inputRow">
+            <label for="showChar1">Show Character?</label>
+            <input type="checkbox" id="showChar1" name="showChar1" checked>
+        </div>
+        <div class="inputRow">
+            <label for="thyme1">Thyme Bar:</label>
+            <input style="width: 100px;" type="range" id="thyme1" name="thyme1" min="0" max="1" value="1" step="0.05" style="flex-grow: 1;">
+        </div>
+   
+        <h6><span>CHARACTER 2</span></h6>
+        <div class="inputRow">
+            <label for="name2">Name:</label>
+            <input style="width: 100px;" type="text" id="name2" name="name2">
+        </div>
+        <div class="inputRow">
+            <label for="imageInput2">Portrait:</label>
+            <input type="file" style="width: 100px;" id="imageInput2" accept="image/*">
+        </div>
+        <div class="inputRow">
+            <label for="hp2">HP:</label>
+            <input style="width: 100px;" type="number" id="hp2" name="hp2" value="100">
+        </div>
+        <div class="inputRow">
+            <label for="maxHp2">Max HP:</label>
+            <input style="width: 100px;" type="number" id="maxHp2" name="maxHp2" value="100">
+        </div>
+        <div class="inputRow">
+            <label for="checkMaxHp2">Show Max HP?</label>
+            <input type="checkbox" id="checkMaxHp2" name="checkMaxHp2">
+        </div>
+        <div class="inputRow">
+            <label for="showChar2">Show Character?</label>
+            <input type="checkbox" id="showChar2" name="showChar2" checked>
+        </div>
+        <div class="inputRow">
+            <label for="thyme2">Thyme Bar:</label>
+            <input style="width: 100px;" type="range" id="thyme2" name="thyme2" min="0" max="1" value="1" step="0.05" style="flex-grow: 1;">
+        </div>
+
+        <h6><span>CHARACTER 3</span></h6>
+        <div class="inputRow">
+            <label for="name3">Name:</label>
+            <input style="width: 100px;" type="text" id="name3" name="name3">
+        </div>
+        <div class="inputRow">
+            <label for="imageInput3">Portrait:</label>
+            <input type="file" style="width: 100px;" id="imageInput3" accept="image/*">
+        </div>
+        <div class="inputRow">
+            <label for="hp3">HP:</label>
+            <input style="width: 100px;" type="number" id="hp3" name="hp3" value="100">
+        </div>
+        <div class="inputRow">
+            <label for="maxHp3">Max HP:</label>
+            <input style="width: 100px;" type="number" id="maxHp3" name="maxHp3" value="100">
+        </div>
+        <div class="inputRow">
+            <label for="checkMaxHp3">Show Max HP?</label>
+            <input type="checkbox" id="checkMaxHp3" name="checkMaxHp3">
+        </div>
+        <div class="inputRow">
+            <label for="showChar3">Show Character?</label>
+            <input type="checkbox" id="showChar3" name="showChar3" checked>
+        </div>
+        <div class="inputRow">
+            <label for="thyme3">Thyme Bar:</label>
+            <input style="width: 100px;" type="range" id="thyme3" name="thyme3" min="0" max="1" value="1" step="0.05" style="flex-grow: 1;">
+        </div>
+
+        <h6><span>CHARACTER 4</span></h6>
+        <div class="inputRow">
+            <label for="name4">Name:</label>
+            <input style="width: 100px;" type="text" id="name4" name="name4">
+        </div>
+        <div class="inputRow">
+            <label for="imageInput4">Portrait:</label>
+            <input type="file" style="width: 100px;" id="imageInput4" accept="image/*">
+        </div>
+        <div class="inputRow">
+            <label for="hp4">HP:</label>
+            <input style="width: 100px;" type="number" id="hp4" name="hp4" value="100">
+        </div>
+        <div class="inputRow">
+            <label for="maxHp4">Max HP:</label>
+            <input style="width: 100px;" type="number" id="maxHp4" name="maxHp4" value="100">
+        </div>
+        <div class="inputRow">
+            <label for="checkMaxHp4">Show Max HP?</label>
+            <input type="checkbox" id="checkMaxHp4" name="checkMaxHp4">
+        </div>
+        <div class="inputRow">
+            <label for="showChar4">Show Character?</label>
+            <input type="checkbox" id="showChar4" name="showChar4" checked>
+        </div>
+        <div class="inputRow">
+            <label for="thyme4">Thyme Bar:</label>
+            <input style="width: 100px;" type="range" id="thyme4" name="thyme4" min="0" max="1" value="1" step="0.05" style="flex-grow: 1;">
+        </div>
+        
+        <h6><span>ENEMIES</span></h6>
+        <div class="inputRow">
+            <label>Enemy Image:</label> <input type="file" style="width: 100px;" id="fileInput" accept="image/*">
+            <button class="uiButton" id="addEnemyButton" style="flex-basis: 5%;">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                Add
+            </button>
+        </div>
+        <p style="font-size: 1.2rem;">Enemies' sprite are in /In Stars And Time/www/img/enemies/.</p>
+
+        <h6><span>BACKGROUND</span></h6>
+        <div class="inputRow">
+            <label for="selectBackground">Background Image: </label>
+            <select id="selectBackground" style="width: 100px;">    
+                <option value="./assets/battlebacks/pattern_weak.png">pattern_weak.png</option>
+                <option value="./assets/battlebacks/pattern_midboss2.png">pattern_midboss2.png</option>
+                <option value="./assets/battlebacks/pattern_basic.png">pattern_basic.png</option>
+                <option value="./assets/battlebacks/pattern_bomb.png">pattern_bomb.png</option>
+                <option value="./assets/battlebacks/pattern_crest.png">pattern_crest.png</option>
+                <option value="./assets/battlebacks/pattern_tutokid.png">pattern_tutokid.png</option>
+                <option value="./assets/battlebacks/pattern_MDP.png">pattern_MDP.png</option>
+                <option value="./assets/battlebacks/pattern_midboss3.png">pattern_midboss3.png</option>
+                <option value="./assets/battlebacks/pattern_exp.png">pattern_exp.png</option>
+                <option value="./assets/battlebacks/pattern_king.png">pattern_king.png</option>
+                <option value="./assets/battlebacks/pattern_shield.png">pattern_shield.png</option>
+                <option value="./assets/battlebacks/pattern_upperdowner.png">pattern_upperdowner.png</option>
+                <option value="./assets/battlebacks/pattern_basic2.png">pattern_basic2.png</option>
+                <option value="./assets/battlebacks/pattern_king_5.png">pattern_king_5.png</option>
+                <option value="./assets/battlebacks/pattern_slow.png">pattern_slow.png</option>
+                <option value="./assets/battlebacks/pattern_knots.png">pattern_knots.png</option>
+                <option value="./assets/battlebacks/pattern_midboss1.png">pattern_midboss1.png</option>
+            </select>
+        </div>
+        <div class="inputRow">
+            <label for="showBackgroundVHS">VHS Background Effect?</label>
+            <input type="checkbox" id="showBackgroundVHS" name="showBackgroundVHS">
+        </div>
+        <div class="inputRow">
+            <label for="backgroundInput">Custom BG Image: </label>
+            <input type="file" style="width: 100px;" id="backgroundInput" accept="image/*">
+            <button class="uiButton" id="clearImage" style="flex-basis: 5%;">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                X
+            </button>
+        </div>
+        <div class="inputRow">
+            <label for="backgroundType">Render: </label>
+            <select id="backgroundType" style="width: 100px;">
+                <option value="pattern">Pattern</option>
+                <option value="full">Full</option>
+            </select>
+        </div>
+        <p style="font-size: 1.2rem;">Full Render Custom BG size should be 816x335.</p>
+
+        <h6><span>UI ELEMENT</span></h6>
+        <div class="inputRow">
+            <label for="attackType">Attack Type: </label>
+            <select id="attackType">
+                <option value="./assets/scissorcraft.png">Scissors</option>
+                <option value="./assets/rockcraft.png">Rock</option>
+                <option value="./assets/papercraft.png">Paper</option>
+            </select>
+        </div>
+        <div class="inputRow">
+            <label for="menuSelection">Menu Selection: </label>
+            <select id="menuSelection">
+                <option value="1">Attack</option>
+                <option value="197">Craft</option>
+                <option value="396">Guard</option>
+                <option value="594">Pockets</option>
+            </select>
+        </div>
+        <div style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+            <button class="uiButton" id="saveButton">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/saveicon.png"> Save
+            </button>
+            <button class="uiButton" type="button" onclick="exitSetting()">
+                <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                <img src="./assets/quiticon.png"> Exit
+            </button>
         </div>
     </form>
     <script src="battle_full.js"></script> 

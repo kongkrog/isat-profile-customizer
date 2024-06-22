@@ -1,11 +1,11 @@
 
 
 function exitMainMenu() {
-    document.getElementById("settingMainMenu").style.display = "none";
+    document.getElementById("settingPanel").style.display = "none";
 }
 
 function openMainMenu() {
-    document.getElementById("settingMainMenu").style.display = "flex"; 
+    document.getElementById("settingPanel").style.display = "flex"; 
 }
 
 function updateMainMenuImage(inputid, imagedestination) {

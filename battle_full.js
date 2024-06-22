@@ -346,7 +346,6 @@ function drawBattle() {
     }
 
     function drawBackground(x, y, image, renderType='') {
-        console.log(image)
         if (!image.complete) {
             image.onload = () => {
                 drawBackgroundImage();
