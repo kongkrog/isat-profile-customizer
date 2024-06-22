@@ -39,6 +39,8 @@ function clearImage(inputid, imagedestination) {
 }
 
 function updateMainMenuForm() {
+    let settingPanel = document.getElementById("settingPanel");
+
     const char1Name = document.getElementById('char1Name').value;
     const char1LVL = document.getElementById('char1LVL').value;
     const char1HP = document.getElementById('char1HP').value;
@@ -108,6 +110,8 @@ function updateMainMenuForm() {
     updateMainMenuImage('char2Image', 'actorImage2');
     updateMainMenuImage('char3Image', 'actorImage3');
     updateMainMenuImage('char4Image', 'actorImage4');
+
+    settingPanel.style.display = 'none';
 }
 
 document.getElementById("saveMainMenuButton").addEventListener("click", function(event) {
