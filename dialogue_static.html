@@ -22,6 +22,7 @@
             <canvas id="dialogueCanvas" width="816" height="400" style="display: none"></canvas>
             <canvas id="textOverlay" width="816" height="400" style="display: none; position: absolute; top: 0; left: 0;"></canvas>
         </div>
+        <canvas id="thinTextRenderer" width="50" height="50" style="display: none; position: absolute; top: 0; left: 0;"></canvas>
         <img src='./assets/displayImage.png' width="816" id="gifDisplay">
         <canvas id="gifResult" style="display: none">
         <img src='' style='display: none;' id="dialogueImage1">
@@ -88,6 +89,10 @@
                 <tr>
                     <td class="description"><strong>[B]...[/B] | [I]...[/I]</strong>:<br> Format the text in bold / italic.<br><br><i>Example:</i> <code>[B]Quite bold[/B]. [I]Quite italic[/I].</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/static_bold_italic_sample.png" alt="B/I Example"></td>
+                </tr>
+                <tr>
+                    <td class="description"><strong>[THIN]...[/THIN]</strong>:<br> Make the text thin. That's it.<br><br><i>Example:</i> <code>Normal text. [THIN]Thin text[/THIN].</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/static_thin_sample.png" alt="B/I Example"></td>
                 </tr>
                 <tr>
                     <td class="description"><strong>[BR]</strong>:<br> Force a line break.<br><br><i>Example:</i> <code>a sentence.[BR] another sentence.</code></td>

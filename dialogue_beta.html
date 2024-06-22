@@ -22,6 +22,7 @@
             <canvas id="dialogueCanvas" width="816" height="400" style="display: none"></canvas>
             <canvas id="textOverlay" width="816" height="400" style="display: none; position: absolute; top: 0; left: 0;"></canvas>
         </div>
+        <canvas id="thinTextRenderer" width="50" height="50" style="display: none; position: absolute; top: 0; left: 0;"></canvas>
         <img src='./assets/displayGif.gif' width="816" id="gifDisplay">
         <img src='' width="816" id="gifResult" style="display: none">
         <img src='' width="816" id="gifOptimize" style="display: none">
@@ -121,6 +122,10 @@
                 <tr>
                     <td class="description"><strong>[B]...[/B] | [I]...[/I]</strong>:<br> Format the text in bold / italic.<br><br><i>Example:</i> <code>[B]Bold text[/B]. [I]Italic text[/I].</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/bold_italic_sample.gif" alt="B/I Example"></td>
+                </tr>
+                <tr>
+                    <td class="description"><strong>[THIN]...[/THIN]</strong>:<br> Make the text thin. Simple.<br><br><i>Example:</i> <code>Normal text. [THIN]Thin text[/THIN].</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/thin_sample.gif" alt="B/I Example"></td>
                 </tr>
                 <tr>
                     <td class="description"><strong>[BR]</strong>:<br> Force a line break.<br><br><i>Example:</i> <code>a line[BR]another line[BR]another another line</code></td>

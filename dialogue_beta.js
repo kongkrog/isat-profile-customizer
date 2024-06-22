@@ -436,16 +436,16 @@ function typewriterAnimation() {
     var characters = [];
     const myCanvas = document.getElementById("dialogueCanvas");
     const textCanvas = document.getElementById("textOverlay");
-
+    const thinRenderer = document.getElementById("thinTextRenderer");
     const cornerUpLeft = document.getElementById("assetUpLeft");
     const cornerDownLeft = document.getElementById("assetDownLeft");
     const cornerUpRight = document.getElementById("assetUpRight");
     const cornerDownRight = document.getElementById("assetDownRight");
-
     const dialogueImage = document.getElementById("dialogueImage1");
    
     const ctx = myCanvas.getContext("2d");
     const textCtx = textCanvas.getContext("2d");
+    const thinCtx = thinRenderer.getContext("2d");
     
     let dName = document.getElementById("dName").innerText;
     let backgroundImage = document.getElementById("backgroundImage1");
@@ -488,6 +488,8 @@ function typewriterAnimation() {
     let cornerReverse = false;
     let choiceHasImage = false;
     const CornerUpdateInterval = 0.4;
+
+    let thinScale = 0.9177777;
 
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
@@ -612,6 +614,7 @@ function typewriterAnimation() {
         if (ctx.globalAlpha !== 1) ctx.globalAlpha = 1;
         ctx.clearRect(0, 0, myCanvas.width, myCanvas.height);
         textCtx.clearRect(0, 0, myCanvas.width, myCanvas.height);
+        thinCtx.clearRect(0, 0, thinRenderer.width, thinRenderer.height);
 
         ctx.fillStyle = 'black';
         ctx.fillRect(0, myCanvas.height - dialogueHeight, myCanvas.width, myCanvas.height);
@@ -909,6 +912,22 @@ function typewriterAnimation() {
             let word = '';
             let wordWidth = 0;
 
+            if (segment.thin) {
+                const remainingText = text.substring(currentTextIndex);
+                const spaceIndex = remainingText.indexOf(' ');
+                if (spaceIndex !== -1) {
+                    word = remainingText.substring(0, spaceIndex);
+                } else {
+                    word = remainingText;
+                }
+                wordWidth = textCtx.measureText(word).width * thinScale;
+            }
+
+            if ((segment.thin) && xOffset + wordWidth > canvasWidth - 4) {
+                xOffset = globalxOffset;
+                yOffset += maxFontSize + lineHeight;
+            }
+
             if (segment.shake || segment.wave) {
                 const remainingText = text.substring(currentTextIndex);
                 const spaceIndex = remainingText.indexOf(' ');
@@ -935,10 +954,16 @@ function typewriterAnimation() {
                 image: segment.image,
                 bold: segment.bold,
                 italic: segment.italic,
-                bImage: segment.backgroundImage
+                bImage: segment.backgroundImage,
+                thin: segment.thin
             });
 
-            xOffset += charWidth;
+            if (segment.thin) {
+                xOffset += charWidth * thinScale;
+            } else {
+                xOffset += charWidth;
+            }
+            
             currentTextIndex++;
 
             if (currentTextIndex >= text.length) {
@@ -1006,9 +1031,9 @@ function typewriterAnimation() {
             font,
             wave,
             shake,
-            image,
             bold,
-            italic
+            italic,
+            thin
         }) => {
             textCtx.font = font;
 
@@ -1036,8 +1061,19 @@ function typewriterAnimation() {
                 yOffset += Math.random() * shakeIntensity - shakeIntensity / 2;
             }
 
-            textCtx.strokeText(char, xOffset, yOffset);
-            textCtx.fillText(char, xOffset, yOffset);
+            if (thin) {
+                thinRenderer.width = textCtx.measureText(char).width;
+                thinRenderer.height = 30;
+
+                thinCtx.fillStyle = 'white';
+                thinCtx.strokeStyle = 'black';
+                thinCtx.font = textCtx.font;
+                thinCtx.fillText(char, 0, thinRenderer.height);
+                textCtx.drawImage(thinRenderer, xOffset, yOffset - thinRenderer.height, thinRenderer.width * thinScale, thinRenderer.height);
+            } else {
+                textCtx.strokeText(char, xOffset, yOffset);
+                textCtx.fillText(char, xOffset, yOffset);  
+            }
         });
 
         if (runChoiceAnimation) {

@@ -26,11 +26,9 @@ function updateProfileImage(fileInput, target) {
     const fInput = document.getElementById(fileInput);
     const profileImageDiv = document.getElementById(target);
 
-    // Check if a file is selected
     if (fInput.files && fInput.files[0]) {
         const file = fInput.files[0];
-        
-        // Check if the file is an image
+
         if (file.type.startsWith('image/')) {
             const imageUrl = URL.createObjectURL(file);
             profileImageDiv.src = imageUrl;
@@ -40,7 +38,7 @@ function updateProfileImage(fileInput, target) {
 
 function clearImage(idName, idImage) {
     document.getElementById(idName).value = null;
-    // Also remove the image from the display
+
     const imageElement = document.getElementById(idImage);
     if (imageElement) {
         imageElement.src = '';
@@ -285,16 +283,20 @@ function typewriterAnimation() {
     var characters = [];
     const myCanvas = document.getElementById("dialogueCanvas");
     const textCanvas = document.getElementById("textOverlay");
+    const thinRenderer = document.getElementById("thinTextRenderer");
 
     const dialogueImage = document.getElementById("dialogueImage1");
     const dName = document.getElementById("dName").innerText;
 
     const ctx = myCanvas.getContext("2d");
     const textCtx = textCanvas.getContext("2d");
+    const thinCtx = thinRenderer.getContext("2d");
+    
     let backgroundImage = document.getElementById("backgroundImage");
     let imageTextOffset = defaultTextOffset;
     let animationEnded = false;
     let maxFontSize = 23;
+    let thinScale = 0.9177777;
 
     canvasWidth = myCanvas.scrollWidth;
     canvasHeight = myCanvas.scrollHeight;
@@ -527,7 +529,6 @@ function typewriterAnimation() {
             const char = text[currentTextIndex];
             const charWidth = textCtx.measureText(char).width;
 
-            // Calculate the width of the next word
             let nextSpaceIndex = text.indexOf(' ', currentTextIndex);
             if (nextSpaceIndex === -1) {
                 nextSpaceIndex = text.length;
@@ -553,9 +554,30 @@ function typewriterAnimation() {
                 return;
             }
             
-            characters.push({ char, xOffset, yOffset, font: textCtx.font, bold: segment.bold, italic: segment.italic });
 
-            xOffset += charWidth;
+            if (segment.thin) {
+                const remainingText = text.substring(currentTextIndex);
+                const spaceIndex = remainingText.indexOf(' ');
+                if (spaceIndex !== -1) {
+                    word = remainingText.substring(0, spaceIndex);
+                } else {
+                    word = remainingText;
+                }
+                wordWidth = textCtx.measureText(word).width * thinScale;
+            }
+
+            if ((segment.thin) && xOffset + wordWidth > canvasWidth - 4) {
+                xOffset = globalxOffset;
+                yOffset += maxFontSize + lineHeight;
+            }
+
+            characters.push({ char, xOffset, yOffset, font: textCtx.font, bold: segment.bold, italic: segment.italic, thin: segment.thin });
+            
+            if (segment.thin) {
+                xOffset += charWidth * thinScale;
+            } else {
+                xOffset += charWidth;
+            }
             currentTextIndex++;
 
             if (currentTextIndex >= text.length) {
@@ -573,7 +595,7 @@ function typewriterAnimation() {
 
         textCtx.fillStyle = 'white';
 
-        characters.forEach(({ char, xOffset, yOffset, font, bold, italic }) => {
+        characters.forEach(({ char, xOffset, yOffset, font, bold, italic, thin }) => {
             textCtx.font = font;
 
             if (bold && !italic) {
@@ -588,8 +610,19 @@ function typewriterAnimation() {
                 textCtx.font = "bold italic " + String(maxFontSize) + "px VCR_OSD_MONO"
             }
 
-            textCtx.strokeText(char, xOffset, yOffset);
-            textCtx.fillText(char, xOffset, yOffset);
+            if (thin) {
+                thinRenderer.width = textCtx.measureText(char).width;
+                thinRenderer.height = 30;
+
+                thinCtx.fillStyle = 'white';
+                thinCtx.strokeStyle = 'black';
+                thinCtx.font = textCtx.font;
+                thinCtx.fillText(char, 0, thinRenderer.height);
+                textCtx.drawImage(thinRenderer, xOffset, yOffset - thinRenderer.height, thinRenderer.width * thinScale, thinRenderer.height);
+            } else {
+                textCtx.strokeText(char, xOffset, yOffset);
+                textCtx.fillText(char, xOffset, yOffset);  
+            }
         });
         
         drawArrow(myCanvas.width - 33, myCanvas.height - 37, 1);
