@@ -121,12 +121,30 @@
                     <p id="characterName">Siffrin</p>
                     <p id="grayText">(he/they)</p>
                 </div>
-                    <p id="descriptionText">It's you!</p>
+                <p id="descriptionText">It's you!</p>
                 <div id="weaknessText">
-                    <p id="grayText">WEAK TO: <span style="color: white" id="weakImage">&emsp;&emsp;&emsp;<img src="./assets/rockcraft.png">Rock</span></p>
-                    <p id="grayText">RESISTANT TO: <span style="color: white" id="resistImage1"><img src="./assets/papercraft.png">Paper</span></p>
-                    <p id="grayText"><span style="color: white" id="resistImage2"></span></p>
-                    <div id="immunePart"><p id="grayText">IMMUNE TO:<span style="color: white" id="immuneImage">&nbsp;&nbsp;&nbsp;&nbsp;<img src="./assets/papercraft.png">Paper</span></p></div>
+                    <div class="flex-container">
+                        <p id="grayText">WEAK TO:</p>
+                        <span style="color: white" id="weakImage">
+                            <img src="./assets/rockcraft.png">Rock
+                        </span>
+                    </div>
+                    <div class="flex-container">
+                        <p id="grayText">RESISTANT TO:</p>
+                        <span style="color: white" id="resistImage1">
+                            <img src="./assets/papercraft.png">Paper
+                        </span>
+                    </div>
+                    <div class="flex-container">
+                        <p id="grayText"></p>
+                        <span style="color: white" id="resistImage2"></span>
+                    </div>
+                    <div id="immunePart" class="flex-container">
+                        <p id="grayText">IMMUNE TO:</p>
+                        <span style="color: white" id="immuneImage">
+                            <img src="./assets/papercraft.png">Paper
+                        </span>
+                    </div>
                 </div>
                 <div id="statPage">
                     <div id="statIntroduction">
@@ -193,118 +211,148 @@
         </button>
     </div>
     <p style="font-size: 1rem;">Preferred Image Size: Aspect Ratio 0.55:1 (Ex: 278x506)</p>
-    <form id="settingPanel" onsubmit="updateProfile();">
-        <img id="cornerUIUpLeft" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIUpRight" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIDownLeft" src="./assets/uicorner.svg" width="6px" height="6px">
-        <img id="cornerUIDownRight" src="./assets/uicorner.svg" width="6px" height="6px">
-        <div id="topUIBar"></div>
-        <div id="bottomUIBar"></div>
-        <div id="leftUIBar"></div>
-        <div id="rightUIBar"></div>
-        <img id="topEndBarLeft" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="topEndBarRight" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="bottomEndBarLeft" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="bottomEndBarRight" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="leftEndBarTop" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="leftEndBarBottom" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="rightEndBarTop" src="./assets/endBar.svg" width="4px" height="4px">
-        <img id="rightEndBarBottom" src="./assets/endBar.svg" width="4px" height="4px">
+    <form id="settingPanel" onsubmit="updateProfile();" style="gap: 10px; font-size: 1.3rem;">
         <p>All input can be either number or text.</p>
-        <p>Height and Age will only appear when inputted with a value.</p>
-        <div id="nameInput">
+        <p>Some are optional and will only appear when inputted.</p>
+
+        <h6><span>PART 1: PROFILE PAGE</span></h6>
+        <h6><span>CHARACTER DETAILS</span></h6>
+        <div class="inputRow">
             <label for="charName">Name:</label>
             <input type="text" id="charName" fname="charName">
+        </div>
+        <div class="inputRow">
             <label for="charPronoun">Pronoun:</label>
             <input type="text" id="charPronoun" fname="charPronoun">
         </div>
-        <label for="charDesc">Description:</label>
-        <input type="text" id="charDesc" fname="charDesc" maxlength="150">
-        <div id="craftInput">
-            <label for="charCraft1">Craft 1:
-                <select id="charCraft1" fname="charCraft1">
-                    <option value="none">None</option>
-                    <option value="scissor">Scissor</option>
-                    <option value="rock">Rock</option>
-                    <option value="paper">Paper</option>
-                    <option value="time_freeze">Time Freeze</option>
-                </select>
-            </label>
-            <label for="charCraft2">Craft 2:
-                <select id="charCraft2" fname="charCraft2">
-                    <option value="none">None</option>
-                    <option value="scissor">Scissor</option>
-                    <option value="rock">Rock</option>
-                    <option value="paper">Paper</option>
-                    <option value="time_freeze">Time Freeze</option>
-                </select>
-            </label>
-            <label for="charWeakness">Weak:
-                <select id="charWeakness" fname="charWeakness">
-                    <option value="none">None</option>
-                    <option value="scissor">Scissor</option>
-                    <option value="rock">Rock</option>
-                    <option value="paper">Paper</option>
-                    <option value="time_freeze">Time Freeze</option>
-                </select>
-            </label>
-            <label for="charResist1">Resist 1:
-                <select id="charResist1" fname="charResist1">
-                    <option value="none">None</option>
-                    <option value="scissor">Scissor</option>
-                    <option value="rock">Rock</option>
-                    <option value="paper">Paper</option>
-                    <option value="time_freeze">Time Freeze</option>
-                </select>
-            </label>
-            <label for="charResist2">Resist 2:
-                <select id="charResist2" fname="charResist2">
-                    <option value="none">None</option>
-                    <option value="scissor">Scissor</option>
-                    <option value="rock">Rock</option>
-                    <option value="paper">Paper</option>
-                    <option value="time_freeze">Time Freeze</option>
-                </select>
-            </label>
-            <label for="charImmune">Immune:
-                <select id="charImmune" fname="charImmune">
-                    <option value="none">None</option>
-                    <option value="scissor">Scissor</option>
-                    <option value="rock">Rock</option>
-                    <option value="paper">Paper</option>
-                    <option value="time_freeze">Time Freeze</option>
-                </select>
-            </label>
+        <div class="inputRow">
+            <label for="charDesc">Description:</label>
+            <input type="text" id="charDesc" fname="charDesc" maxlength="150">
         </div>
 
-        <label for="charNickname">Character Nickname:</label>
-        <input type="text" id="charNickname" fname="charNickname">
-        
-        <div id="expInput">
+        <div class="inputRow">
+            <label for="charNextLevel">Profile Portrait:</label>
+            <input type="file" id="fileInput" accept="image/*" style="width: 100px"> 
+        </div>
+
+        <h6><span>CHARACTER'S CRAFT</span></h6>
+        <div class="inputRow">
+            <label for="charCraft1">Craft 1:</label>
+            <select id="charCraft1" fname="charCraft1">
+                <option value="none">None</option>
+                <option value="scissor">Scissor</option>
+                <option value="rock">Rock</option>
+                <option value="paper">Paper</option>
+                <option value="time_freeze">Time Freeze</option>
+            </select>
+        </div>
+        <div class="inputRow">
+            <label for="charCraft2">Craft 2:</label>
+            <select id="charCraft2" fname="charCraft2">
+                <option value="none">None</option>
+                <option value="scissor">Scissor</option>
+                <option value="rock">Rock</option>
+                <option value="paper">Paper</option>
+                <option value="time_freeze">Time Freeze</option>
+            </select>
+        </div>
+        <div class="inputRow">
+            <label for="charWeakness">Weak:</label>
+            <select id="charWeakness" fname="charWeakness">
+                <option value="none">None</option>
+                <option value="scissor">Scissor</option>
+                <option value="rock">Rock</option>
+                <option value="paper">Paper</option>
+                <option value="time_freeze">Time Freeze</option>
+            </select>
+        </div>
+        <div class="inputRow">
+            <label for="charResist1">Resist 1:</label>
+            <select id="charResist1" fname="charResist1">
+                <option value="none">None</option>
+                <option value="scissor">Scissor</option>
+                <option value="rock">Rock</option>
+                <option value="paper">Paper</option>
+                <option value="time_freeze">Time Freeze</option>
+            </select>
+        </div>
+        <div class="inputRow">
+            <label for="charResist2">Resist 2 (Optional):</label>
+            <select id="charResist2" fname="charResist2">
+                <option value="none">None</option>
+                <option value="scissor">Scissor</option>
+                <option value="rock">Rock</option>
+                <option value="paper">Paper</option>
+                <option value="time_freeze">Time Freeze</option>
+            </select>
+        </div>
+        <div class="inputRow">
+            <label for="charImmune">Immune (Optional):</label>
+            <select id="charImmune" fname="charImmune">
+                <option value="none">None</option>
+                <option value="scissor">Scissor</option>
+                <option value="rock">Rock</option>
+                <option value="paper">Paper</option>
+                <option value="time_freeze">Time Freeze</option>
+            </select>
+        </div>
+
+        <h6><span>PART 2: STAT PAGE</span></h6>
+        <h6><span>CHARACTER DETAILS</span></h6>
+
+        <div class="inputRow">
+            <label for="charNickname">Character Nickname:</label>
+            <input type="text" id="charNickname" fname="charNickname">
+        </div>
+
+        <div class="inputRow">
             <label for="charAge">Age (Optional):</label>
             <input type="text" id="charAge" fname="charAge">
+        </div>
+
+        <div class="inputRow">
             <label for="charHeight">Height (Optional):</label>
             <input type="text" id="charHeight" fname="charHeight">
         </div>
 
-        <div id="statInput">
+        <h6><span>CHARACTER'S STATS</span></h6>
+
+        <div class="inputRow">
             <label for="charLevel">LVL:</label>
             <input type="text" id="charLevel" fname="charLevel">
+        </div>
+
+        <div class="inputRow">
             <label for="charHP">HP:</label>
             <input type="text" id="charHP" fname="charHP">
+        </div>
+
+        <div class="inputRow">
             <label for="charAttack">Attack:</label>
             <input type="text" id="charAttack" fname="charAttack">
+        </div>
+
+        <div class="inputRow">
             <label for="charDefense">Defense:</label>
             <input type="text" id="charDefense" fname="charDefense">
+        </div>
+
+        <div class="inputRow">
             <label for="charAtkSpd">Atk Speed:</label>
             <input type="text" id="charAtkSpd" fname="charAtkSpd">
+        </div>
+
+        <div class="inputRow">
             <label for="charLuck">Luck:</label>
             <input type="text" id="charLuck" fname="charLuck">
         </div>
 
-        <div id="expInput">
+        <div class="inputRow">
             <label for="charEXP">Current EXP:</label>
             <input type="text" id="charEXP" fname="charEXP">
+        </div>
+
+        <div class="inputRow">
             <label for="charNextLevel">To Next Level:</label>
             <input type="text" id="charNextLevel" fname="charNextLevel">
         </div>
@@ -324,7 +372,6 @@
                 <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
                 <img src="./assets/quiticon.png"> Exit
             </button>
-            Image: <input type="file" id="fileInput" accept="image/*"> 
         </div>
     </form>
     <script src="profile.js"></script> 

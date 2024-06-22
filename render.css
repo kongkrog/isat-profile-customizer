@@ -31,6 +31,7 @@ p {
 
 #grayText {
     color: gray;
+    flex: 1;
 }
 
 body {
@@ -71,7 +72,7 @@ body {
 }
 
 #nameUI, #infoUI, #characterImgUI {
-    padding: 24px 18px;
+    padding: 24px 24px;
 }
 
 #navigationUI {
@@ -144,6 +145,29 @@ body {
     position: absolute;
     left: 24px;
     bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.flex-container span {
+    flex-basis: 52%;
+}
+
+.flex-container p {
+    flex-basis: 48%;
+}
+
+#weaknessText span {
+    display: flex;
+    align-items: center;
 }
 
 #weaknessIcon {

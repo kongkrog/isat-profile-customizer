@@ -80,26 +80,26 @@ function updateProfile() {
     }
     
     if (charWeakness !== "none") {
-        document.getElementById("weakImage").innerHTML = '<span style="color: white;">&emsp;&emsp;&emsp;<img src="./assets/' + charWeakness + 'craft.png">' + capitalize(charWeakness) + '</span>';
+        document.getElementById("weakImage").innerHTML = '<img src="./assets/' + charWeakness + 'craft.png">' + capitalize(charWeakness);
     } else {
         document.getElementById("weakImage").innerHTML = '';
     }
     
     if (charResist1 !== "none") {
-        document.getElementById("resistImage1").innerHTML = '<span style="color: white;"><img src="./assets/' + charResist1 + 'craft.png">' + capitalize(charResist1) + '</span>';
+        document.getElementById("resistImage1").innerHTML = '<img src="./assets/' + charResist1 + 'craft.png">' + capitalize(charResist1);
     } else {
         document.getElementById("resistImage1").innerHTML = '';
     }
     
     if (charResist2 !== "none") {
-        document.getElementById("resistImage2").innerHTML = '<span style="color: white;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./assets/' + charResist2 + 'craft.png">' + capitalize(charResist2) + '</span>';
+        document.getElementById("resistImage2").innerHTML = '<img src="./assets/' + charResist2 + 'craft.png">' + capitalize(charResist2);
     } else {
         document.getElementById("resistImage2").innerHTML = '';
     }
     
     if (charImmune !== "none") {
-        document.getElementById("immuneImage").innerHTML = '<span style="color: white;">&nbsp;&nbsp;&nbsp;&nbsp;<img src="./assets/' + charImmune + 'craft.png">' + capitalize(charImmune) + '</span>';
-        document.getElementById("immunePart").style.display = 'block';
+        document.getElementById("immuneImage").innerHTML = '<img src="./assets/' + charImmune + 'craft.png">' + capitalize(charImmune);
+        document.getElementById("immunePart").style.display = 'flex';
     } else {
         document.getElementById("immuneImage").innerHTML = '';
         document.getElementById("immunePart").style.display = 'none';
