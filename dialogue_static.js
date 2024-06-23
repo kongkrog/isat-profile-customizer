@@ -279,6 +279,78 @@ const cropCanvas = (sourceCanvas,left,top,width,height) => {
     return destCanvas;
 }
 
+function createCharacterCacheCanvas() {
+    const startCharCode = 32; // Space
+    const endCharCode = 126; // Tilde (~)
+    const uniqueChars = Array.from({ length: endCharCode - startCharCode + 1 }, (_, i) => String.fromCharCode(startCharCode + i));
+    const charPositions = [];
+    const padding = 5; 
+    const fontSizes = [16, 23, 36]; 
+    const fontFamily = "VCR_OSD_MONO";
+    let totalHeight = 0;
+
+    fontSizes.forEach(fontSize => {
+        totalHeight += fontSize + padding * 2;
+    });
+
+    let cacheCanvas = document.createElement("canvas");
+    let tempCanvas = document.createElement("canvas");
+    let tempCtx = tempCanvas.getContext("2d");
+    let cacheCtx = cacheCanvas.getContext("2d");
+
+    let xOffset = 0;
+    let yOffset = 0;
+    let maxRowWidth = 0;
+
+    fontSizes.forEach(fontSize => {
+        yOffset += fontSize + padding;
+        xOffset = 0;
+
+        tempCtx.font = `${fontSize}px ${fontFamily}`;
+        cacheCtx.font = `${fontSize}px ${fontFamily}`;
+
+        uniqueChars.forEach(char => {
+            const charWidth = tempCtx.measureText(char).width;
+            if (xOffset + charWidth + padding > maxRowWidth) {
+                maxRowWidth = xOffset + charWidth + padding;
+            }
+            xOffset += charWidth + padding;
+        });
+    });
+
+    cacheCanvas.width = maxRowWidth;
+    cacheCanvas.height = totalHeight;
+
+    xOffset = 0;
+    yOffset = 0;
+
+    fontSizes.forEach(fontSize => {
+        yOffset += fontSize + padding;
+        xOffset = 0;
+
+        cacheCtx.font = `${fontSize}px ${fontFamily}`;
+
+        uniqueChars.forEach(char => {
+            const charWidth = cacheCtx.measureText(char).width;
+            cacheCtx.fillStyle = 'white';
+            cacheCtx.fillText(char, xOffset, yOffset);
+            charPositions.push({ char: char, x: xOffset, y: yOffset - fontSize, fontSize });
+            xOffset += charWidth + padding;
+        });
+    });
+
+    return { characterCacheCanvas: cacheCanvas, charPositions };
+}
+
+function getCharacterPosition(char, fontSize, charPositions) {
+    for (let i = 0; i < charPositions.length; i++) {
+        if (charPositions[i].char === char && charPositions[i].fontSize === fontSize) {
+            return { x: charPositions[i].x, y: charPositions[i].y };
+        }
+    }
+    return null;
+}
+
 function typewriterAnimation() {
     var characters = [];
     const myCanvas = document.getElementById("dialogueCanvas");
@@ -286,6 +358,7 @@ function typewriterAnimation() {
     const thinRenderer = document.getElementById("thinTextRenderer");
 
     const dialogueImage = document.getElementById("dialogueImage1");
+    const { characterCacheCanvas, charPositions } = createCharacterCacheCanvas();
     const dName = document.getElementById("dName").innerText;
 
     const ctx = myCanvas.getContext("2d");
@@ -428,7 +501,6 @@ function typewriterAnimation() {
     function drawImage(image, xOffset, opacity) {
         let difference = globalHeightScaling - image.height;
 
-        console.log(globalHeightScaling, image.height);
         if (image.height <= globalHeightScaling) {
             scaleDown1 = imageHeight / globalHeightScaling;
             scaleDifference = difference * scaleDown1;
@@ -611,14 +683,19 @@ function typewriterAnimation() {
             }
 
             if (thin) {
-                thinRenderer.width = textCtx.measureText(char).width;
-                thinRenderer.height = 30;
+                let thinCharacterWidth = textCtx.measureText(char).width;
+                let thinCharacterHeight = 24;
 
-                thinCtx.fillStyle = 'white';
-                thinCtx.strokeStyle = 'black';
-                thinCtx.font = textCtx.font;
-                thinCtx.fillText(char, 0, thinRenderer.height);
-                textCtx.drawImage(thinRenderer, xOffset, yOffset - thinRenderer.height, thinRenderer.width * thinScale, thinRenderer.height);
+                if (maxFontSize == 36) {
+                    thinCharacterHeight += 12;
+                }
+
+                if (maxFontSize == 16) {
+                    thinCharacterHeight -= 5;
+                }
+
+                let thinPos = getCharacterPosition(char, maxFontSize, charPositions);
+                textCtx.drawImage(characterCacheCanvas, thinPos.x, thinPos.y, thinCharacterWidth, thinCharacterHeight, xOffset, yOffset - thinCharacterHeight, thinCharacterWidth * thinScale, thinCharacterHeight);
             } else {
                 textCtx.strokeText(char, xOffset, yOffset);
                 textCtx.fillText(char, xOffset, yOffset);  
