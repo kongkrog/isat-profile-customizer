@@ -15,7 +15,7 @@
         <p style="font-size: 1.7rem; font-weight: bold;">In Stars And Time Dialogue Maker</p>
         <p style="font-size: 1.3rem;">Made by kongkrog(lea)</p>
         <p style="font-size: 1.3rem;">All assets belong to insertdisc5</p>
-        <p style="font-size: 1rem;"><i>This webpage is currently avaliable on mobile.<br>Ping me (@kongkrog) in ISAT Official Discord Server for bug reports.</i></p>
+        <p style="font-size: 1rem;"><i>This webpage is currently avaliable on mobile.</i></p>
     </div>
     <main id="dialogueMain" style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;"> 
         <div id="canvasDiv" style="position: relative;">
@@ -86,26 +86,15 @@
             <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
             <img src="./assets/settingicon.png"> Image Mode
         </button>
-    </div>
-    <h6 style="padding-top: 20px;"><span>NEW TAG</span></h6>
-    <p style="font-size: 1rem; text-align: center;">[CHOICE] tag: Allow rendering choice dialogue box.</p>
-    <p style="font-size: 1rem; text-align: center;">[THIN] tag: Make text thin.</p>
-    
+    </div>    
     <h6 style="padding-top: 20px;"><span>DISCLAIMER</span></h6>
-    <p style="font-size: 1rem; text-align: center;">You need to supply the image yourself if you're planning to use some.</p>
-    <p style="font-size: 1rem; text-align: center;">Images used in this sample gif are taken from the game, you need to own the game/get it somewhere else to use it.</p>
+    <p style="font-size: 1rem; text-align: center;">Make sure to use your own images.<br>The sample portraits in the gif are from the game,<br>so you need to own or obtain the game to use similar images.</p>
     
     <h6 style="padding-top: 20px;"><span>DIALOGUE IMAGE SIZE</span></h6>
-    <p style="font-size: 1rem; text-align: center;">Due to how the ISAT dialogue image works, any image larger than 500px will be scaled down to 400px.</p>
-    <p style="font-size: 1rem; text-align: center;">Any image's height smaller than 500px will stay unscale. The gif will auto-crop to the highest image height.</p>
-    <p style="font-size: 1rem; text-align: center;">Make sure your image's size is 450x500 or smaller.</p>
-
+    <p style="font-size: 1rem; text-align: center;">Images larger than 500px will be scaled down to 400px.<br>Images shorter than 500px will keep their original height.<br>To ensure the best fit, use images 450x500px or smaller.</p>
+    
     <h6 style="padding-top: 20px;"><span>DIALOGUE IMAGE OFFSET</span></h6>
-    <p style="font-size: 1rem; text-align: center;">The ISAT portrait is coded to be offset from the right 80% of the image's width.</p>
-    <p style="font-size: 1rem; text-align: center;">Due to this, sometimes the portrait would overlap the text.</p>
-    <p style="font-size: 1rem; text-align: center;">If you don't want this behavior, check Fixed Text Offset in the Setting menu.</p>
-    <p style="font-size: 1rem; text-align: center;">This will make all the portrait offset from a certain point instead.</p>
-    <p style="font-size: 1rem; text-align: center;">Or you can offset the text manually using [OFFSET] tag.</p>
+    <p style="font-size: 1rem; text-align: center;">The ISAT portrait offsets 80% from the right of the image's width, which may cause overlap with text.<br>To avoid this, enable Fixed Text Offset in the Settings menu, or manually adjust using the [OFFSET] tag.</p>
     <p style="font-size: 1rem; text-align: center;">Made using <a href="https://github.com/jnordberg/gif.js">gif.js</a> and <a href="https://github.com/renzhezhilu/gifsicle-wasm-browser">gifsicle (the browser version)</a>.</p>
     <div id="tagTable" style="padding-top: 20px">
         <table style="position: relative;">
@@ -117,51 +106,51 @@
             </thead>
             <tbody>
                 <tr>
-                    <td class="description"><strong>[SW]...[/SW] | [SHAKE]...[/SHAKE]</strong>:<br> Applies a wave/shake effect.<br><br><i>Example:</i> <code>[SW]Wavey text[/SW]. [SHAKE]Shaky text[/SHAKE]</code></td>
+                    <td class="description"><strong>[SW]...[/SW] | [SHAKE]...[/SHAKE]</strong>:<br> Adds a wave or shake effect.<br><br><i>Example:</i> <code>[SW]Wavey text[/SW]. [SHAKE]Shaky text[/SHAKE]</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/wave_shake_sample.gif" alt="SW/SHAKE Example"></td>
                 </tr>
                 <tr>
-                    <td class="description"><strong>[B]...[/B] | [I]...[/I]</strong>:<br> Format the text in bold / italic.<br><br><i>Example:</i> <code>[B]Bold text[/B]. [I]Italic text[/I].</code></td>
+                    <td class="description"><strong>[B]...[/B] | [I]...[/I]</strong>:<br> Bold or italicize text.<br><br><i>Example:</i> <code>[B]Bold text[/B]. [I]Italic text[/I].</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/bold_italic_sample.gif" alt="B/I Example"></td>
                 </tr>
                 <tr>
-                    <td class="description"><strong>[THIN]...[/THIN]</strong>:<br> Make the text thin. Simple.<br><br><i>Example:</i> <code>Normal text. [THIN]Thin text[/THIN].</code></td>
-                    <td class="tutorialImage"><img src="./assets/tutorial/thin_sample.gif" alt="B/I Example"></td>
+                    <td class="description"><strong>[THIN]...[/THIN]</strong>:<br> Makes text thin.<br><br><i>Example:</i> <code>Normal text. [THIN]Thin text[/THIN].</code></td>
+                    <td class="tutorialImage"><img src="./assets/tutorial/thin_sample.gif" alt="THIN Example"></td>
                 </tr>
                 <tr>
-                    <td class="description"><strong>[BR]</strong>:<br> Force a line break.<br><br><i>Example:</i> <code>a line[BR]another line[BR]another another line</code></td>
+                    <td class="description"><strong>[BR]</strong>:<br> Inserts a line break.<br><br><i>Example:</i> <code>a line[BR]another line[BR]another another line</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/line_break_sample.gif" alt="BR Example"></td>
                 </tr>
                 <tr>
-                    <td class="description"><strong>[PS=x]</strong>:<br> Introduces a pause. The <em>x(ms)</em> specifies the duration of the pause.<br><br><i>Example:</i> <code>300 [PS=300]500 [PS=500]1000 [PS=1000]2000 [PS=2000]End.</code></td>
+                    <td class="description"><strong>[PS=x]</strong>:<br> Pauses for <em>x</em> milliseconds.<br><br><i>Example:</i> <code>300 [PS=300]500 [PS=500]1000 [PS=1000]2000 [PS=2000]End.</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/pause_sample.gif" alt="PS Example"></td>
                 </tr>
                 <tr>
-                    <td class="description"><strong>[IMAGE1], ..., [IMAGE13] | [BIMAGE1], ..., [BIMAGE7]</strong>:<br> Change the dialogue | background image to that associated with tag.<br><br><i>Example:</i> <code>OMG BONIFACE YYAYAYAY!!!! [PS=500][IMAGE2]HMPFFF!</code></td>
+                    <td class="description"><strong>[IMAGE1], ..., [IMAGE13] | [BIMAGE1], ..., [BIMAGE7]</strong>:<br> Changes the dialogue or background image.<br><br><i>Example:</i> <code>OMG BONIFACE YYAYAYAY!!!! [PS=500][IMAGE2]HMPFFF!</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/image_sample.gif" alt="IMAGE/BIMAGE Example"></td>
                 </tr>
                 <tr>
-                    <td class="description"><strong>[IMAGExT]</strong>:<br> Add a "T" in the IMAGE tag to trigger the switching portrait animation.<br><br><i>Example:</i> <code>Can I talk using your Fighter? [PS=500][IMAGE2T]Or the Kid?</code></td>
+                    <td class="description"><strong>[IMAGExT]</strong>:<br> Adds a "T" to the IMAGE tag for a switching portrait animation.<br><br><i>Example:</i> <code>Can I talk using your Fighter? [PS=500][IMAGE2T]Or the Kid?</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/image_switch_sample.gif" alt="IMAGExT Example"></td>
                 </tr>
                 <tr>
-                    <td class="description"><strong>[CLEAR] | [SCLEAR] | [BCLEAR]</strong>:<br> Remove all text and change font size to default | small | big.<br> Tags are usable on different font size.<br><br><i>Example:</i> <code>normal text[PS=500][CLEAR]another text[PS=500][BCLEAR]big text.[PS=500][SCLEAR]smol text.</code></td>
+                    <td class="description"><strong>[CLEAR] | [SCLEAR] | [BCLEAR]</strong>:<br> Clears text and resets font size to default, small, or big.<br><br><i>Example:</i> <code>normal text[PS=500][CLEAR]another text[PS=500][BCLEAR]big text.[PS=500][SCLEAR]smol text.</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/clear_sample.gif" alt="CLEAR/SCLEAR/BCLEAR Example"></td>
                 </tr>
                 <tr>
-                    <td class="description"><strong>[CLRIMG]</strong>:<br> Clear text, remove current image and reset back to normal dialogue box.<br><br><i>Example:</i> <code>i'm gonna be gone[PS=500][CLRIMG]aaa</code></td>
+                    <td class="description"><strong>[CLRIMG]</strong>:<br> Clears text and removes the current image, resetting to the normal dialogue box.<br><br><i>Example:</i> <code>i'm gonna be gone[PS=500][CLRIMG]aaa</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/clear_image_sample.gif" alt="CLRIMG Example"></td>
                 </tr>
                 <tr>
-                    <td class="description"><strong>[DIALBOX=x]</strong>:<br> Clear text, remove current image and add dialogue name. Set dialogue name to x(text), set x to '' to remove it.<br><br><i>Example:</i> <code>i'm gonna turn into another person[PS=500][DIALBOX=person]hi.</code></td>
+                    <td class="description"><strong>[DIALBOX=x]</strong>:<br> Clears text, removes the current image, and sets the dialogue name to <em>x</em>. Use <em>x='' </em>to remove it.<br><br><i>Example:</i> <code>i'm gonna turn into another person[PS=500][DIALBOX=person]hi.</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/dialogue_box_sample.gif" alt="DIALBOX Example"></td>
                 </tr>
                 <tr>
-                    <td class="description"><strong>[OFFSET=x]</strong>:<br> Clear all text and manually offset the text (to image), 215 or higher.<br>Set [OFFSET=IMG] to automatically adjust offset according to the image.<br>Set [OFFSET=DEFAULT] to revert back to the normal text to image offset.<br><strong>Make sure</strong> to put this after an [IMAGE] tag.<br>This tag is irrelevant when Fixed Offset Text is on.<br><br><i>Example:</i> <code>This is a normal text. [PS=500][IMAGE2][OFFSET=DEFAULT]Oh, there's an image. [PS=500][IMAGE3][OFFSET=IMG]There's a bigger image. [PS=500][IMAGE2][OFFSET=DEFAULT]Back to normal. [PS=500][CLRIMG]Done.</code></td>
+                    <td class="description"><strong>[OFFSET=x]</strong>:<br> Manually offsets the text to an image, usually 215 or higher. Use <strong>[OFFSET=IMG]</strong> for automatic adjustment or <strong>[OFFSET=DEFAULT]</strong> to reset. Place after an [IMAGE] tag.<br>This tag is irrelevant if Fixed Offset Text is enabled.<br><br><i>Example:</i> <code>This is a normal text. [PS=500][IMAGE2][OFFSET=DEFAULT]Oh, there's an image. [PS=500][IMAGE3][OFFSET=IMG]There's a bigger image. [PS=500][IMAGE2][OFFSET=DEFAULT]Back to normal. [PS=500][CLRIMG]Done.</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/offset_sample.gif" alt="OFFSET Example"></td>
                 </tr>
                 <tr>
-                    <td class="description"><strong>[CHOICES=x]...[/CHOICES] (x(ms) is duration)</strong>:<br> Clear all text and render a choice dialogue box instead.<br>Can contains one of these tags:<br><strong>[QUOTE]...[/QUOTE]</strong>: Contain the quote.<br><strong>[OPTION]...[/OPTION]</strong>: Contain the option text.<br><strong>[OPTIONT]...[/OPTIONT]</strong> Contain the right option text.</code><br>There's no typewriter effect for the quote for now. And the text must be contained in one line.<br><br><i>Example:</i> <code>[IMAGE3T][CHOICES=3000][QUOTE](...)[/QUOTE][OPTIONT]"What should I do next?"[/OPTIONT][OPTION]"I had a question about..."[/OPTION][OPTION]"Nah, nothing."[/OPTION][/CHOICES][IMAGE4T]Sure,[PS=300] stardust.</code></td>
+                    <td class="description"><strong>[CHOICES=x]...[/CHOICES] (x(ms) is duration)</strong>:<br> Clears text and renders a choice dialogue box. Can include:<br><strong>[QUOTE]...[/QUOTE]</strong>: The quote text.<br><strong>[OPTION]...[/OPTION]</strong>: An option.<br><strong>[OPTIONT]...[/OPTIONT]</strong>: The correct option.<br>No typewriter effect for quotes; text must be on one line.<br><br><i>Example:</i> <code>[IMAGE3T][CHOICES=3000][QUOTE](...)[/QUOTE][OPTIONT]"What should I do next?"[/OPTIONT][OPTION]"I had a question about..."[/OPTION][OPTION]"Nah, nothing."[/OPTION][/CHOICES][IMAGE4T]Sure,[PS=300] stardust.</code></td>
                     <td class="tutorialImage"><img src="./assets/tutorial/choices_sample.gif" alt="CHOICES Example"></td>
                 </tr>
             </tbody>
