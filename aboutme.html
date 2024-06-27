@@ -8,7 +8,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
-    <main id="mainHomepage" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <main id="mainHomepage" style="display: flex; flex-direction: column; justify-content: center; align-items: center; padding-bottom: 20px;">
         <p>Lea's Profile</p>
         <div style="margin-top: 10px; border-radius: 100px; width: 150px; height: 150px; background-image: url('./assets/profilePic.png'); background-repeat: no-repeat; background-position: center center; background-size: cover;"></div>
         <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">Nickname: kongkrog | Lea isn't my real name.</p>
@@ -23,5 +23,12 @@
         <p style="text-align: center; margin-top: 10px">Special Thanks</p>
         <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">My profile picture was drawn by @kuro_is_doodlin<br>My friends, Lifeblood, Gared, Pixel, Lu, the whole ISAT server, and more.</p>
     </main>
+    <button id="aboutMeButton" class="uiButton" style="justify-content: center;" onclick="location.href='./render.html'">
+        <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+        <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+        <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+        <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+        <img src="./assets/quiticon.png"> Return
+    </button>
 </body>
 </html>
