@@ -219,7 +219,8 @@ body {
 }
 
 .uiButton.active,
-.uiButton:hover {
+.uiButton:hover,
+.uiButton:focus {
     border: white 2px solid;
 }
 
@@ -543,7 +544,8 @@ input, select {
 }
 
 .uiButton.active #cornerUpLeft,
-.uiButton:hover #cornerUpLeft {
+.uiButton:hover #cornerUpLeft,
+.uiButton:focus #cornerUpLeft {
     display: block;
     position: absolute;
     top: -10px;
@@ -552,7 +554,8 @@ input, select {
 }
 
 .uiButton.active #cornerUpRight,
-.uiButton:hover #cornerUpRight {
+.uiButton:hover #cornerUpRight,
+.uiButton:focus #cornerUpRight {
     display: block;
     position: absolute;
     top: -10px;
@@ -562,7 +565,8 @@ input, select {
 }
 
 .uiButton.active #cornerDownLeft,
-.uiButton:hover #cornerDownLeft {
+.uiButton:hover #cornerDownLeft,
+.uiButton:focus #cornerDownLeft {
     display: block;
     position: absolute;
     bottom: -10px;
@@ -571,7 +575,8 @@ input, select {
 }
 
 .uiButton.active #cornerDownRight,
-.uiButton:hover #cornerDownRight {
+.uiButton:hover #cornerDownRight,
+.uiButton:focus #cornerDownRight {
     display: block;
     position: absolute;
     bottom: -10px;
@@ -1291,4 +1296,24 @@ h6 span {
 #debug {
     text-align: center;
     font-size: 1.3rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: red;
+    outline: 2px solid red;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+input:focus,
+textarea:focus {
+    border-color: red;
+}
+
+a:focus {
+    outline: 2px solid red;
+    outline-offset: 4px;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
 }
