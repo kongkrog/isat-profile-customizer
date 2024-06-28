@@ -13,6 +13,7 @@ const imageHeight = 400;
 
 let defaultTextOffset = 215;
 let maxScaledHeight = 0;
+let dialogueFont = "VCR_OSD_MONO";
 
 let imageIds = [
     "dialogueImage1", "dialogueImage2", "dialogueImage3", "dialogueImage4",
@@ -58,6 +59,47 @@ document.getElementById('backgroundSelector').addEventListener('change', functio
 
 updateInput('.imageInput', 'imageSelector', 'fileInput');
 updateInput('.bImageInput', 'backgroundSelector', 'backgroundInput');
+
+function toggleVisibility(elementId, buttonId) {
+    const element = document.getElementById(elementId);
+    const button = document.getElementById(buttonId);
+    const computedStyle = window.getComputedStyle(element);
+
+    if (computedStyle.display === 'none') {
+        element.style.display = 'block';
+        button.classList.remove('off');
+        button.classList.add('on');
+        button.textContent = '[-]';
+    } else {
+        element.style.display = 'none';
+        button.classList.remove('on');
+        button.classList.add('off');
+        button.textContent = '[+]';
+    }
+}
+
+function changeFont(fontName) {
+    document.body.style.fontFamily = fontName;
+    localStorage.setItem('preferredFont', fontName); 
+
+    if (fontName === 'OpenDyslexic3') {
+        document.documentElement.style.fontSize = 'calc(1rem - 2px)';
+    } else {
+        document.documentElement.style.fontSize = ''; 
+    }
+}
+
+function loadPreferredFont() {
+    const preferredFont = localStorage.getItem('preferredFont');
+    if (preferredFont) {
+        document.body.style.fontFamily = preferredFont;
+        if (preferredFont === 'OpenDyslexic3') {
+            document.documentElement.style.fontSize = 'calc(1rem - 2px)';
+        }
+    }
+}
+
+window.onload = loadPreferredFont;
 
 function updateProfileImage(fileInput, target) {
     const fInput = document.getElementById(fileInput);
@@ -124,6 +166,7 @@ function updateProfile() {
     const dialogueText = document.getElementById('charDialogue').value;
     const dialogueName = document.getElementById('charDialogueName').value;
     const dialogueSpeed = document.getElementById('dialogueSpeed').value;
+    const textFont = document.getElementById('dialogueFont').value;
     const offsetValue = document.getElementById('dialogueImageOffset').value;
     const textOffset = document.getElementById('imageTextOffset').value;
     const fileInput = document.getElementById('fileInput');
@@ -158,6 +201,7 @@ function updateProfile() {
     isTransparent = checkTransparent;
     defaultTextOffset = parseInt(textOffset);
     isFixedOffset = checkFixedOffset;
+    dialogueFont = textFont;
     document.getElementById('dName').innerText = dialogueName;
 
     if (fileInput.files.length > 0) {
@@ -438,7 +482,7 @@ function createCharacterCacheCanvas() {
     const charPositions = [];
     const padding = 5; 
     const fontSizes = [16, 23, 36]; 
-    const fontFamily = "VCR_OSD_MONO";
+    const fontFamily = dialogueFont;
     let totalHeight = 0;
 
     fontSizes.forEach(fontSize => {
@@ -657,7 +701,7 @@ function typewriterAnimation() {
     }
 
     function drawNameBox(nameText) {
-        ctx.font = '23px VCR_OSD_MONO';
+        ctx.font = '23px ' + dialogueFont;
         const charWidth = textCtx.measureText(nameText).width;
 
         ctx.fillStyle = 'black';
@@ -766,7 +810,7 @@ function typewriterAnimation() {
         let pauseDuration = null;
 
         function drawNextCharacter() {
-            textCtx.font = 'normal ' + String(maxFontSize) +'px VCR_OSD_MONO';
+            textCtx.font = 'normal ' + String(maxFontSize) +'px ' + dialogueFont;
 
             if (currentSegmentIndex >= segments.length) {
                 pauseDuration = 2000;
@@ -1106,15 +1150,15 @@ function typewriterAnimation() {
             textCtx.font = font;
 
             if (bold && !italic) {
-                textCtx.font = "bold " + String(maxFontSize) + "px VCR_OSD_MONO"
+                textCtx.font = "bold " + String(maxFontSize) + "px " + dialogueFont;
             }
 
             if (italic && !bold) {
-                textCtx.font = "italic " + String(maxFontSize) + "px VCR_OSD_MONO"
+                textCtx.font = "italic " + String(maxFontSize) + "px " + dialogueFont;
             }
 
             if (bold && italic) {
-                textCtx.font = "bold italic " + String(maxFontSize) + "px VCR_OSD_MONO"
+                textCtx.font = "bold italic " + String(maxFontSize) + "px " + dialogueFont;
             }
 
             if (wave) {
@@ -1160,7 +1204,7 @@ function typewriterAnimation() {
             let quoteOptionOffset = 22;
             let optionSpacing = 36;
 
-            textCtx.font = 'normal 23px VCR_OSD_MONO';
+            textCtx.font = 'normal 23px ' + dialogueFont;
             textCtx.style = 'white';
             textCtx.strokeText(choiceQuote, optionXOffset, canvasHeight-dialogueHeight+40);
             textCtx.fillText(choiceQuote, optionXOffset, canvasHeight-dialogueHeight+40);
@@ -1375,6 +1419,7 @@ function typewriterAnimation() {
             background: "#000000"
         });
     }
+
     gif.on('finished', function(blob) {
         const gifOptimize = document.getElementById('gifOptimize');
         const myCanvas = document.getElementById('dialogueCanvas');

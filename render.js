@@ -1,3 +1,26 @@
+function changeFont(fontName) {
+    document.body.style.fontFamily = fontName;
+    localStorage.setItem('preferredFont', fontName); 
+
+    if (fontName === 'OpenDyslexic3') {
+        document.documentElement.style.fontSize = 'calc(1rem - 2px)';
+    } else {
+        document.documentElement.style.fontSize = ''; 
+    }
+}
+
+function loadPreferredFont() {
+    const preferredFont = localStorage.getItem('preferredFont');
+    if (preferredFont) {
+        document.body.style.fontFamily = preferredFont;
+        if (preferredFont === 'OpenDyslexic3') {
+            document.documentElement.style.fontSize = 'calc(1rem - 2px)';
+        }
+    }
+}
+
+window.onload = loadPreferredFont;
+
 document.getElementById('profileButton').addEventListener('mouseover', function() {
     document.getElementById('appDescription').innerHTML = 'A customizable ISAT profile screen from the game.';
 });

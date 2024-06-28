@@ -17,6 +17,30 @@
         <p style="font-size: 1.3rem;">All assets belong to insertdisc5</p>
         <p style="font-size: 1rem;"><i>This webpage is currently avaliable on mobile.</i></p>
     </div>
+    <h6 style="padding-top: 10px;"><span>CHANGE FONT</span></h6>
+    <div id="buttonList" style="padding: 10px 0; gap: 10px;">
+        <button id="dialogueButton" class="uiButton" style="font-family: VCR_OSD_MONO; width: auto;" onclick="changeFont('VCR_OSD_MONO')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Default
+        </button>
+        <button id="gameOverButton" class="uiButton" style="font-family: sans-serif, Helvetica, Arial; width: auto;" onclick="changeFont('Arial')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Arial
+        </button>
+        <button id="aboutMeButton" class="uiButton" style="font-family: OpenDyslexic3; font-size: 1.4rem; width: auto;" onclick="changeFont('OpenDyslexic3')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            OpenDyslexic3
+        </button>
+    </div>
     <main id="dialogueMain" style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;"> 
         <canvas id="gameOverCanvas" width="816" height="623" style="visibility: hidden; z-index: -1; position: fixed;"></canvas>
         <img src='assets/displayGameOver.gif' width="816" id="gifDisplay">
@@ -53,70 +77,77 @@
     <p style="font-size: 1rem; text-align: center;">Made using <a href="https://github.com/jnordberg/gif.js">gif.js</a> and <a href="https://github.com/renzhezhilu/gifsicle-wasm-browser">gifsicle (the browser version)</a>.</p>
     
     <form id="settingPanel" onsubmit="updateProfile()" style="gap: 10px; font-size: 1.3rem;">
-        <div class="inputRow">
-            <label for="deathMessage">Death Message:</label>
-            <input style="width: 100px;" type="text" id="deathMessage" fname="deathMessage" style="flex-grow: 1;">
-        </div>
-
-        <div class="inputRow">
-            <label for="textAfterLoop">After Loop Message:</label>
-            <input style="width: 100px;" type="text" id="textAfterLoop" fname="textAfterLoop" style="flex-grow: 1;">
-        </div>
-        <p style="font-size: 1.2rem;">Leave this empty to skip the looping back part of the gif.</p>
+        <h6><span>GAME OVER SETTING <button class="toggleButton" id="gameOverToggle" onclick="toggleVisibility('gameOverSetting', 'gameOverToggle')" type="button">[-]</button></span></h6>
         
-        <div class="inputRow">
-            <label for="cursorPosition">Cursor Position:</label>
-            <select id="cursorPosition" fname="cursorPosition" default="left" style="flex-grow: 1;" value="left">
-                <option value="left">Left</option>
-                <option value="right">Right</option>
-                <option value="none">None</option>
-            </select>
+        <div id="gameOverSetting">
+            <div class="inputRow">
+                <label for="deathMessage">Death Message:</label>
+                <input style="width: 100px;" type="text" id="deathMessage" fname="deathMessage" style="flex-grow: 1;">
+            </div>
+
+            <div class="inputRow">
+                <label for="textAfterLoop">After Loop Message:</label>
+                <input style="width: 100px;" type="text" id="textAfterLoop" fname="textAfterLoop" style="flex-grow: 1;">
+            </div>
+            <p style="font-size: 1.2rem;">Leave this empty to skip the looping back part of the gif.</p>
+            
+            <div class="inputRow">
+                <label for="cursorPosition">Cursor Position:</label>
+                <select id="cursorPosition" fname="cursorPosition" default="left" style="flex-grow: 1;" value="left">
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                    <option value="none">None</option>
+                </select>
+            </div>
+            <p style="font-size: 1.2rem;">Select this to None to remove the cursor.</p>
         </div>
 
-        <p style="font-size: 1.2rem;">Select this to None to remove the cursor.</p>
-        </select>
+        <h6><span>LEFT TEXT <button class="toggleButton" id="leftToggle" onclick="toggleVisibility('leftSetting', 'leftToggle')" type="button">[-]</button></span></h6>
 
-        <h6><span>LEFT TEXT</span></h6>
+        <div id="leftSetting">
+            <div class="inputRow">
+                <label for="textAfterLoop">Left text 1:</label>
+                <input style="width: 100px;" type="text" id="leftText1" fname="leftText1" style="flex-grow: 1;" value="START">
+            </div>
+            
+            <div class="inputRow">
+                <label for="textAfterLoop">Left text 2:</label>
+                <input style="width: 100px;" type="text" id="leftText2" fname="leftText2" style="flex-grow: 1;" value="AGAIN">
+            </div>
+        </div>
 
-        <div class="inputRow">
-            <label for="textAfterLoop">Left text 1:</label>
-            <input style="width: 100px;" type="text" id="leftText1" fname="leftText1" style="flex-grow: 1;" value="START">
+        <h6><span>RIGHT TEXT <button class="toggleButton" id="rightToggle" onclick="toggleVisibility('rightSetting', 'rightToggle')" type="button">[-]</button></span></h6>
+
+        <div id="rightSetting">
+            <div class="inputRow">
+                <label for="textAfterLoop">Right text 1:</label>
+                <input style="width: 100px;" type="text" id="rightText1" fname="rightText1" style="flex-grow: 1;" value="QUIT">
+            </div>
+            
+            <div class="inputRow">
+                <label for="textAfterLoop">Right text 2:</label>
+                <input style="width: 100px;" type="text" id="rightText2" fname="rightText2" style="flex-grow: 1;" value="">
+            </div>
         </div>
         
-        <div class="inputRow">
-            <label for="textAfterLoop">Left text 2:</label>
-            <input style="width: 100px;" type="text" id="leftText2" fname="leftText2" style="flex-grow: 1;" value="AGAIN">
+        <h6><span>EFFECT OPTIONS <button class="toggleButton" id="effectToggle" onclick="toggleVisibility('effectSetting', 'effectToggle')" type="button">[-]</button></span></h6>
+
+        <div id="effectSetting">
+            <div class="inputRow">
+                <label for="isNoise">Noise Effect?</label>
+                <input style="width: 100px;" type="checkbox" id="isNoise" fname="isNoise" style="flex-grow: 1;">
+            </div>
+            <div class="inputRow">
+                <label for="isVHS">VHS Effect?</label>
+                <input style="width: 100px;" type="checkbox" id="isVHS" fname="isVHS" style="flex-grow: 1;">
+            </div>
+            <p style="font-size: 1.2rem;">Using effect will significantly increase gif file size.</p>
+            <div class="inputRow">
+                <label for="isSkipLoopBack">Skipping Looping Back Animation?</label>
+                <input style="width: 100px;" type="checkbox" id="isSkipLoopBack" fname="isSkipLoopBack" style="flex-grow: 1;">
+            </div>
         </div>
 
-        <h6><span>RIGHT TEXT</span></h6>
-
-        <div class="inputRow">
-            <label for="textAfterLoop">Right text 1:</label>
-            <input style="width: 100px;" type="text" id="rightText1" fname="rightText1" style="flex-grow: 1;" value="QUIT">
-        </div>
-        
-        <div class="inputRow">
-            <label for="textAfterLoop">Right text 2:</label>
-            <input style="width: 100px;" type="text" id="rightText2" fname="rightText2" style="flex-grow: 1;" value="">
-        </div>
-
-        <p style="font-size: 1.2rem;">Leave these boxes empty to remove the text.</p>
-
-        <h6><span>EFFECT OPTIONS</span></h6>
-
-        <div class="inputRow">
-            <label for="isNoise">Noise Effect?</label>
-            <input style="width: 100px;" type="checkbox" id="isNoise" fname="isNoise" style="flex-grow: 1;">
-        </div>
-        <div class="inputRow">
-            <label for="isVHS">VHS Effect?</label>
-            <input style="width: 100px;" type="checkbox" id="isVHS" fname="isVHS" style="flex-grow: 1;">
-        </div>
-        <p style="font-size: 1.2rem;">Using Noise/VSH effect or both will significantly increase gif file size.</p>
-        <div class="inputRow">
-            <label for="isSkipLoopBack">Skipping Looping Back Animation?</label>
-            <input style="width: 100px;" type="checkbox" id="isSkipLoopBack" fname="isSkipLoopBack" style="flex-grow: 1;">
-        </div>
         <div class="inputRow">
             <button class="uiButton" type="button" id="saveButton" style="flex-grow: 1;">
                 <img id="cornerUpLeft" src="./assets/cursorBorderA.png">

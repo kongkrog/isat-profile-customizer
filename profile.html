@@ -15,6 +15,30 @@
         <p style="font-size: 1.3rem;">All assets belong to insertdisc5</p>
         <p style="font-size: 1rem;"><i>This webpage doesn't work on mobile for now, sadly.</i></p>
     </div>
+    <h6 style="padding-top: 10px;"><span>CHANGE FONT</span></h6>
+    <div id="buttonList" style="padding: 10px 0; gap: 10px;">
+        <button id="dialogueButton" class="uiButton" style="font-family: VCR_OSD_MONO; width: auto;" onclick="changeFont('VCR_OSD_MONO')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Default
+        </button>
+        <button id="gameOverButton" class="uiButton" style="font-family: sans-serif, Helvetica, Arial; width: auto;" onclick="changeFont('Arial')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Arial
+        </button>
+        <button id="aboutMeButton" class="uiButton" style="font-family: OpenDyslexic3; font-size: 1.4rem; width: auto;" onclick="changeFont('OpenDyslexic3')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            OpenDyslexic3
+        </button>
+    </div>
     <main id="mainMenu" style="padding-top: 20px;">
         <header id="nameUI">
             <img id="cornerUIUpLeft" src="./assets/uicorner.svg" width="6px" height="6px">
@@ -216,147 +240,154 @@
         <p>Some are optional and will only appear when inputted.</p>
 
         <h6><span>PART 1: PROFILE PAGE</span></h6>
-        <h6><span>CHARACTER DETAILS</span></h6>
-        <div class="inputRow">
-            <label for="charName">Name:</label>
-            <input type="text" id="charName" fname="charName">
-        </div>
-        <div class="inputRow">
-            <label for="charPronoun">Pronoun:</label>
-            <input type="text" id="charPronoun" fname="charPronoun">
-        </div>
-        <div class="inputRow">
-            <label for="charDesc">Description:</label>
-            <input type="text" id="charDesc" fname="charDesc" maxlength="150">
-        </div>
+        <h6><span>CHARACTER DETAILS <button class="toggleButton" id="character1Toggle" onclick="toggleVisibility('character1Setting', 'character1Toggle')" type="button">[-]</button></span></h6>
+        <div id="character1Setting">
+            <div class="inputRow">
+                <label for="charName">Name:</label>
+                <input type="text" id="charName" fname="charName">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Pronoun:</label>
+                <input type="text" id="charPronoun" fname="charPronoun">
+            </div>
+            <div class="inputRow">
+                <label for="charDesc">Description:</label>
+                <input type="text" id="charDesc" fname="charDesc" maxlength="150">
+            </div>
 
-        <div class="inputRow">
-            <label for="charNextLevel">Profile Portrait:</label>
-            <input type="file" id="fileInput" accept="image/*" style="width: 100px"> 
+            <div class="inputRow">
+                <label for="charNextLevel">Profile Portrait:</label>
+                <input type="file" id="fileInput" accept="image/*" style="width: 100px"> 
+            </div>
         </div>
-
-        <h6><span>CHARACTER'S CRAFT</span></h6>
-        <div class="inputRow">
-            <label for="charCraft1">Craft 1:</label>
-            <select id="charCraft1" fname="charCraft1">
-                <option value="none">None</option>
-                <option value="scissor">Scissor</option>
-                <option value="rock">Rock</option>
-                <option value="paper">Paper</option>
-                <option value="time_freeze">Time Freeze</option>
-            </select>
-        </div>
-        <div class="inputRow">
-            <label for="charCraft2">Craft 2:</label>
-            <select id="charCraft2" fname="charCraft2">
-                <option value="none">None</option>
-                <option value="scissor">Scissor</option>
-                <option value="rock">Rock</option>
-                <option value="paper">Paper</option>
-                <option value="time_freeze">Time Freeze</option>
-            </select>
-        </div>
-        <div class="inputRow">
-            <label for="charWeakness">Weak:</label>
-            <select id="charWeakness" fname="charWeakness">
-                <option value="none">None</option>
-                <option value="scissor">Scissor</option>
-                <option value="rock">Rock</option>
-                <option value="paper">Paper</option>
-                <option value="time_freeze">Time Freeze</option>
-            </select>
-        </div>
-        <div class="inputRow">
-            <label for="charResist1">Resist 1:</label>
-            <select id="charResist1" fname="charResist1">
-                <option value="none">None</option>
-                <option value="scissor">Scissor</option>
-                <option value="rock">Rock</option>
-                <option value="paper">Paper</option>
-                <option value="time_freeze">Time Freeze</option>
-            </select>
-        </div>
-        <div class="inputRow">
-            <label for="charResist2">Resist 2 (Optional):</label>
-            <select id="charResist2" fname="charResist2">
-                <option value="none">None</option>
-                <option value="scissor">Scissor</option>
-                <option value="rock">Rock</option>
-                <option value="paper">Paper</option>
-                <option value="time_freeze">Time Freeze</option>
-            </select>
-        </div>
-        <div class="inputRow">
-            <label for="charImmune">Immune (Optional):</label>
-            <select id="charImmune" fname="charImmune">
-                <option value="none">None</option>
-                <option value="scissor">Scissor</option>
-                <option value="rock">Rock</option>
-                <option value="paper">Paper</option>
-                <option value="time_freeze">Time Freeze</option>
-            </select>
+        <h6><span>CHARACTER'S CRAFT <button class="toggleButton" id="craftToggle" onclick="toggleVisibility('craftSetting', 'craftToggle')" type="button">[-]</button></span></h6>
+        <div id="craftSetting">
+            <div class="inputRow">
+                <label for="charCraft1">Craft 1:</label>
+                <select id="charCraft1" fname="charCraft1">
+                    <option value="none">None</option>
+                    <option value="scissor">Scissor</option>
+                    <option value="rock">Rock</option>
+                    <option value="paper">Paper</option>
+                    <option value="time_freeze">Time Freeze</option>
+                </select>
+            </div>
+            <div class="inputRow">
+                <label for="charCraft2">Craft 2:</label>
+                <select id="charCraft2" fname="charCraft2">
+                    <option value="none">None</option>
+                    <option value="scissor">Scissor</option>
+                    <option value="rock">Rock</option>
+                    <option value="paper">Paper</option>
+                    <option value="time_freeze">Time Freeze</option>
+                </select>
+            </div>
+            <div class="inputRow">
+                <label for="charWeakness">Weak:</label>
+                <select id="charWeakness" fname="charWeakness">
+                    <option value="none">None</option>
+                    <option value="scissor">Scissor</option>
+                    <option value="rock">Rock</option>
+                    <option value="paper">Paper</option>
+                    <option value="time_freeze">Time Freeze</option>
+                </select>
+            </div>
+            <div class="inputRow">
+                <label for="charResist1">Resist 1:</label>
+                <select id="charResist1" fname="charResist1">
+                    <option value="none">None</option>
+                    <option value="scissor">Scissor</option>
+                    <option value="rock">Rock</option>
+                    <option value="paper">Paper</option>
+                    <option value="time_freeze">Time Freeze</option>
+                </select>
+            </div>
+            <div class="inputRow">
+                <label for="charResist2">Resist 2 (Optional):</label>
+                <select id="charResist2" fname="charResist2">
+                    <option value="none">None</option>
+                    <option value="scissor">Scissor</option>
+                    <option value="rock">Rock</option>
+                    <option value="paper">Paper</option>
+                    <option value="time_freeze">Time Freeze</option>
+                </select>
+            </div>
+            <div class="inputRow">
+                <label for="charImmune">Immune (Optional):</label>
+                <select id="charImmune" fname="charImmune">
+                    <option value="none">None</option>
+                    <option value="scissor">Scissor</option>
+                    <option value="rock">Rock</option>
+                    <option value="paper">Paper</option>
+                    <option value="time_freeze">Time Freeze</option>
+                </select>
+            </div>
         </div>
 
         <h6><span>PART 2: STAT PAGE</span></h6>
-        <h6><span>CHARACTER DETAILS</span></h6>
+        <h6><span>CHARACTER DETAILS <button class="toggleButton" id="character2Toggle" onclick="toggleVisibility('character2Setting', 'character2Toggle')" type="button">[-]</button></span></h6>
 
-        <div class="inputRow">
-            <label for="charNickname">Character Nickname:</label>
-            <input type="text" id="charNickname" fname="charNickname">
+        <div id="character2Setting">
+            <div class="inputRow">
+                <label for="charNickname">Character Nickname:</label>
+                <input type="text" id="charNickname" fname="charNickname">
+            </div>
+
+            <div class="inputRow">
+                <label for="charAge">Age (Optional):</label>
+                <input type="text" id="charAge" fname="charAge">
+            </div>
+
+            <div class="inputRow">
+                <label for="charHeight">Height (Optional):</label>
+                <input type="text" id="charHeight" fname="charHeight">
+            </div>
         </div>
 
-        <div class="inputRow">
-            <label for="charAge">Age (Optional):</label>
-            <input type="text" id="charAge" fname="charAge">
+        <h6><span>CHARACTER'S STATS <button class="toggleButton" id="statsToggle" onclick="toggleVisibility('statsSetting', 'statsToggle')" type="button">[-]</button></span></h6>
+
+        <div id="statsSetting">
+            <div class="inputRow">
+                <label for="charLevel">LVL:</label>
+                <input type="text" id="charLevel" fname="charLevel">
+            </div>
+
+            <div class="inputRow">
+                <label for="charHP">HP:</label>
+                <input type="text" id="charHP" fname="charHP">
+            </div>
+
+            <div class="inputRow">
+                <label for="charAttack">Attack:</label>
+                <input type="text" id="charAttack" fname="charAttack">
+            </div>
+
+            <div class="inputRow">
+                <label for="charDefense">Defense:</label>
+                <input type="text" id="charDefense" fname="charDefense">
+            </div>
+
+            <div class="inputRow">
+                <label for="charAtkSpd">Atk Speed:</label>
+                <input type="text" id="charAtkSpd" fname="charAtkSpd">
+            </div>
+
+            <div class="inputRow">
+                <label for="charLuck">Luck:</label>
+                <input type="text" id="charLuck" fname="charLuck">
+            </div>
+
+            <div class="inputRow">
+                <label for="charEXP">Current EXP:</label>
+                <input type="text" id="charEXP" fname="charEXP">
+            </div>
+
+            <div class="inputRow">
+                <label for="charNextLevel">To Next Level:</label>
+                <input type="text" id="charNextLevel" fname="charNextLevel">
+            </div>
         </div>
-
-        <div class="inputRow">
-            <label for="charHeight">Height (Optional):</label>
-            <input type="text" id="charHeight" fname="charHeight">
-        </div>
-
-        <h6><span>CHARACTER'S STATS</span></h6>
-
-        <div class="inputRow">
-            <label for="charLevel">LVL:</label>
-            <input type="text" id="charLevel" fname="charLevel">
-        </div>
-
-        <div class="inputRow">
-            <label for="charHP">HP:</label>
-            <input type="text" id="charHP" fname="charHP">
-        </div>
-
-        <div class="inputRow">
-            <label for="charAttack">Attack:</label>
-            <input type="text" id="charAttack" fname="charAttack">
-        </div>
-
-        <div class="inputRow">
-            <label for="charDefense">Defense:</label>
-            <input type="text" id="charDefense" fname="charDefense">
-        </div>
-
-        <div class="inputRow">
-            <label for="charAtkSpd">Atk Speed:</label>
-            <input type="text" id="charAtkSpd" fname="charAtkSpd">
-        </div>
-
-        <div class="inputRow">
-            <label for="charLuck">Luck:</label>
-            <input type="text" id="charLuck" fname="charLuck">
-        </div>
-
-        <div class="inputRow">
-            <label for="charEXP">Current EXP:</label>
-            <input type="text" id="charEXP" fname="charEXP">
-        </div>
-
-        <div class="inputRow">
-            <label for="charNextLevel">To Next Level:</label>
-            <input type="text" id="charNextLevel" fname="charNextLevel">
-        </div>
-
+        
         <div style="display: flex; flex-direction: row;">
             <button class="uiButton" id="saveButton">
                 <img id="cornerUpLeft" src="./assets/cursorBorderA.png">

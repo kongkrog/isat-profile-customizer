@@ -6,6 +6,29 @@ function openSetting() {
     document.getElementById("settingPanel").style.display = "flex"; 
 }
 
+function changeFont(fontName) {
+    document.body.style.fontFamily = fontName;
+    localStorage.setItem('preferredFont', fontName); 
+
+    if (fontName === 'OpenDyslexic3') {
+        document.documentElement.style.fontSize = 'calc(1rem - 2px)';
+    } else {
+        document.documentElement.style.fontSize = ''; 
+    }
+}
+
+function loadPreferredFont() {
+    const preferredFont = localStorage.getItem('preferredFont');
+    if (preferredFont) {
+        document.body.style.fontFamily = preferredFont;
+        if (preferredFont === 'OpenDyslexic3') {
+            document.documentElement.style.fontSize = 'calc(1rem - 2px)';
+        }
+    }
+}
+
+window.onload = loadPreferredFont;
+
 function isNumeric(input) {
     return !isNaN(parseFloat(input)) && isFinite(input);
 }

@@ -1,3 +1,44 @@
+function toggleVisibility(elementId, buttonId) {
+    const element = document.getElementById(elementId);
+    const button = document.getElementById(buttonId);
+    const computedStyle = window.getComputedStyle(element);
+
+    if (computedStyle.display === 'none') {
+        element.style.display = 'block';
+        button.classList.remove('off');
+        button.classList.add('on');
+        button.textContent = '[-]';
+    } else {
+        element.style.display = 'none';
+        button.classList.remove('on');
+        button.classList.add('off');
+        button.textContent = '[+]';
+    }
+}
+
+function changeFont(fontName) {
+    document.body.style.fontFamily = fontName;
+    localStorage.setItem('preferredFont', fontName); 
+
+    if (fontName === 'OpenDyslexic3') {
+        document.documentElement.style.fontSize = 'calc(1rem - 4px)';
+    } else {
+        document.documentElement.style.fontSize = ''; 
+    }
+}
+
+function loadPreferredFont() {
+    const preferredFont = localStorage.getItem('preferredFont');
+    if (preferredFont) {
+        document.body.style.fontFamily = preferredFont;
+        if (preferredFont === 'OpenDyslexic3') {
+            document.documentElement.style.fontSize = 'calc(1rem - 4px)';
+        }
+    }
+}
+
+window.onload = loadPreferredFont;
+
 function switchToProfile() {
     document.getElementById("introductionText").style.display = "block";
     document.getElementById("descriptionText").style.display = "flex";

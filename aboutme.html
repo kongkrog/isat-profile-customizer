@@ -12,14 +12,22 @@
         <p>Lea's Profile</p>
         <div style="margin-top: 10px; border-radius: 100px; width: 150px; height: 150px; background-image: url('./assets/profilePic.png'); background-repeat: no-repeat; background-position: center center; background-size: cover;"></div>
         <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">Nickname: kongkrog | Lea isn't my real name.</p>
-        <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">I'm online in the official ISAT Discord server (@kongkrog).<br>Feel free to ask me for features/bug reports.</p>
         <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">I made this page as I wanted to give something back to the community.<br>And since I don't know how to draw/make fanfictions/etc... I went for this.</p>
         <p style="text-align: center; margin-top: 10px">Disclaimer</p>
         <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">I do not approve of using this tool for hate crimes, discrimination, or malicious activities.</p>
         <p style="text-align: center; margin-top: 10px">Credit</p>
-        <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">My pages are <strong>free, and open-source.</strong> Freely uses them as you wish.</p>
-        <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">All the assets used in my pages is from In Stars And Time.<br> All credit goes to <strong>Adrienne/insertdisc5.</strong><br> Spread the word about this game.</p>
-        <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">If you use these, feel free to credit or not credit me, it's fine.<br>But please don't reupload my code somewhere else.<br> You can clone or fork my repo if you want.</p>
+        <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">
+            My pages are free and open-source. Feel free to use them as you wish.
+        </p>
+        <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">
+            All assets are from <em>In Stars And Time</em>. Credit goes to <strong>Adrienne/insertdisc5.</strong>
+        </p>
+        <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">
+            This is a personal project, and there's no need for donation.<br> Credit to me is optional, but please do not reupload my code elsewhere.<br> Cloning or forking my repo is welcome.
+        </p>
+        <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">
+            Font used: <a href="https://www.dafont.com/vcr-osd-mono.font">VCR OSD MONO</a>, <a href="https://opendyslexic.org/">OpenDyslexic</a>, <a href="https://fontmeme.com/fonts/best-ten-font/">BESTTEN</a>
+        </p>
         <p style="text-align: center; margin-top: 10px">Special Thanks</p>
         <p style="font-size: 1.1rem; text-align: center; margin-top: 10px">My profile picture was drawn by @kuro_is_doodlin<br>My friends, Lifeblood, Gared, Pixel, Lu, the whole ISAT server, and more.</p>
     </main>
@@ -30,5 +38,30 @@
         <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
         <img src="./assets/quiticon.png"> Return
     </button>
+    <h6 style="padding-top: 10px;"><span>CHANGE FONT</span></h6>
+    <div id="buttonList" style="padding: 10px 0; gap: 10px;">
+        <button id="dialogueButton" class="uiButton" style="font-family: VCR_OSD_MONO; width: auto;" onclick="changeFont('VCR_OSD_MONO')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Default
+        </button>
+        <button id="gameOverButton" class="uiButton" style="font-family: sans-serif, Helvetica, Arial; width: auto;" onclick="changeFont('Arial')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Arial
+        </button>
+        <button id="aboutMeButton" class="uiButton" style="font-family: OpenDyslexic3; font-size: 1.4rem; width: auto;" onclick="changeFont('OpenDyslexic3')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            OpenDyslexic3
+        </button>
+    </div>
+    <script src="render.js"></script> 
 </body>
 </html>

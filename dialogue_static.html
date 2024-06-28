@@ -17,6 +17,30 @@
         <p style="font-size: 1.3rem;">All assets belong to insertdisc5</p>
         <p style="font-size: 1rem;"><i>This webpage is currently avaliable on mobile.</i></p>
     </div>
+    <h6 style="padding-top: 10px;"><span>CHANGE FONT</span></h6>
+    <div id="buttonList" style="padding: 10px 0; gap: 10px;">
+        <button id="dialogueButton" class="uiButton" style="font-family: VCR_OSD_MONO; width: auto;" onclick="changeFont('VCR_OSD_MONO')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Default
+        </button>
+        <button id="gameOverButton" class="uiButton" style="font-family: sans-serif, Helvetica, Arial; width: auto;" onclick="changeFont('Arial')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Arial
+        </button>
+        <button id="aboutMeButton" class="uiButton" style="font-family: OpenDyslexic3; font-size: 1.4rem; width: auto;" onclick="changeFont('OpenDyslexic3')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            OpenDyslexic3
+        </button>
+    </div>
     <main id="dialogueMain" style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;"> 
         <div id="canvasDiv" style="position: relative;">
             <canvas id="dialogueCanvas" width="816" height="400" style="display: none"></canvas>
@@ -111,60 +135,73 @@
                 <textarea id="charDialogue" fname="charDialogue">This is what Siffrin would say.</textarea>
             </div>
             
-            <h6><span>IMAGE INPUT</span></h6>
+            <h6><span>IMAGE INPUT <button class="toggleButton" id="imageInputToggle" onclick="toggleVisibility('imageInputSetting', 'imageInputToggle')" type="button">[-]</button></span></h6>
 
-            <div class="inputRow">
-                <label for="charDialogueImg">Portrait [IMAGE1]:</label>
-                <button class="uiButton" id="clearButton" style="flex-basis: 5%;">
-                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    X
-                </button>
-                <input type="file" style="width: 100px;" id="fileInput" accept="image/*">
-            </div>
-            <div class="inputRow">
-                <label for="backgroundInput">Background [BIMAGE1]:</label>
-                <button class="uiButton" id="clearBackgroundButton" style="flex-basis: 5%;">
-                    <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
-                    <img id="cornerDownRight" src="./assets/cursorBorderA.png">
-                    <img id="cornerUpRight" src="./assets/cursorBorderB.png">
-                    <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
-                    X
-                </button>
-                <input type="file" style="width: 100px;" id="backgroundInput" accept="image/*">
-            </div>
-            <p style="font-size: 1.2rem;">ISAT Faces directory: In Stars And Time/www/img/faces</p>
-            
-            <h6><span>DIALOGUE NAME</span></h6>
-
-            <div class="inputRow">
-                <label for="charDialogueName">Character Name:</label>
-                <input type="text" style="width: 100px;" id="charDialogueName" fname="charDialogueName" style="flex-grow: 1; width: 200px;">
-            </div>
-            <p style="font-size: 1.2rem;">Character Name Box will only appear if you clear image ([IMAGE1] is empty).</p>
-
-            <h6><span>IMAGE SETTING</span></h6>
-
-            <div class="inputRow">
-                <label for="dialogueImageOffset">Protrait Horizontal Offset:</label>
-                <input type="range" style="width: 100px;" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="280" value="263" step="1">
+            <div id="imageInputSetting">
+                <div class="inputRow">
+                    <label for="charDialogueImg">Portrait [IMAGE1]:</label>
+                    <button class="uiButton" id="clearButton" style="flex-basis: 5%;">
+                        <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                        <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                        <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                        <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                        X
+                    </button>
+                    <input type="file" style="width: 100px;" id="fileInput" accept="image/*">
+                </div>
+                <div class="inputRow">
+                    <label for="backgroundInput">Background [BIMAGE1]:</label>
+                    <button class="uiButton" id="clearBackgroundButton" style="flex-basis: 5%;">
+                        <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+                        <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+                        <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+                        <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+                        X
+                    </button>
+                    <input type="file" style="width: 100px;" id="backgroundInput" accept="image/*">
+                </div>
+                <p style="font-size: 1.2rem;">ISAT Faces directory: In Stars And Time/www/img/faces</p>
             </div>
             
-            <div class="inputRow">
-                <label for="imageTextOffset">Text Offset (To Portrait):</label>
-                <input type="range" style="width: 100px;" id="imageTextOffset" name="imageTextOffset" min="215" max="250" value="215" step="1" style="width: 100px;">
-            </div>
-            
-            <div class="inputRow">
-                <label for="dialogueImageOffset">Scaling (0.5-1):</label>
-                <input type="range" style="width: 100px;" id="gifScaling" name="gifScaling" min="0.5" max="1" step="0.1" value="1">
+            <h6><span>DIALOGUE SETTING <button class="toggleButton" id="dialogueToggle" onclick="toggleVisibility('dialogueSetting', 'dialogueToggle')" type="button">[-]</button></span></h6>
+
+            <div id="dialogueSetting">
+                <div class="inputRow">
+                    <label for="charDialogueName">Character Name:</label>
+                    <input type="text" style="width: 100px;" id="charDialogueName" fname="charDialogueName" style="flex-grow: 1; width: 200px;">
+                </div>
+                <p style="font-size: 1.2rem;">Character Name Box will only appear if you clear image ([IMAGE1] is empty).</p>
+                <div class="inputRow">
+                    <label for="dialogueFont">Dialogue Font:</label>
+                    <select id="dialogueFont" fname="dialogueSpeed" default="veryfast">
+                        <option value="VCR_OSD_MONO">VCR_OSD_MONO</option>
+                        <option value="BESTTEN_CRT">BESTTEN_CRT</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="inputRow">
-                <label for="fixedTextOffset">Fixed Text Offset?:</label>
-                <input type="checkbox" id="fixedTextOffset" name="fixedTextOffset">
+            <h6><span>IMAGE SETTING <button class="toggleButton" id="imageToggle" onclick="toggleVisibility('imageSetting', 'imageToggle')" type="button">[-]</button></span></h6>
+
+            <div id="imageSetting">
+                <div class="inputRow">
+                    <label for="dialogueImageOffset">Protrait Horizontal Offset:</label>
+                    <input type="range" style="width: 100px;" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="280" value="263" step="1">
+                </div>
+                
+                <div class="inputRow">
+                    <label for="imageTextOffset">Text Offset (To Portrait):</label>
+                    <input type="range" style="width: 100px;" id="imageTextOffset" name="imageTextOffset" min="215" max="250" value="215" step="1" style="width: 100px;">
+                </div>
+                
+                <div class="inputRow">
+                    <label for="dialogueImageOffset">Scaling (0.5-1):</label>
+                    <input type="range" style="width: 100px;" id="gifScaling" name="gifScaling" min="0.5" max="1" step="0.1" value="1">
+                </div>
+
+                <div class="inputRow">
+                    <label for="fixedTextOffset">Fixed Text Offset?:</label>
+                    <input type="checkbox" id="fixedTextOffset" name="fixedTextOffset">
+                </div>
             </div>
             <div style="display: flex; flex-direction: row; gap: 10px;">
                 <button class="uiButton" id="saveButton" style="flex-grow: 1;">

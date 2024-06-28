@@ -8,6 +8,29 @@ function openMainMenu() {
     document.getElementById("settingPanel").style.display = "flex"; 
 }
 
+function changeFont(fontName) {
+    document.body.style.fontFamily = fontName;
+    localStorage.setItem('preferredFont', fontName); 
+
+    if (fontName === 'OpenDyslexic3') {
+        document.documentElement.style.fontSize = 'calc(1rem - 2px)';
+    } else {
+        document.documentElement.style.fontSize = ''; 
+    }
+}
+
+function loadPreferredFont() {
+    const preferredFont = localStorage.getItem('preferredFont');
+    if (preferredFont) {
+        document.body.style.fontFamily = preferredFont;
+        if (preferredFont === 'OpenDyslexic3') {
+            document.documentElement.style.fontSize = 'calc(1rem - 2px)';
+        }
+    }
+}
+
+window.onload = loadPreferredFont;
+
 function updateMainMenuImage(inputid, imagedestination) {
     const fileInput = document.getElementById(inputid);
     const profileImage = document.getElementById(imagedestination);
@@ -36,6 +59,24 @@ function clearImage(inputid, imagedestination) {
     // Reset image input and display
     fileInput.value = null;
     profileImage.src = '#';
+}
+
+function toggleVisibility(elementId, buttonId) {
+    const element = document.getElementById(elementId);
+    const button = document.getElementById(buttonId);
+    const computedStyle = window.getComputedStyle(element);
+
+    if (computedStyle.display === 'none') {
+        element.style.display = 'block';
+        button.classList.remove('off');
+        button.classList.add('on');
+        button.textContent = '[-]';
+    } else {
+        element.style.display = 'none';
+        button.classList.remove('on');
+        button.classList.add('off');
+        button.textContent = '[+]';
+    }
 }
 
 function updateMainMenuForm() {

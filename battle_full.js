@@ -38,6 +38,47 @@ function openSetting() {
     document.getElementById("settingPanel").style.display = "flex"; 
 }
 
+function changeFont(fontName) {
+    document.body.style.fontFamily = fontName;
+    localStorage.setItem('preferredFont', fontName); 
+
+    if (fontName === 'OpenDyslexic3') {
+        document.documentElement.style.fontSize = 'calc(1rem - 2px)';
+    } else {
+        document.documentElement.style.fontSize = ''; 
+    }
+}
+
+function loadPreferredFont() {
+    const preferredFont = localStorage.getItem('preferredFont');
+    if (preferredFont) {
+        document.body.style.fontFamily = preferredFont;
+        if (preferredFont === 'OpenDyslexic3') {
+            document.documentElement.style.fontSize = 'calc(1rem - 2px)';
+        }
+    }
+}
+
+window.onload = loadPreferredFont;
+
+function toggleVisibility(elementId, buttonId) {
+    const element = document.getElementById(elementId);
+    const button = document.getElementById(buttonId);
+    const computedStyle = window.getComputedStyle(element);
+
+    if (computedStyle.display === 'none') {
+        element.style.display = 'block';
+        button.classList.remove('off');
+        button.classList.add('on');
+        button.textContent = '[-]';
+    } else {
+        element.style.display = 'none';
+        button.classList.remove('on');
+        button.classList.add('off');
+        button.textContent = '[+]';
+    }
+}
+
 function drawVHSEffect(ctx, canvasWidth, canvasHeight) {
     const imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
     const data = imageData.data;

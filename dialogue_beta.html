@@ -17,6 +17,30 @@
         <p style="font-size: 1.3rem;">All assets belong to insertdisc5</p>
         <p style="font-size: 1rem;"><i>This webpage is currently avaliable on mobile.</i></p>
     </div>
+    <h6 style="padding-top: 10px;"><span>CHANGE FONT</span></h6>
+    <div id="buttonList" style="padding: 10px 0; gap: 10px;">
+        <button id="dialogueButton" class="uiButton" style="font-family: VCR_OSD_MONO; width: auto;" onclick="changeFont('VCR_OSD_MONO')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Default
+        </button>
+        <button id="gameOverButton" class="uiButton" style="font-family: sans-serif, Helvetica, Arial; width: auto;" onclick="changeFont('Arial')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Arial
+        </button>
+        <button id="aboutMeButton" class="uiButton" style="font-family: OpenDyslexic3; font-size: 1.4rem; width: auto;" onclick="changeFont('OpenDyslexic3')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            OpenDyslexic3
+        </button>
+    </div>
     <main id="dialogueMain" style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center;"> 
         <div id="canvasDiv" style="position: relative;">
             <canvas id="dialogueCanvas" width="816" height="400" style="display: none"></canvas>
@@ -79,7 +103,7 @@
             <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
             <img src="./assets/settingicon.png"> Homepage
         </button>
-        <button class="uiButton" onclick="location.href='./dialogue_static.html'">
+        <button class="uiButton" style="width: 220px;" onclick="location.href='./dialogue_static.html'">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
             <img id="cornerDownRight" src="./assets/cursorBorderA.png">
             <img id="cornerUpRight" src="./assets/cursorBorderB.png">
@@ -188,9 +212,9 @@
             <textarea id="charDialogue" fname="charDialogue">... You're still half asleep, aren't you?[PS=700][CLRIMG](You made a grumbling sound.)[PS=700][IMAGE2]Hm...[PS=500] Okay,[PS=200] then...</textarea>
         </div>
 
-        <h6><span>DIALOGUE IMAGE</span></h6>
+        <h6><span>DIALOGUE IMAGE <button class="toggleButton" id="portraitToggle" onclick="toggleVisibility('portraitSetting', 'portraitToggle')" type="button">[-]</button></span></h6>
 
-        <div>
+        <div id="portraitSetting">
             <div class="inputRow">
                 <label for="charDialogueImg">Portrait [IMAGE1]:</label>
                 <button class="uiButton" id="clearButton" style="flex-basis: 5%;">
@@ -236,13 +260,13 @@
                 <input type="file" id="fileInput12" class="imageInput" accept="image/*"> 
                 <input type="file" id="fileInput13" class="imageInput" accept="image/*"> 
             </div>
+
+            <p style="font-size: 1rem;">ISAT Faces directory: In Stars And Time/www/img/faces</p>
         </div>
 
-        <p style="font-size: 1rem;">ISAT Faces directory: In Stars And Time/www/img/faces</p>
+        <h6><span>BACKGROUND IMAGE <button class="toggleButton" id="backgroundToggle" onclick="toggleVisibility('backgroundSetting', 'backgroundToggle')" type="button">[-]</button></span></h6>
 
-        <h6><span>BACKGROUND IMAGE</span></h6>
-
-        <div>
+        <div id="backgroundSetting">
             <div class="inputRow">
                 <label for="backgroundInput">Background [BIMAGE1]:</label>
                 <button class="uiButton" id="clearBackgroundButton" style="flex-basis: 5%;">
@@ -278,9 +302,9 @@
             </div>
         </div>
 
-        <h6><span>DIALOGUE SETTING</span></h6>
+        <h6><span>DIALOGUE SETTING <button class="toggleButton" id="moreDialogueToggle" onclick="toggleVisibility('moreDialogueSetting', 'moreDialogueToggle')" type="button">[-]</button></span></h6>
 
-        <div>
+        <div id="moreDialogueSetting">
             <div class="inputRow">
                 <label for="charDialogueName">Character Name:</label>
                 <input type="text" id="charDialogueName" fname="charDialogueName" style="width: 100px;">
@@ -297,11 +321,19 @@
                     <option value="nearinstant">Near Instant</option>
                 </select>
             </div>
+
+            <div class="inputRow">
+                <label for="dialogueFont">Dialogue Font:</label>
+                <select id="dialogueFont" fname="dialogueSpeed" default="veryfast">
+                    <option value="VCR_OSD_MONO">VCR_OSD_MONO</option>
+                    <option value="BESTTEN_CRT">BESTTEN_CRT</option>
+                </select>
+            </div>
         </div>
 
-        <h6><span>IMAGE SETTING AND SCALING</span></h6>
+        <h6><span>IMAGE SETTING AND SCALING <button class="toggleButton" id="imageToggle" onclick="toggleVisibility('imageSetting', 'imageToggle')" type="button">[-]</button></span></h6>
 
-        <div>
+        <div id="imageSetting">
             <div class="inputRow">
                 <label for="dialogueImageOffset">Portrait Horizontal Offset:</label>
                 <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="300" value="265" step="1" style="width: 100px;">
@@ -323,9 +355,9 @@
             </div>
         </div>
 
-        <h6><span>TRANSPARENCY</span></h6>
+        <h6><span>TRANSPARENCY <button class="toggleButton" id="transparencyToggle" onclick="toggleVisibility('transparencySetting', 'transparencyToggle')" type="button">[-]</button></span></h6>
 
-        <div>
+        <div id="transparencySetting">
             <div class="inputRow">
                 <label for="checkTransparent">Transparency?</label>
                 <input type="checkbox" id="checkTransparent" name="checkTransparent">

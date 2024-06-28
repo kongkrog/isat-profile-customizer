@@ -15,6 +15,30 @@
         <p style="font-size: 1.3rem;">All assets belong to insertdisc5</p>
         <p style="font-size: 1rem;"><i>This webpage doesn't work on mobile for now, sadly.</i></p>
     </div>
+    <h6 style="padding-top: 10px;"><span>CHANGE FONT</span></h6>
+    <div id="buttonList" style="padding: 10px 0; gap: 10px;">
+        <button id="dialogueButton" class="uiButton" style="font-family: VCR_OSD_MONO; width: auto;" onclick="changeFont('VCR_OSD_MONO')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Default
+        </button>
+        <button id="gameOverButton" class="uiButton" style="font-family: sans-serif, Helvetica, Arial; width: auto;" onclick="changeFont('Arial')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            Arial
+        </button>
+        <button id="aboutMeButton" class="uiButton" style="font-family: OpenDyslexic3; font-size: 1.4rem; width: auto;" onclick="changeFont('OpenDyslexic3')">
+            <img id="cornerUpLeft" src="./assets/cursorBorderA.png">
+            <img id="cornerDownRight" src="./assets/cursorBorderA.png">
+            <img id="cornerUpRight" src="./assets/cursorBorderB.png">
+            <img id="cornerDownLeft" src="./assets/cursorBorderB.png">
+            OpenDyslexic3
+        </button>
+    </div>
     <div class="hideBlobLeft" style="left: 0;"></div>
     <div class="hideBlobRight" style="right: 0;"></div>
     <main id="gameMainMenu">
@@ -141,87 +165,92 @@
     <p style="font-size: 1rem;">Best if images are the same height, add empty padding if needed.</p>
     <form id="settingPanel" onsubmit="updateMainMenuForm()" style="z-index: 5; font-size: 1.3rem; gap: 10px;">
         <p>Leave all that character's input empty to remove them from the menu.</p>
-        <h6><span>CHARACTER 1</span></h6>
-        <div class="inputRow">
-            <label for="charName">Char 1 Name:</label>
-            <input type="text" style="width: 100px;" id="char1Name" fname="char1Name">
+        <h6><span>CHARACTER 1 <button class="toggleButton" id="character1Toggle" onclick="toggleVisibility('character1Setting', 'character1Toggle')" type="button">[-]</button></span></h6>
+        <div id="character1Setting">
+            <div class="inputRow">
+                <label for="charName">Char 1 Name:</label>
+                <input type="text" style="width: 100px;" id="char1Name" fname="char1Name">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Char 1 LVL:</label>
+                <input type="text" style="width: 100px;" id="char1LVL" fname="char1LVL">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Char 1 HP:</label>
+                <input type="text" style="width: 100px;" id="char1HP" fname="char1HP">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Char 1 Image:</label>
+                <input type="file" style="width: 100px;" id="char1Image" accept="image/*"> 
+            </div>
         </div>
-        <div class="inputRow">
-            <label for="charPronoun">Char 1 LVL:</label>
-            <input type="text" style="width: 100px;" id="char1LVL" fname="char1LVL">
+        <h6><span>CHARACTER 2 <button class="toggleButton" id="character2Toggle" onclick="toggleVisibility('character2Setting', 'character2Toggle')" type="button">[-]</button></span></h6>
+        <div id="character2Setting">
+            <div class="inputRow">
+                <label for="charName">Char 2 Name:</label>
+                <input type="text" style="width: 100px;" id="char2Name" fname="char2Name">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Char 2 LVL:</label>
+                <input type="text" style="width: 100px;" id="char2LVL" fname="char2LVL">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Char 2 HP:</label>
+                <input type="text" style="width: 100px;" id="char2HP" fname="char2HP">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Char 2 Image:</label>
+                <input type="file" style="width: 100px;" id="char2Image" accept="image/*"> 
+            </div>
         </div>
-        <div class="inputRow">
-            <label for="charPronoun">Char 1 HP:</label>
-            <input type="text" style="width: 100px;" id="char1HP" fname="char1HP">
+        <h6><span>CHARACTER 3 <button class="toggleButton" id="character3Toggle" onclick="toggleVisibility('character3Setting', 'character3Toggle')" type="button">[-]</button></span></h6>
+        <div id="character3Setting">
+            <div class="inputRow">
+                <label for="charName">Char 3 Name:</label>
+                <input type="text" style="width: 100px;" id="char3Name" fname="char3Name">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Char 3 LVL:</label>
+                <input type="text" style="width: 100px;" id="char3LVL" fname="char3LVL">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Char 3 HP:</label>
+                <input type="text" style="width: 100px;" id="char3HP" fname="char3HP">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Char 3 Image:</label>
+                <input type="file" style="width: 100px;" id="char3Image" accept="image/*"> 
+            </div>
         </div>
-        <div class="inputRow">
-            <label for="charPronoun">Char 1 Image:</label>
-            <input type="file" style="width: 100px;" id="char1Image" accept="image/*"> 
+
+        <h6><span>CHARACTER 4 <button class="toggleButton" id="character4Toggle" onclick="toggleVisibility('character4Setting', 'character4Toggle')" type="button">[-]</button></span></h6>
+        <div id="character4Setting">
+            <div class="inputRow">
+                <label for="charName">Char 4 Name:</label>
+                <input type="text" style="width: 100px;" id="char4Name" fname="char4Name">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Char 4 LVL:</label>
+                <input type="text" style="width: 100px;" id="char4LVL" fname="char4LVL">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Char 4 HP:</label>
+                <input type="text" style="width: 100px;" id="char4HP" fname="char4HP">
+            </div>
+            <div class="inputRow">
+                <label for="charPronoun">Char 4 Image:</label>
+                <input type="file" style="width: 100px;" id="char4Image" accept="image/*">
+            </div>
         </div>
-        <h6><span>CHARACTER 2</span></h6>
-        <div class="inputRow">
-            <label for="charName">Char 2 Name:</label>
-            <input type="text" style="width: 100px;" id="char2Name" fname="char2Name">
+
+        <h6><span>IMAGE SETTING <button class="toggleButton" id="imageToggle" onclick="toggleVisibility('imageSetting', 'imageToggle')" type="button">[-]</button></span></h6>
+        <div id="imageSetting">
+            <div class="inputRow">
+                <label>Image Size (Default 90%):</label>
+                <input type="range" style="width: 100px;" min="50" max="100" value="90" class="slider" id="imageHeightSlider"> <span id="sliderValue"></span>
+            </div>
         </div>
-        <div class="inputRow">
-            <label for="charPronoun">Char 2 LVL:</label>
-            <input type="text" style="width: 100px;" id="char2LVL" fname="char2LVL">
-        </div>
-        <div class="inputRow">
-            <label for="charPronoun">Char 2 HP:</label>
-            <input type="text" style="width: 100px;" id="char2HP" fname="char2HP">
-        </div>
-        <div class="inputRow">
-            <label for="charPronoun">Char 2 Image:</label>
-            <input type="file" style="width: 100px;" id="char2Image" accept="image/*"> 
-        </div>
-        <div>
-            <!-- Image Height Setting:
-            <input type="range" min="50" max="90" value="80" class="slider" id="imageHeight2"> -->
-        </div>
-        <h6><span>CHARACTER 3</span></h6>
-        <div class="inputRow">
-            <label for="charName">Char 3 Name:</label>
-            <input type="text" style="width: 100px;" id="char3Name" fname="char3Name">
-        </div>
-        <div class="inputRow">
-            <label for="charPronoun">Char 3 LVL:</label>
-            <input type="text" style="width: 100px;" id="char3LVL" fname="char3LVL">
-        </div>
-        <div class="inputRow">
-            <label for="charPronoun">Char 3 HP:</label>
-            <input type="text" style="width: 100px;" id="char3HP" fname="char3HP">
-        </div>
-        <div class="inputRow">
-            <label for="charPronoun">Char 3 Image:</label>
-            <input type="file" style="width: 100px;" id="char3Image" accept="image/*"> 
-        </div>
-        <h6><span>CHARACTER 4</span></h6>
-        <div class="inputRow">
-            <label for="charName">Char 4 Name:</label>
-            <input type="text" style="width: 100px;" id="char4Name" fname="char4Name">
-        </div>
-        <div class="inputRow">
-            <label for="charPronoun">Char 4 LVL:</label>
-            <input type="text" style="width: 100px;" id="char4LVL" fname="char4LVL">
-        </div>
-        <div class="inputRow">
-            <label for="charPronoun">Char 4 HP:</label>
-            <input type="text" style="width: 100px;" id="char4HP" fname="char4HP">
-        </div>
-        <div class="inputRow">
-            <label for="charPronoun">Char 4 Image:</label>
-            <input type="file" style="width: 100px;" id="char4Image" accept="image/*">
-        </div>
-        <div>
-            <!-- Image Height Setting:
-            <input type="range" min="50" max="90" value="80" class="slider" id="imageHeight4"> -->
-        </div>
-        <h6><span>IMAGE SETTING</span></h6>
-        <div class="inputRow">
-            <label>Image Size (Default 90%):</label>
-            <input type="range" style="width: 100px;" min="50" max="100" value="90" class="slider" id="imageHeightSlider"> <span id="sliderValue"></span>
-        </div>
+
     <div style="display: flex; flex-direction: row;">
         <button class="uiButton" id="saveMainMenuButton">
             <img id="cornerUpLeft" src="./assets/cursorBorderA.png">

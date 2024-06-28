@@ -4,14 +4,22 @@
 }
 
 @font-face {
-    font-family: "VCR_OSD_MONO_CONDENSED";
-    font-stretch: 50% 200%;
-    src: url("./assets/VCR_OSD_MONO.ttf");
+    font-family: "BESTTEN_CRT";
+    src: url("./assets/BestTen-CRT.ttf");
 }
 
 @font-face {
-    font-family: "BESTTEN_CRT";
-    src: url("./assets/BestTen-CRT.ttf");
+    font-family: 'OpenDyslexic3';
+    src: url('./assets/OpenDyslexic3-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OpenDyslexic3';
+    src: url('./assets/OpenDyslexic3-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
 }
 
 html {
@@ -35,14 +43,14 @@ p {
 }
 
 body {
+    font-family: "VCR_OSD_MONO";
+
     top: 0;
     left: 0;
     padding: 0;
     margin: 0;
 
     display: flex;
-
-    font-family: "VCR_OSD_MONO";
     font-size: 1.7rem;
 
     color: white;
@@ -1268,7 +1276,6 @@ th {
 }
 
 .navButton {
-    font-family: "VCR_OSD_MONO";
     font-size: 1rem;
 
     color: white;
@@ -1316,4 +1323,10 @@ a:focus {
     outline: 2px solid red;
     outline-offset: 4px;
     box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+}
+
+.toggleButton {
+    background: none;
+    border: none;
+    color: white;
 }
