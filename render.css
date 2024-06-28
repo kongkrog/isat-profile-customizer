@@ -1,11 +1,11 @@
 @font-face {
     font-family: "VCR_OSD_MONO";
-    src: url("./assets/VCR_OSD_MONO.ttf");
+    src: url("./assets/VCR_OSD_MONO.ttf") format('truetype');
 }
 
 @font-face {
     font-family: "BESTTEN_CRT";
-    src: url("./assets/BestTen-CRT.otf");
+    src: url("./assets/BestTen-CRT.otf") format('opentype');;
 }
 
 @font-face {
