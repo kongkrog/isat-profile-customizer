@@ -809,11 +809,11 @@ function typewriterAnimation() {
         debugText.innerText = 'Finished...'
     }
 
-    setTimeout(
-        checkRender, 50
-    );
+    document.fonts.ready.then(function() {
+        setTimeout(checkRender, 50);
+    });
 
-    setTimeout(
-        scaleCanvas, 100
-    );
+    document.fonts.ready.then(function() {
+        setTimeout(checkRender, 100);
+    });
 }

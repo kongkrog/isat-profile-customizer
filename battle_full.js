@@ -769,4 +769,6 @@ function drawBattle() {
     updateEnemyList();
 }
 
-drawBattle();
+document.fonts.ready.then(function() {
+    drawBattle();
+});

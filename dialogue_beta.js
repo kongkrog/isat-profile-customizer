@@ -1434,5 +1434,8 @@ function typewriterAnimation() {
         drawTextWithWrapping(ctx, textSegments, canvasHeight - dialogueHeight + 18, canvasWidth - 19, 10);
         animateCharacters();
     }
-    setTimeout(checkRender, 100);
+
+    document.fonts.ready.then(function() {
+        setTimeout(checkRender, 100);
+    });
 }
