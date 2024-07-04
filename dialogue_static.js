@@ -814,6 +814,6 @@ function typewriterAnimation() {
     });
 
     document.fonts.ready.then(function() {
-        setTimeout(checkRender, 100);
+        setTimeout(scaleCanvas, 100);
     });
 }
