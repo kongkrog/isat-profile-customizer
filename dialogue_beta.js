@@ -10,6 +10,7 @@ var globalScale = 1;
 const dialogueHeight = 180;
 const dialogueNameboxHeight = 72;
 const imageHeight = 400;
+const frameInterval = 10; 
 
 let defaultTextOffset = 215;
 let maxScaledHeight = 0;
@@ -179,19 +180,19 @@ function updateProfile() {
             defaultSpeed = 35;
             break;
         case 'slow':
-            defaultSpeed = 30;
-            break;
-        case 'medium':
             defaultSpeed = 25;
             break;
-        case 'fast':
-            defaultSpeed = 20;
-            break;
-        case 'veryfast':
+        case 'medium':
             defaultSpeed = 15;
             break;
-        case 'nearinstant':
+        case 'fast':
             defaultSpeed = 10;
+            break;
+        case 'veryfast':
+            defaultSpeed = 5;
+            break;
+        case 'nearinstant':
+            defaultSpeed = 1;
             break;
     }
 
@@ -476,8 +477,8 @@ const cropCanvas = (sourceCanvas, left, top, width, height) => {
 }
 
 function createCharacterCacheCanvas() {
-    const startCharCode = 32; // Space
-    const endCharCode = 126; // Tilde (~)
+    const startCharCode = 32;
+    const endCharCode = 126; 
     const uniqueChars = Array.from({ length: endCharCode - startCharCode + 1 }, (_, i) => String.fromCharCode(startCharCode + i));
     const charPositions = [];
     const padding = 5; 
@@ -805,7 +806,6 @@ function typewriterAnimation() {
         let yOffset = globalyOffset + maxFontSize;
         let currentSegmentIndex = 0;
         let currentTextIndex = 0;
-        let currentSpeed = 25;
         let nextWordWidth = 0;
         let pauseDuration = null;
 
@@ -1082,8 +1082,6 @@ function typewriterAnimation() {
                 currentSegmentIndex++;
                 currentTextIndex = 0;
             }
-
-            const speed = segment.speed !== null ? segment.speed : currentSpeed;
             setTimeout(drawNextCharacter, defaultSpeed);
         }
         drawNextCharacter();
@@ -1131,245 +1129,247 @@ function typewriterAnimation() {
     };
 
     function animateCharacters() {
-        redrawDialogue();
-        currentImageBackground = document.getElementById("backgroundImage" + String(currentBackground));
+        intervalAnimation = setInterval(() => {
+            redrawDialogue();
+            currentImageBackground = document.getElementById("backgroundImage" + String(currentBackground));
 
-        textCtx.fillStyle = 'white';
-        const time = Date.now();
-        characters.forEach(({
-            char,
-            xOffset,
-            yOffset,
-            font,
-            wave,
-            shake,
-            bold,
-            italic,
-            thin
-        }) => {
-            textCtx.font = font;
+            textCtx.fillStyle = 'white';
+            const time = Date.now();
+            characters.forEach(({
+                char,
+                xOffset,
+                yOffset,
+                font,
+                wave,
+                shake,
+                bold,
+                italic,
+                thin
+            }) => {
+                textCtx.font = font;
 
-            if (bold && !italic) {
-                textCtx.font = "bold " + String(maxFontSize) + "px " + dialogueFont;
-            }
-
-            if (italic && !bold) {
-                textCtx.font = "italic " + String(maxFontSize) + "px " + dialogueFont;
-            }
-
-            if (bold && italic) {
-                textCtx.font = "bold italic " + String(maxFontSize) + "px " + dialogueFont;
-            }
-
-            if (wave) {
-                const amplitude = 3;
-                const frequency = 0.08;
-                yOffset += amplitude * Math.sin(frequency * (xOffset + time / 10));
-            }
-
-            if (shake) {
-                const shakeIntensity = 2;
-                xOffset += Math.random() * shakeIntensity - shakeIntensity / 2;
-                yOffset += Math.random() * shakeIntensity - shakeIntensity / 2;
-            }
-
-            if (thin) {
-                let thinCharacterWidth = textCtx.measureText(char).width;
-                let thinCharacterHeight = 24;
-
-                if (maxFontSize == 36) {
-                    thinCharacterHeight += 12;
+                if (bold && !italic) {
+                    textCtx.font = "bold " + String(maxFontSize) + "px " + dialogueFont;
                 }
 
-                if (maxFontSize == 16) {
-                    thinCharacterHeight -= 5;
+                if (italic && !bold) {
+                    textCtx.font = "italic " + String(maxFontSize) + "px " + dialogueFont;
                 }
 
-                let thinPos = getCharacterPosition(char, maxFontSize, charPositions);
-                textCtx.drawImage(characterCacheCanvas, thinPos.x, thinPos.y, thinCharacterWidth, thinCharacterHeight, xOffset, yOffset - thinCharacterHeight, thinCharacterWidth * thinScale, thinCharacterHeight);
-            } else {
-                textCtx.strokeText(char, xOffset, yOffset);
-                textCtx.fillText(char, xOffset, yOffset);  
-            }
-        });
+                if (bold && italic) {
+                    textCtx.font = "bold italic " + String(maxFontSize) + "px " + dialogueFont;
+                }
 
-        if (runChoiceAnimation) {
-            let optionXOffset = 21;
+                if (wave) {
+                    const amplitude = 3;
+                    const frequency = 0.08;
+                    yOffset += amplitude * Math.sin(frequency * (xOffset + time / 10));
+                }
 
-            if (choiceHasImage) {
-                optionXOffset = 236;
-            }
+                if (shake) {
+                    const shakeIntensity = 2;
+                    xOffset += Math.random() * shakeIntensity - shakeIntensity / 2;
+                    yOffset += Math.random() * shakeIntensity - shakeIntensity / 2;
+                }
 
-            let optionYOffset = 72;
-            let quoteOptionOffset = 22;
-            let optionSpacing = 36;
+                if (thin) {
+                    let thinCharacterWidth = textCtx.measureText(char).width;
+                    let thinCharacterHeight = 24;
 
-            textCtx.font = 'normal 23px ' + dialogueFont;
-            textCtx.style = 'white';
-            textCtx.strokeText(choiceQuote, optionXOffset, canvasHeight-dialogueHeight+40);
-            textCtx.fillText(choiceQuote, optionXOffset, canvasHeight-dialogueHeight+40);
+                    if (maxFontSize == 36) {
+                        thinCharacterHeight += 12;
+                    }
 
-            for (let i = 0; i < optionList.length; i += 1) {
+                    if (maxFontSize == 16) {
+                        thinCharacterHeight -= 5;
+                    }
+
+                    let thinPos = getCharacterPosition(char, maxFontSize, charPositions);
+                    textCtx.drawImage(characterCacheCanvas, thinPos.x, thinPos.y, thinCharacterWidth, thinCharacterHeight, xOffset, yOffset - thinCharacterHeight, thinCharacterWidth * thinScale, thinCharacterHeight);
+                } else {
+                    textCtx.strokeText(char, xOffset, yOffset);
+                    textCtx.fillText(char, xOffset, yOffset);  
+                }
+            });
+
+            if (runChoiceAnimation) {
+                let optionXOffset = 21;
+
+                if (choiceHasImage) {
+                    optionXOffset = 236;
+                }
+
+                let optionYOffset = 72;
+                let quoteOptionOffset = 22;
+                let optionSpacing = 36;
+
+                textCtx.font = 'normal 23px ' + dialogueFont;
+                textCtx.style = 'white';
+                textCtx.strokeText(choiceQuote, optionXOffset, canvasHeight-dialogueHeight+40);
+                textCtx.fillText(choiceQuote, optionXOffset, canvasHeight-dialogueHeight+40);
+
+                for (let i = 0; i < optionList.length; i += 1) {
+                    textCtx.strokeStyle = 'black';
+                    textCtx.lineWidth = 3;
+                    textCtx.strokeText(optionList[i].text, optionXOffset+quoteOptionOffset, canvasHeight-dialogueHeight+optionYOffset);
+                    textCtx.fillText(optionList[i].text, optionXOffset+quoteOptionOffset, canvasHeight-dialogueHeight+optionYOffset);
+
+                    let choiceBoxLength = canvasWidth - optionXOffset - optionSpacing - 5;
+
+                    if (optionList[i].correct == true) {
+                        if (cornerReverse) {
+                            cornerOffset -= CornerUpdateInterval;
+                        } else {
+                            cornerOffset += CornerUpdateInterval;
+                        }
+
+                        if (cornerOffset > cornerOffsetLimit) {
+                            cornerOffset = cornerOffsetLimit;
+                            cornerReverse = true;
+                        }
+
+                        if (cornerOffset < 0) {
+                            cornerOffset = 0;
+                            cornerReverse = false;
+                        }
+
+                        drawRoundedRect(textCtx, optionXOffset+optionSpacing-20, canvasHeight-dialogueHeight+optionYOffset-25, choiceBoxLength, 37, 2);
+                        textCtx.strokeStyle = 'white';
+                        textCtx.lineWidth = 2;
+                        textCtx.stroke();
+
+                        textCtx.drawImage(cornerUpLeft, optionXOffset-cornerOffset, canvasHeight-dialogueHeight+optionYOffset-cornerUpLeft.height-6-cornerOffset);
+                        textCtx.drawImage(cornerUpRight, optionXOffset+choiceBoxLength+cornerOffset, canvasHeight-dialogueHeight+optionYOffset-cornerUpLeft.height-6-cornerOffset);
+                        textCtx.drawImage(cornerDownLeft, optionXOffset-3-cornerOffset, canvasHeight-dialogueHeight+optionYOffset-12+cornerOffset);
+                        textCtx.drawImage(cornerDownRight, optionXOffset+choiceBoxLength+cornerOffset, canvasHeight-dialogueHeight+optionYOffset-8+cornerOffset);
+                    }
+
+                    optionYOffset += optionSpacing;
+                }
                 textCtx.strokeStyle = 'black';
                 textCtx.lineWidth = 3;
-                textCtx.strokeText(optionList[i].text, optionXOffset+quoteOptionOffset, canvasHeight-dialogueHeight+optionYOffset);
-                textCtx.fillText(optionList[i].text, optionXOffset+quoteOptionOffset, canvasHeight-dialogueHeight+optionYOffset);
+            }
 
-                let choiceBoxLength = canvasWidth - optionXOffset - optionSpacing - 5;
+            if (runImageAnimation) {
+                if (showLastImage) {
+                    imageCurrentOffset += imageOffsetRate;
 
-                if (optionList[i].correct == true) {
-                    if (cornerReverse) {
-                        cornerOffset -= CornerUpdateInterval;
+                    if (imageCurrentOffset >= imageXOffset) {
+                        imageCurrentOffset = imageXOffset;
+                    }
+                    drawImage(lastImage, imageCurrentOffset, 1);
+                }
+
+                if (showCurrentImage) {
+                    imageCurrentOffset -= imageOffsetRate;
+
+                    if (imageCurrentOffset <= 0) {
+                        imageCurrentOffset = 0;
+                        showCurrentImage = false;
+                        runImageAnimation = false;
+                    }
+                    drawImage(currentImage, imageCurrentOffset, 1);
+                }
+            } else {
+                let currentImage = document.getElementById("dialogueImage" + String(currentImageNumber));
+                drawImage(currentImage, 0, 1);
+            }
+
+            if (arrowVisible) {
+                if (fadingIn) {
+                    arrowOpacity += fadeSpeed;
+                    if (arrowOpacity >= 1) {
+                        arrowOpacity = 1;
+                        fadingIn = false;
+                    }
+                } else if (fadingOut) {
+                    arrowOpacity -= fadeSpeed;
+                    if (arrowOpacity <= 0) {
+                        arrowOpacity = 0;
+                        arrowVisible = false;
+                        fadingOut = false;
+                    }
+                }
+                arrowCounter++;
+                if (arrowCounter >= arrowUpdateInterval) {
+                    if (arrowDirection === 1) {
+                        arrowXOffset += 1;
+                        if (arrowXOffset >= 2) {
+                            arrowDirection = -1;
+                        }
                     } else {
-                        cornerOffset += CornerUpdateInterval;
+                        arrowXOffset -= 1;
+                        if (arrowXOffset <= -2) {
+                            arrowDirection = 1;
+                        }
                     }
-
-                    if (cornerOffset > cornerOffsetLimit) {
-                        cornerOffset = cornerOffsetLimit;
-                        cornerReverse = true;
-                    }
-
-                    if (cornerOffset < 0) {
-                        cornerOffset = 0;
-                        cornerReverse = false;
-                    }
-
-                    drawRoundedRect(textCtx, optionXOffset+optionSpacing-20, canvasHeight-dialogueHeight+optionYOffset-25, choiceBoxLength, 37, 2);
-                    textCtx.strokeStyle = 'white';
-                    textCtx.lineWidth = 2;
-                    textCtx.stroke();
-
-                    textCtx.drawImage(cornerUpLeft, optionXOffset-cornerOffset, canvasHeight-dialogueHeight+optionYOffset-cornerUpLeft.height-6-cornerOffset);
-                    textCtx.drawImage(cornerUpRight, optionXOffset+choiceBoxLength+cornerOffset, canvasHeight-dialogueHeight+optionYOffset-cornerUpLeft.height-6-cornerOffset);
-                    textCtx.drawImage(cornerDownLeft, optionXOffset-3-cornerOffset, canvasHeight-dialogueHeight+optionYOffset-12+cornerOffset);
-                    textCtx.drawImage(cornerDownRight, optionXOffset+choiceBoxLength+cornerOffset, canvasHeight-dialogueHeight+optionYOffset-8+cornerOffset);
+                    arrowCounter = 0;
                 }
-
-                optionYOffset += optionSpacing;
+                const arrowX = canvasWidth - 33 + arrowXOffset;
+                drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
             }
-            textCtx.strokeStyle = 'black';
-            textCtx.lineWidth = 3;
-        }
+            
+            if (animationEnded != true) {
+                ctx.drawImage(textCanvas, 0, 0);
 
-        if (runImageAnimation) {
-            if (showLastImage) {
-                imageCurrentOffset += imageOffsetRate;
-
-                if (imageCurrentOffset >= imageXOffset) {
-                    imageCurrentOffset = imageXOffset;
-                }
-                drawImage(lastImage, imageCurrentOffset, 1);
-            }
-
-            if (showCurrentImage) {
-                imageCurrentOffset -= imageOffsetRate;
-
-                if (imageCurrentOffset <= 0) {
-                    imageCurrentOffset = 0;
-                    showCurrentImage = false;
-                    runImageAnimation = false;
-                }
-                drawImage(currentImage, imageCurrentOffset, 1);
-            }
-        } else {
-            let currentImage = document.getElementById("dialogueImage" + String(currentImageNumber));
-            drawImage(currentImage, 0, 1);
-        }
-
-        if (arrowVisible) {
-            if (fadingIn) {
-                arrowOpacity += fadeSpeed;
-                if (arrowOpacity >= 1) {
-                    arrowOpacity = 1;
-                    fadingIn = false;
-                }
-            } else if (fadingOut) {
-                arrowOpacity -= fadeSpeed;
-                if (arrowOpacity <= 0) {
-                    arrowOpacity = 0;
-                    arrowVisible = false;
-                    fadingOut = false;
-                }
-            }
-            arrowCounter++;
-            if (arrowCounter >= arrowUpdateInterval) {
-                if (arrowDirection === 1) {
-                    arrowXOffset += 1;
-                    if (arrowXOffset >= 2) {
-                        arrowDirection = -1;
-                    }
+                let tempCanvas = document.createElement('canvas');
+                let scaledCanvas = document.createElement('canvas');
+                let backgroundCanvas = document.createElement('canvas');
+                let renderCanvas = document.createElement('canvas');
+                const scaledCtx = scaledCanvas.getContext('2d');
+                const renderCtx = renderCanvas.getContext('2d');
+                const backgroundCtx = backgroundCanvas.getContext('2d');
+                backgroundCanvas.width = 816;
+                backgroundCanvas.height = 650;
+                if (containImage) {
+                    tempCanvas.width = 816;
+                    tempCanvas.height = maxScaledHeight;
+                    tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - maxScaledHeight, canvasWidth, maxScaledHeight);
+                } else if (containDialogueBox) {
+                    tempCanvas.width = 816;
+                    tempCanvas.height = dialogueHeight + dialogueNameboxHeight;
+                    tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight - dialogueNameboxHeight, canvasWidth, dialogueHeight + dialogueNameboxHeight+2);
                 } else {
-                    arrowXOffset -= 1;
-                    if (arrowXOffset <= -2) {
-                        arrowDirection = 1;
-                    }
+                    tempCanvas.width = 816;
+                    tempCanvas.height = dialogueHeight;
+                    tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight, canvasWidth, dialogueHeight+2);
                 }
-                arrowCounter = 0;
-            }
-            const arrowX = canvasWidth - 33 + arrowXOffset;
-            drawArrow(arrowX, canvasHeight - 37, arrowOpacity);
-        }
-        
-        if (animationEnded != true) {
-            ctx.drawImage(textCanvas, 0, 0);
-
-            let tempCanvas = document.createElement('canvas');
-            let scaledCanvas = document.createElement('canvas');
-            let backgroundCanvas = document.createElement('canvas');
-            let renderCanvas = document.createElement('canvas');
-            const scaledCtx = scaledCanvas.getContext('2d');
-            const renderCtx = renderCanvas.getContext('2d');
-            const backgroundCtx = backgroundCanvas.getContext('2d');
-            backgroundCanvas.width = 816;
-            backgroundCanvas.height = 650;
-            if (containImage) {
-                tempCanvas.width = 816;
-                tempCanvas.height = maxScaledHeight;
-                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - maxScaledHeight, canvasWidth, maxScaledHeight);
-            } else if (containDialogueBox) {
-                tempCanvas.width = 816;
-                tempCanvas.height = dialogueHeight + dialogueNameboxHeight;
-                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight - dialogueNameboxHeight, canvasWidth, dialogueHeight + dialogueNameboxHeight+2);
+                if (backgroundImage.getAttribute('src') != '') {
+                    backgroundCtx.drawImage(currentImageBackground, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
+                    backgroundCtx.drawImage(tempCanvas, 0, backgroundCanvas.height - tempCanvas.height, tempCanvas.width, tempCanvas.height);
+                    scaledCanvas.width = backgroundCanvas.width * globalScale;
+                    scaledCanvas.height = backgroundCanvas.height * globalScale;
+                    scaledCtx.drawImage(backgroundCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+                    let imgData = scaledCtx.getImageData(0, 0, backgroundCanvas.width, backgroundCanvas.height);
+                    if (isTransparent) {
+                        optimizeFrameColors(imgData.data);
+                    };
+                    renderCanvas.width = scaledCanvas.width;
+                    renderCanvas.height = scaledCanvas.height;
+                    renderCtx.putImageData(imgData, 0, 0);
+                } else {
+                    scaledCanvas.width = tempCanvas.width * globalScale;
+                    scaledCanvas.height = tempCanvas.height * globalScale;
+                    scaledCtx.drawImage(tempCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+                    let imgData = scaledCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+                    if (isTransparent) {
+                        optimizeFrameColors(imgData.data);
+                    };
+                    renderCanvas.width = scaledCanvas.width;
+                    renderCanvas.height = scaledCanvas.height;
+                    renderCtx.putImageData(imgData, 0, 0);
+                }
+                if (!isStatic) {
+                    gif.addFrame(renderCtx, {
+                        copy: true,
+                        delay: 20
+                    });
+                }
             } else {
-                tempCanvas.width = 816;
-                tempCanvas.height = dialogueHeight;
-                tempCanvas = cropCanvas(myCanvas, 0, canvasHeight - dialogueHeight, canvasWidth, dialogueHeight+2);
+                clearInterval(intervalAnimation);
+                gif.render();
             }
-            if (backgroundImage.getAttribute('src') != '') {
-                backgroundCtx.drawImage(currentImageBackground, 0, 0, backgroundCanvas.width, backgroundCanvas.height);
-                backgroundCtx.drawImage(tempCanvas, 0, backgroundCanvas.height - tempCanvas.height, tempCanvas.width, tempCanvas.height);
-                scaledCanvas.width = backgroundCanvas.width * globalScale;
-                scaledCanvas.height = backgroundCanvas.height * globalScale;
-                scaledCtx.drawImage(backgroundCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
-                let imgData = scaledCtx.getImageData(0, 0, backgroundCanvas.width, backgroundCanvas.height);
-                if (isTransparent) {
-                    optimizeFrameColors(imgData.data);
-                };
-                renderCanvas.width = scaledCanvas.width;
-                renderCanvas.height = scaledCanvas.height;
-                renderCtx.putImageData(imgData, 0, 0);
-            } else {
-                scaledCanvas.width = tempCanvas.width * globalScale;
-                scaledCanvas.height = tempCanvas.height * globalScale;
-                scaledCtx.drawImage(tempCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
-                let imgData = scaledCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-                if (isTransparent) {
-                    optimizeFrameColors(imgData.data);
-                };
-                renderCanvas.width = scaledCanvas.width;
-                renderCanvas.height = scaledCanvas.height;
-                renderCtx.putImageData(imgData, 0, 0);
-            }
-            if (!isStatic) {
-                gif.addFrame(renderCtx, {
-                    copy: true,
-                    delay: 20
-                });
-            }
-            requestAnimationFrame(animateCharacters);
-        } else {
-            gif.render();
-        }
+        }, frameInterval);
     }
 
     const parseResult = parseText(textString);

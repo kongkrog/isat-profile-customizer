@@ -51,8 +51,8 @@
             <canvas id="textOverlay" width="816" height="400" style="display: none; position: absolute; top: 0; left: 0;"></canvas>
         </div>
         <canvas id="thinTextRenderer" width="50" height="50" style="display: none; position: absolute; top: 0; left: 0;"></canvas>
-        <img src='./assets/displayGif.gif' width="816" id="gifDisplay">
-        <img src='' width="816" id="gifResult" style="display: none">
+        <img src='./assets/displayGif.gif' id="gifDisplay">
+        <img src='' id="gifResult" style="display: none">
         <img src='' width="816" id="gifOptimize" style="display: none">
         <img src='' style='display: none;' id="dialogueImage0">
         <img src='' style='display: none;' id="dialogueImage1">
@@ -230,7 +230,7 @@
                 </button>
                 <input type="file" id="fileInput" class="imageInput" accept="image/*" style="display: block; width: 100px;">
             </div>
-
+            <hr>
             <div class="inputRow">
                 <label for="imageSelector">Image Tags:</label>
                 <select id="imageSelector">
@@ -248,7 +248,7 @@
                     <option value="13">[IMAGE13]</option>
                 </select>
             </div>
-
+            <hr>
             <div class="inputRow">
                 <label>Tag Input:</label>
                 <input type="file" id="fileInput2" class="imageInput" accept="image/*"> 
@@ -282,7 +282,7 @@
                 </button>
                 <input type="file" id="backgroundInput" class="imageInput" accept="image/*" style="display: block; width: 100px;">
             </div>
-
+            <hr>
             <div class="inputRow">
                 <label for="backgroundSelector">Background Tags:</label>
                 <select id="backgroundSelector">
@@ -294,7 +294,7 @@
                     <option value="7">[BIMAGE7]</option>
                 </select>
             </div>
-
+            <hr>
             <div class="inputRow">
                 <label>Tag Input:</label>
                 <input type="file" id="backgroundInput2" class="bImageInput" accept="image/*"> 
@@ -313,7 +313,7 @@
                 <label for="charDialogueName">Character Name:</label>
                 <input type="text" id="charDialogueName" fname="charDialogueName" style="width: 100px;">
             </div>
-
+            <hr>
             <div class="inputRow">
                 <label for="dialogueSpeed">Dialogue Speed:</label>
                 <select id="dialogueSpeed" fname="dialogueSpeed" default="veryfast">
@@ -325,13 +325,27 @@
                     <option value="nearinstant">Near Instant</option>
                 </select>
             </div>
-
+            <hr>
             <div class="inputRow">
                 <label for="dialogueFont">Dialogue Font:</label>
                 <select id="dialogueFont" fname="dialogueSpeed" default="veryfast">
                     <option value="VCR_OSD_MONO">VCR_OSD_MONO</option>
                     <option value="BESTTEN_CRT">BESTTEN_CRT</option>
                 </select>
+            </div>
+        </div>
+
+        <h6><span>TRANSPARENCY <button class="toggleButton" id="transparencyToggle" onclick="toggleVisibility('transparencySetting', 'transparencyToggle')" type="button">[-]</button></span></h6>
+
+        <div id="transparencySetting">
+            <div class="inputRow">
+                <label for="checkTransparent">Enable Background Transparency?</label>
+                <input type="checkbox" id="checkTransparent" name="checkTransparent">
+            </div>
+            <hr>
+            <div class="inputRow">
+                <label for="checkTransparentOptimize">Disable Transparency Optimization?</label>
+                <input type="checkbox" id="checkTransparentOptimize" name="checkTransparentOptimize">
             </div>
         </div>
 
@@ -342,34 +356,20 @@
                 <label for="dialogueImageOffset">Portrait Horizontal Offset:</label>
                 <input type="range" id="dialogueImageOffset" name="dialogueImageOffset" min="230" max="300" value="265" step="1" style="width: 100px;">
             </div>
-
+            <hr>
             <div class="inputRow">
                 <label for="imageTextOffset">Text Offset (To Portrait):</label>
                 <input type="range" id="imageTextOffset" name="imageTextOffset" min="215" max="250" value="215" step="1" style="width: 100px;">
             </div>
-
+            <hr>
             <div class="inputRow">
                 <label for="gifScaling">Gif Scaling (0.5-1):</label>
-                <input type="range" id="gifScaling" name="gifScaling" min="0.5" max="1" step="0.1" value="1" style="width: 100px;">
+                <input type="range" id="gifScaling" name="gifScaling" min="0.5" max="1" step="0.1" value="0.8" style="width: 100px;">
             </div>
-
+            <hr>
             <div class="inputRow">
                 <label for="fixedTextOffset">Fixed Text Offset?:</label>
                 <input type="checkbox" id="fixedTextOffset" name="fixedTextOffset">
-            </div>
-        </div>
-
-        <h6><span>TRANSPARENCY <button class="toggleButton" id="transparencyToggle" onclick="toggleVisibility('transparencySetting', 'transparencyToggle')" type="button">[-]</button></span></h6>
-
-        <div id="transparencySetting">
-            <div class="inputRow">
-                <label for="checkTransparent">Transparency?</label>
-                <input type="checkbox" id="checkTransparent" name="checkTransparent">
-            </div>
-
-            <div class="inputRow">
-                <label for="checkTransparentOptimize">Disable Transparency Optimization?</label>
-                <input type="checkbox" id="checkTransparentOptimize" name="checkTransparentOptimize">
             </div>
         </div>
 
