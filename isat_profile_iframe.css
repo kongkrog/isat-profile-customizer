@@ -255,7 +255,7 @@ body {
 }
 
 #profilemenu {
-    gap: 10px;
+    gap: calc(10px * var(--scale-value));
     grid-area: profilemenu;
     padding: 0;
 }
