@@ -20,8 +20,6 @@
             --corner-animation-duration: .5s;
             --corner-position: calc(-10px * var(--scale-value,1));
             --corner-size: 8px;
-            --profile-size-aspect-ratio: calc(1 / 1.31);
-            --profile-size-height: calc(var(--profile-size-width) * var(--profile-size-aspect-ratio));
         }
 
         .isat__profile__main * {
@@ -33,7 +31,7 @@
             font-family: "VCR_OSD_MONO";
             font-size: calc(1.7rem * var(--scale-value));
             height: var(--profile-size-height);
-            width: var(--profile-size-width);
+            aspect-ratio: 1.13/1;
             grid-template-areas: "titlesection titlesection" "imagesection profilesection";
             grid-template-columns: 40% 60%;
             grid-template-rows: 11.3% 88.7%;
