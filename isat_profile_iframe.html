@@ -715,6 +715,10 @@
             }
         }
 
+        function resizeIframe(obj) {
+            obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+        }
+        
         Promise.all(Array.from(document.images).map(img => {
             return new Promise(resolve => {
                 if (img.complete && img.src) {
