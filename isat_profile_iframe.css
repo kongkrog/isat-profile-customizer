@@ -1,0 +1,414 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+@font-face {
+    font-family: "VCR_OSD_MONO";
+    src: url(https://kongkrog.github.io/isat-profile-customizer/assets/VCR_OSD_MONO.ttf) format("truetype");
+}
+
+:root {
+    --profile-size-width: 624px;
+    --corner-animation-duration: .5s;
+    --corner-position: calc(-10px * var(--scale-value,1));
+    --corner-size: 8px;
+}
+
+.isat__profile__main * {
+    display: flex;
+}
+
+.isat__profile__main {
+    display: grid;
+    font-family: "VCR_OSD_MONO";
+    font-size: calc(1.7rem * var(--scale-value));
+    height: var(--profile-size-height);
+    aspect-ratio: 1.13/1;
+    grid-template-areas: "titlesection titlesection" "imagesection profilesection";
+    grid-template-columns: 40% 60%;
+    grid-template-rows: 11.3% 88.7%;
+    line-height: calc(1.3);
+    position: relative;
+    background-color: #000;
+}
+
+.isat__profile__main .icon__craft[src=""] {
+    border: none;
+    outline: none;
+    display: none;
+}
+
+.isat__profile__main p,h1,h2,h3,h4,h5,h6,span {
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.isat__profile__main .secondary__text {
+    color: gray;
+}
+
+.isat__profile__main button {
+    align-items: center;
+    background: none;
+    border: transparent calc(2px * var(--scale-value)) solid;
+    border-radius: calc(2px * var(--scale-value));
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    font: inherit;
+    gap: calc(7px * var(--scale-value));
+    height: calc(38px * var(--scale-value));
+    outline: inherit;
+    padding-left: calc(10px * var(--scale-value));
+    position: relative;
+    text-align: left;
+    width: calc(219px * var(--scale-value));
+}
+
+.isat__profile__main button.active,.isat__profile__main button:hover,.isat__profile__main button:focus {
+    border: #fff calc(2px * var(--scale-value)) solid;
+}
+
+.isat__profile__main .corner {
+    display: none;
+    height: calc(32px * var(--scale-value));
+    width: calc(29px * var(--scale-value));
+}
+
+.isat__profile__main .icon {
+    height: calc(24px * var(--scale-value));
+    width: calc(24px * var(--scale-value));
+}
+
+.isat__profile__main .icon__craft {
+    height: calc(28px * var(--scale-value));
+    width: calc(28px * var(--scale-value));
+}
+
+.isat__profile__main #leftButton {
+    align-items: center;
+    display: flex;
+    height: calc(25px * var(--scale-value));
+    justify-content: center;
+    margin: 0 auto;
+    position: absolute;
+    right: calc(12px * var(--scale-value));
+    width: calc(30px * var(--scale-value));
+}
+
+.isat__profile__main #rightButton {
+    align-items: center;
+    display: flex;
+    height: calc(25px * var(--scale-value));
+    justify-content: center;
+    left: calc(12px * var(--scale-value));
+    margin: 0 auto;
+    position: absolute;
+    width: calc(30px * var(--scale-value));
+}
+
+.isat__profile__main #repeatbutton {
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-name: imageswitch;
+    height: calc(25px * var(--scale-value));
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: calc(30px * var(--scale-value));
+}
+
+.isat__profile__main #repeatbuttonstatic {
+    height: calc(25px * var(--scale-value));
+    width: calc(30px * var(--scale-value));
+}
+
+.isat__profile__main button.active .corner,.isat__profile__main button:hover .corner,.isat__profile__main button:focus .corner {
+    animation: var(--corner-animation) var(--corner-animation-duration) infinite linear alternate;
+    display: block;
+    position: absolute;
+}
+
+.isat__profile__component {
+    position: relative;
+}
+
+.icon__component {
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    gap: calc(4px * var(--scale-value));
+}
+
+.text__component,#weaknessinfo {
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.weakness__text__component,.hp__text__component,.stat__text__component,.exp__text__component {
+    flex-direction: row;
+    align-items: flex-start;
+
+    width: 100%;
+}
+
+.weakness__text__component p,span {
+    width: 50%;
+}
+
+.stat__text__component p,span {
+    width: 50%;
+}
+
+.hp__text__component span:nth-of-type(1) {
+    width: 40%;
+    gap: calc(10px * var(--scale-value));
+}
+
+.hp__text__component span:nth-of-type(2) {
+    width: 60%;
+    gap: calc(10px * var(--scale-value));
+}
+
+.exp__text__component p {
+    width: 60%;
+}
+
+.exp__text__component span {
+    width: 40%;
+}
+
+#cornerUpLeft {
+    left: var(--corner-position);
+    top: var(--corner-position);
+    --corner-animation: moveupleft;
+}
+
+#cornerUpRight {
+    right: var(--corner-position);
+    top: var(--corner-position);
+    transform: scale(-1);
+    --corner-animation: moveupright;
+}
+
+#cornerDownLeft {
+    bottom: var(--corner-position);
+    left: var(--corner-position);
+    --corner-animation: movedownleft;
+}
+
+#cornerDownRight {
+    bottom: var(--corner-position);
+    right: var(--corner-position);
+    transform: scale(-1);
+    --corner-animation: movedownright;
+}
+
+#arrowUI {
+    animation-duration: .7s;
+    animation-iteration-count: infinite;
+    animation-name: arrowanimation;
+    bottom: 0;
+    height: calc(12px * var(--scale-value));
+    margin: auto 0;
+    position: absolute;
+    width: calc(20px * var(--scale-value));
+}
+
+#titlesection,#imagesection,#profilemenu,#infosection,#statsection {
+    align-items: center;
+    justify-content: center;
+    padding: calc(24px * var(--scale-value));
+}
+
+#titlesection {
+    grid-area: titlesection;
+}
+
+#imagesection {
+    grid-area: imagesection;
+    padding: calc(24px * var(--scale-value));
+}
+
+#profileimage {
+    background-origin: content-box;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+}
+
+#profilesection {
+    display: grid;
+    grid-area: profilesection;
+    grid-template-areas: "profilemenu" "infosection";
+    grid-template-rows: 13% 87%;
+    text-align: left;
+}
+
+#profilemenu {
+    gap: 10px;
+    grid-area: profilemenu;
+    padding: 0;
+}
+
+#infosection,#statsection {
+    flex-direction: column;
+    grid-area: infosection;
+    justify-content: space-between;
+
+    width: 100%;
+
+    overflow-y: scroll;
+}
+
+#statsection {
+    justify-content: flex-start;
+    gap: calc(24px * var(--scale-value));
+}
+
+.corner__img {
+    height: calc(7px * var(--scale-value));
+    position: absolute;
+    width: calc(7px * var(--scale-value));
+}
+
+.corner__img:nth-of-type(1) {
+    left: calc(1px * var(--scale-value));
+    top: calc(1px * var(--scale-value));
+}
+
+.corner__img:nth-of-type(2) {
+    right: calc(1px * var(--scale-value));
+    top: calc(1px * var(--scale-value));
+}
+
+.corner__img:nth-of-type(3) {
+    bottom: calc(1px * var(--scale-value));
+    left: calc(1px * var(--scale-value));
+}
+
+.corner__img:nth-of-type(4) {
+    bottom: calc(1px * var(--scale-value));
+    right: calc(1px * var(--scale-value));
+}
+
+.border__bar {
+    background-color: #fff;
+    border-radius: 5px;
+    position: absolute;
+}
+
+.border__bar:nth-of-type(1),.border__bar:nth-of-type(2) {
+    height: calc(4px * var(--scale-value));
+    margin: 0 auto;
+    width: calc(100% - (20px * var(--scale-value)));
+}
+
+.border__bar:nth-of-type(1) {
+    left: calc(10px * var(--scale-value));
+    top: calc(2px * var(--scale-value));
+}
+
+.border__bar:nth-of-type(2) {
+    bottom: calc(2px * var(--scale-value));
+    left: calc(10px * var(--scale-value));
+}
+
+.border__bar:nth-of-type(3),.border__bar:nth-of-type(4) {
+    height: calc(100% - (20px * var(--scale-value)));
+    margin: auto 0;
+    width: calc(4px * var(--scale-value));
+}
+
+.border__bar:nth-of-type(3) {
+    left: calc(2px * var(--scale-value));
+    top: calc(10px * var(--scale-value));
+}
+
+.border__bar:nth-of-type(4) {
+    right: calc(2px * var(--scale-value));
+    top: calc(10px * var(--scale-value));
+}
+
+.button__corner {
+    display: none;
+    height: calc(100% * var(--scale-value));
+    width: calc(100% * var(--scale-value));
+}
+
+@keyframes moveupleft {
+    0% {
+        left: calc(-10px * var(--scale-value));
+        top: calc(-10px * var(--scale-value));
+    }
+
+    100% {
+        left: calc(-20px * var(--scale-value));
+        top: calc(-20px * var(--scale-value));
+    }
+}
+
+@keyframes moveupright {
+    0% {
+        right: calc(-10px * var(--scale-value));
+        top: calc(-10px * var(--scale-value));
+    }
+
+    100% {
+        right: calc(-20px * var(--scale-value));
+        top: calc(-20px * var(--scale-value));
+    }
+}
+
+@keyframes movedownleft {
+    0% {
+        bottom: calc(-10px * var(--scale-value));
+        left: calc(-10px * var(--scale-value));
+    }
+
+    100% {
+        bottom: calc(-20px * var(--scale-value));
+        left: calc(-20px * var(--scale-value));
+    }
+}
+
+@keyframes movedownright {
+    0% {
+        bottom: calc(-10px * var(--scale-value));
+        right: calc(-10px * var(--scale-value));
+    }
+
+    100% {
+        bottom: calc(-20px * var(--scale-value));
+        right: calc(-20px * var(--scale-value));
+    }
+}
+
+@keyframes arrowanimation {
+    0%,49% {
+        bottom: calc(4px * var(--scale-value));
+    }
+
+    50%,100% {
+        bottom: calc(0px * var(--scale-value));
+    }
+}
+
+@keyframes imageswitch {
+    0%,49% {
+        opacity: 1;
+    }
+
+    50%,100% {
+        opacity: 0;
+    }
+}
