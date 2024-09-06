@@ -3,10 +3,6 @@ body {
     margin: 0;
 }
 
-@font-face {
-    font-family: "VCR_OSD_MONO";
-    src: url(https://kongkrog.github.io/isat-profile-customizer/assets/VCR_OSD_MONO.ttf) format("truetype");
-}
 
 :root {
     --profile-size-width: 624px;
@@ -21,7 +17,7 @@ body {
 
 .isat__profile__main {
     display: grid;
-    font-family: "VCR_OSD_MONO";
+    font-family: 'VCR OSD Mono', sans-serif;
     font-size: calc(1.7rem * var(--scale-value));
     height: var(--profile-size-height);
     aspect-ratio: 1.13/1;
@@ -267,7 +263,7 @@ body {
 
     width: 100%;
 
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 #statsection {

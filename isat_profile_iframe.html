@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lea's About Me</title>
     <link rel="stylesheet" href="isat_profile_iframe.css">
+    <link href="https://fonts.cdnfonts.com/css/vcr-osd-mono" rel="stylesheet">
 </head>
 <body>
     <main id="isatprofile" class="isat__profile__main">
@@ -204,6 +205,7 @@
             toggleSections('stats');
         });
 
+        /*
         function createUrlFromElements() {
             const params = new URLSearchParams();
             const elements = document.querySelectorAll('[id]');
@@ -241,6 +243,7 @@
             const url = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
             return url;
         }
+        */
 
         function updateElementsFromUrl() {
             const params = new URLSearchParams(window.location.search);
@@ -299,11 +302,8 @@
                 immunePart.style.display = ''; 
             }
         }
-
-        function resizeIframe(obj) {
-            obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
-        }
         
+        /*
         Promise.all(Array.from(document.images).map(img => {
             return new Promise(resolve => {
                 if (img.complete && img.src) {
@@ -315,7 +315,8 @@
         })).then(() => {
             console.log(createUrlFromElements());
         });
-
+        */
+       
         updateElementsFromUrl();
         checkAndHideImmunePart();
     </script>    
