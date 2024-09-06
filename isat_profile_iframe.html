@@ -5,20 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lea's About Me</title>
     <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
         @font-face {
             font-family: "VCR_OSD_MONO";
             src: url(https://kongkrog.github.io/isat-profile-customizer/assets/VCR_OSD_MONO.ttf) format("truetype");
         }
 
         :root {
-            --button-size-height: 38px;
-            --button-size-width: 219px;
+            --profile-size-width: 624px;
             --corner-animation-duration: .5s;
             --corner-position: calc(-10px * var(--scale-value,1));
             --corner-size: 8px;
             --profile-size-aspect-ratio: calc(1 / 1.31);
             --profile-size-height: calc(var(--profile-size-width) * var(--profile-size-aspect-ratio));
-            --profile-size-width: 600px;
         }
 
         .isat__profile__main * {
@@ -39,14 +42,10 @@
             background-color: #000;
         }
 
-        .isat__profile__main img {
+        .isat__profile__main .icon__craft[src=""] {
             border: none;
             outline: none;
-            visibility: hidden;
-        }
-
-        .isat__profile__main img[src]:not([src=""]) {
-            visibility: visible;
+            display: none;
         }
 
         .isat__profile__main p,h1,h2,h3,h4,h5,h6,span {
@@ -522,11 +521,11 @@
                             <div class="weakness__text__component">
                                 <p class="secondary__text"></p>
                                 <span>
-                                    <img id="resimg2" class="icon__craft" src="https://kongkrog.github.io/isat-profile-customizer/assets/papercraft.png">
-                                    <p id="restext2">Rock</p>
+                                    <img id="resimg2" class="icon__craft" src="">
+                                    <p id="restext2"></p>
                                 </span>
                             </div>
-                            <div class="weakness__text__component">
+                            <div id="immunepart" class="weakness__text__component">
                                 <p class="secondary__text">IMMUNE TO:</p>
                                 <span>
                                     <img id="immuneimg" class="icon__craft" src="https://kongkrog.github.io/isat-profile-customizer/assets/papercraft.png">
@@ -584,7 +583,7 @@
             </div>
         </section>
     </main>
-    <script>
+    <script defer>
         function calculateRatio(element) {
             return element.offsetWidth / 816;
         }
@@ -625,66 +624,113 @@
         function createUrlFromElements() {
             const params = new URLSearchParams();
             const elements = document.querySelectorAll('[id]');
-
+        
             elements.forEach(el => {
                 if (el.tagName === 'BUTTON' && el.id) {
                     return;
                 }
-
+        
                 if (el.tagName === 'IMG' && el.closest('button')) {
                     return;
                 }
-
+        
                 if (el.tagName === 'DIV' && (el.id === 'leftButton' || el.id === 'rightButton')) {
                     return;
                 }
-
+        
                 if (el.tagName === 'IMG' && (el.closest('#leftButton') || el.closest('#rightButton') || el.closest('#arrowUI'))) {
                     return;
                 }
-
+        
                 const id = el.id;
-                
+        
                 if (el.tagName === 'P' || el.tagName === 'SPAN') {
                     params.set(id, el.textContent.trim());
                 } else if (el.tagName === 'IMG') {
-                    if (el.src) {
-                        params.set(`${id}_src`, el.src);
+                    if (el.getAttribute('src') === "") {
+                        params.set(`${id}_src`, "");
+                    } else if (el.getAttribute('src') && el.getAttribute('src') !== "") {
+                        params.set(`${id}_src`, el.getAttribute('src'));
                     }
                 }
             });
-
+        
             const url = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
             return url;
         }
 
         function updateElementsFromUrl() {
             const params = new URLSearchParams(window.location.search);
-            
+            let widthValue = '100%';
+
             params.forEach((value, key) => {
                 if (key.endsWith('_src')) {
                     const imgId = key.replace('_src', ''); 
                     const imgElement = document.getElementById(imgId);
                     if (imgElement && imgElement.tagName === 'IMG') {
-                        imgElement.src = value; 
+                        if (value) {
+                            imgElement.src = value; 
+                        } else {
+                            imgElement.style.display = 'none'; 
+                        }
+                    }
+                } else if (key === 'width') {
+                    if (value) {
+                        widthValue = value + 'px';
                     }
                 } else {
                     const element = document.getElementById(key);
                     if (element) {
                         if (element.tagName === 'P' || element.tagName === 'SPAN') {
-                            element.textContent = value;
+                            if (value) {
+                                element.textContent = value;
+                            } else {
+                                element.style.display = 'none';
+                            }
                         } else if (element.tagName === 'INPUT') {
-                            element.value = value; 
+                            if (value) {
+                                element.value = value;
+                            } else {
+                                element.style.display = 'none';
+                            }
                         }
-                        // Add more conditions here for other element types if needed
                     }
                 }
             });
+            const root = document.documentElement;
+            root.style.setProperty('--profile-size-width', widthValue);
+            createRatioVariable();
         }
-        window.onload = updateElementsFromUrl;
 
-        createRatioVariable();
-        console.log(createUrlFromElements());
+        function checkAndHideImmunePart() {
+            const immuneImg = document.getElementById('immuneimg');
+            const immuneText = document.getElementById('immunetext');
+            const immunePart = document.getElementById('immunepart');
+        
+            const imgDisplay = window.getComputedStyle(immuneImg).display;
+            const textDisplay = window.getComputedStyle(immuneText).display;
+        
+            if (imgDisplay === 'none' && textDisplay === 'none') {
+                immunePart.style.display = 'none'; 
+            } else {
+                immunePart.style.display = ''; 
+            }
+        }
+
+        Promise.all(Array.from(document.images).map(img => {
+            return new Promise(resolve => {
+                if (img.complete && img.src) {
+                    resolve();
+                } else {
+                    img.onload = img.onerror = resolve;
+                }
+            });
+        })).then(() => {
+            console.log(createUrlFromElements());
+        });
+
+        updateElementsFromUrl();
+        checkAndHideImmunePart();
     </script>    
 </body>
 </html>
