@@ -19,7 +19,7 @@ display:grid;
 font-family:'VCR OSD Mono',sans-serif;
 font-size:calc(1.7rem * var(--scale-value));
 height:var(--profile-size-height);
-aspect-ratio:1/1.13;
+aspect-ratio:1.13/1;
 grid-template-areas:"titlesection titlesection" "imagesection profilesection";
 grid-template-columns:40% 60%;
 grid-template-rows:11.3% 88.7%;
