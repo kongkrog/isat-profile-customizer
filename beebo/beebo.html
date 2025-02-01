@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="beebo.css">
+    <title>Detective Beebo Dialogue Maker | Lea's Page</title>
+    <script src="gif.js"></script>
+    <script src="gif.worker.js"></script>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="preload" href="./nokiafc22.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+</head>
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center; margin-bottom: 20px;">
+        <p style="font-size: 1.7rem; font-weight: bold;">Detective Beebo Dialogue Maker</p>
+        <p style="font-size: 1.3rem;">Made by Lea!</p>
+    </div>
+
+    <img id="exampleImage" src="./assets/exampleGif.gif" alt="Example Dialogue" style="width: 100%; max-width: 600px; display: block; margin: auto;">
+    <canvas id="dialogueCanvas" width="1760" height="235" style="display: none;"></canvas>
+    <img id="resultImage" alt="Generated Dialogue" style="width: 100%; max-width: 600px; display: none; margin: auto;">
+    <img src='' id="generatedGif" style="display: none">
+    <p id="debugText"></p>
+    <a id="downloadLink" href = "">
+        <button id="downloadButton" class="uiButton" style="margin-top: 20px; width: 250px; display: none;">
+            Download GIF
+        </button>
+    </a>
+    <p style="font-size: 1.5rem; font-weight: bold; margin-top: 50px;">Dialogue Setting</p>
+    <p style="font-size: 1.2rem;">Changing how the dialogue behaves.</p>
+    <div class="container">
+        <div class="option">
+            <label class="label" for="textInput">Text Input:</label>
+            <textarea class="input-field" id="textInput" placeholder="Enter text here" rows=6 value="">[IMG=Eugene_Coli_aw]Aw, dialogue time![IMG=Vivi_neutron][CLR=RED] Reddddddddddd!![CLEAR]Andddd everything is back.</textarea>
+        </div>
+
+        <div class="option">
+            <label class="label" for="speedInput">Speed (Small = Fast):</label>
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <input class="input-field" type="range" id="speedInput" min="30" max="100" step="10" value="80">
+            </div>
+        </div>
+
+        <div class="option">
+            <label class="label" for="optimizationInput">Gif Optimization?:</label>
+            <input class="input-field" type="checkbox" id="optimizationInput" checked>
+        </div>
+    </div>
+    <button id='generateDialogue'>Generate Dialogue!</button>
+
+    <p style="font-size: 1.5rem; font-weight: bold; margin-top: 50px;">Sprite Gallery</p>
+    <p style="font-size: 1.2rem;">Click or Touch the image to get the Image Tag of that sprite.</p>
+    <!-- Search Panel -->
+    <div style="text-align: center; margin-top: 20px;">
+        <input type="text" id="searchBar" placeholder="Search for a sprite..." style="padding: 10px; font-size: 1rem; width: 80%; max-width: 600px; border-radius: 5px; margin-bottom: 20px;">
+    </div>
+
+    <!-- Image Gallery -->
+    <div id="imageGallery">
+        <!-- Images will be inserted dynamically here -->
+    </div>
+
+    <p style="font-size: 1.5rem; font-weight: bold; margin-top: 50px;">Color Picker</p>
+    <p style="font-size: 1.2rem;">Click or Touch the color to get that Color tag.</p>
+    <div id="colorPicker">
+        <!-- Color pairs will be inserted dynamically here -->
+    </div>
+
+    <p style="font-size: 1.5rem; font-weight: bold; margin-top: 50px;">Tag Guide</p>
+    <table class="tag-table">
+        <thead>
+            <tr>
+                <th>Tag</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>[CLEAR]<br>Clear all text in the dialogue box.</td>
+            </tr>
+            <tr>
+                <td>[P=x] (x is ms)<br>Pause for x miliseconds.</td>
+            </tr>
+            <tr>
+                <td>[CLR=x] (x is color)<br>Change the color of the dialogue into specified color.</td>
+            </tr>
+            <tr>
+                <td>[IMG=x] (x is image)<br>Change the sprite image into to the one you chose.</td>
+            </tr>
+        </tbody>
+    </table>
+    <script src="./beebo.js"></script>
+    <script type="module">
+        import gifsicle from 'https://cdn.jsdelivr.net/npm/gifsicle-wasm-browser/dist/gifsicle.min.js';
+        const debugText = document.getElementById("debugText");
+
+        function optimizeGIF(src, args) {
+            downloadButton.replaceWith(downloadButton.cloneNode(true));
+
+            gifsicle.run({
+                input: [{ file: src, name: "optimized.gif" }],
+                command: [args]
+            }).then(out => {
+                debugText.innerText = "Finished!"
+                let optimizedGifUrl = URL.createObjectURL(out[0]);
+
+                const resultImage = document.getElementById("resultImage");
+                const downloadButton = document.getElementById('downloadButton');
+                const downloadLink = document.getElementById("downloadLink");
+
+                resultImage.src = optimizedGifUrl;
+                resultImage.style.display = "block"; // Show optimized image
+                downloadButton.style.display = 'inline-block';
+
+                downloadLink.href = optimizedGifUrl;
+                downloadLink.download = "finishedAnimation.gif";
+                downloadLink.style.display = "inline-block";
+            });
+        }
+
+        // Observer to detect when the generated GIF is ready
+        const gifDisplay = document.getElementById("generatedGif");
+
+        const observer = new MutationObserver((changes) => {
+            if (gifDisplay.dataset.ready === "true" && gifDisplay.src) {
+                if (document.getElementById("optimizationInput").checked) {
+                    optimizeGIF(gifDisplay.src, "-O2 --lossy=30 --colors 256 optimized.gif -o /out/out.gif");
+                }
+            }
+        });
+
+        // Observe changes in `generatedGif`
+        observer.observe(gifDisplay, { attributes: true, attributeFilter: ["src"] });
+    </script>
+</body>
+</html>

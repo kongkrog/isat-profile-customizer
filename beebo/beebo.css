@@ -1,0 +1,223 @@
+@font-face {
+    font-family: 'NokiaFC22';
+    src: url('./nokiafc22.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+html {
+    width: 100vw;
+    font-family: 'NokiaFC22';
+    color: #87588a;
+}
+
+html, body {
+    background-color: #27002a;
+
+    top: 0;
+    left: 0;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    border: 60px solid transparent;
+    border-image: url("assets/bigBorder.png") 34% repeat;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    border: none;
+    margin: 0;
+    padding: 10px;
+    border-radius: 5px;
+    width: auto;
+    overflow: visible;
+
+    background-color: #87588a;
+    color: #27002a;
+
+    font: inherit;
+
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    line-height: normal;
+
+    /* Corrects font smoothing for webkit */
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+
+    /* Corrects inability to style clickable `input` types in iOS */
+    -webkit-appearance: none;
+}
+h1, h2, h3, h4, h5, h6, p {
+    padding: 0;
+    margin: 0;
+}
+
+/* Container for the first panel */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    gap: 20px;
+    max-width: 600px; /* Restrict to 600px width */
+    margin: auto; /* Center the container */
+}
+
+/* Each input section */
+.option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border: 20px solid transparent;
+    border-image: url("assets/smallBorder.png") 34% repeat;
+
+}
+
+canvas {
+    margin-top: 10px;
+    border: 20px solid transparent;
+    border-image: url("assets/smallBorder.png") 34% repeat;
+}
+
+.label {
+    font-weight: bold;
+    width: 40%;
+}
+
+.input-field {
+    width: 55%;
+    padding: 8px;
+    font-size: 1rem;
+}
+
+/* For responsiveness on smaller screens */
+@media (max-width: 768px) {
+    .label {
+        font-size: 0.9rem;
+        width: 40%;
+    }
+
+    .input-field {
+        font-size: 0.9rem;
+        width: 55%;
+    }
+
+    .container {
+        gap: 10px;
+    }
+}
+
+/* New table for tag and example */
+.tag-table {
+    width: 100%;
+    max-width: 600px; /* Ensure max width of the table */
+    margin: auto;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 1px solid #000;
+}
+
+.tag-table th, .tag-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #000;
+}
+
+.tag-table th {
+    background-color: #2c2305;
+    color: #ab9343;
+    font-weight: bold;
+}
+
+.tag-table td {
+    background-color: #ab9343;
+    color: #2c2305;
+}
+
+/* Make the table responsive for smaller screens */
+@media (max-width: 600px) {
+    .tag-table {
+        width: 100%; /* Full width on smaller screens */
+    }
+}
+
+/* Container for the images */
+#imageGallery {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Flexible columns with a minimum width */
+margin: auto;
+width: 600px; /* Ensure the gallery can take full width of its container */
+max-width: 100%; /* Prevent from exceeding the container width */
+height: 400px; /* Set a fixed height for the gallery */
+overflow-y: auto; /* Make the gallery scrollable */
+}
+
+#imageGallery .image-container {
+text-align: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+/* Image size */
+#imageGallery img {
+cursor: pointer;
+}
+
+/* Label with text cut off with ellipsis */
+#imageGallery .image-label {
+font-size: 0.7rem;
+margin-top: 5px;
+white-space: nowrap; /* Prevent wrapping */
+overflow: hidden; /* Hide text that overflows */
+text-overflow: ellipsis; /* Show ellipsis if text is too long */
+width: 100%; /* Ensure text doesn't overflow outside grid */
+text-align: center;
+}
+
+/* Container for the color pairs */
+#colorPicker {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Flexible columns with a minimum width */
+gap: 10px; /* Space between the items */
+margin: auto;
+width: 600px; /* Ensure the gallery can take full width of its container */
+max-width: 100%; /* Prevent from exceeding the container width */
+height: 200px; /* Set a fixed height for the gallery */
+overflow-y: auto; /* Make the gallery scrollable */
+}
+
+/* Container for individual color pairs */
+#colorPicker .color-container {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+
+/* Color swatches */
+#colorPicker .color-box {
+width: 80px;
+height: 80px;
+cursor: pointer;
+margin: 5px;
+}
+
+/* Label with color name */
+#colorPicker .color-name {
+font-size: 0.7rem;
+margin-top: 5px;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+text-align: center;
+}
+
+
