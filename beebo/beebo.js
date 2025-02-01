@@ -7,7 +7,7 @@ const originSecondaryColor = "#87588a"; // Light purple
 let primaryColor = "#27002a"; // Purple
 let secondaryColor = "#87588a"; // Light purple
 
-let speed = 100;
+let speed = 75;
 
 const scaleFactor = 0.66;
 
