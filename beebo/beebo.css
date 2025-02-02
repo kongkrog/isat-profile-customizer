@@ -5,6 +5,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'SqueezedPixels';
+    src: url('./SqueezedPixels.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 html {
     width: 100vw;
     font-family: 'NokiaFC22';
@@ -28,6 +35,15 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+input[type="text"] {
+    all: unset;
+}
+
+#searchBar {
+    color: #202a55;
+    background-color: #8089b2;
 }
 
 button {
@@ -156,6 +172,8 @@ width: 600px; /* Ensure the gallery can take full width of its container */
 max-width: 100%; /* Prevent from exceeding the container width */
 height: 400px; /* Set a fixed height for the gallery */
 overflow-y: auto; /* Make the gallery scrollable */
+border: 20px solid transparent;
+border-image: url("assets/smallBorder.png") 34% repeat;
 }
 
 #imageGallery .image-container {
@@ -189,8 +207,10 @@ gap: 10px; /* Space between the items */
 margin: auto;
 width: 600px; /* Ensure the gallery can take full width of its container */
 max-width: 100%; /* Prevent from exceeding the container width */
-height: 200px; /* Set a fixed height for the gallery */
+height: 250px; /* Set a fixed height for the gallery */
 overflow-y: auto; /* Make the gallery scrollable */
+border: 20px solid transparent;
+border-image: url("assets/smallBorder.png") 34% repeat;
 }
 
 /* Container for individual color pairs */
@@ -220,4 +240,8 @@ text-overflow: ellipsis;
 text-align: center;
 }
 
+#importantButton {
+    color: #311a05;
+    background-color: #a97844;
+}
 

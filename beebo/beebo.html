@@ -9,13 +9,19 @@
     <script src="gif.worker.js"></script>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="preload" href="./nokiafc22.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="./SqueezedPixels.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 </head>
 <body>
     <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center; margin-bottom: 20px;">
         <p style="font-size: 1.7rem; font-weight: bold;">Detective Beebo Dialogue Maker</p>
         <p style="font-size: 1.3rem;">Made by Lea!</p>
     </div>
-
+    <a href="https://bwobbers.itch.io/detective-beebo-night-at-the-mansion">
+        <button id="importantButton" class="uiButton" style="margin-bottom: 20px;">
+            Check out the Official game made by Bwobbers!!<br>It's really good!!
+        </button>
+    </a>
+    <p style="font-size: 1rem; margin-bottom: 20px;">Font used: Nokia Cellphone FC <a href="https://www.dafont.com/nokia-cellphone.font">[LINK]</a> and SqueezedPixels (made by Bwobbers)</p>
     <img id="exampleImage" src="./assets/exampleGif.gif" alt="Example Dialogue" style="width: 100%; max-width: 600px; display: block; margin: auto;">
     <canvas id="dialogueCanvas" width="1760" height="235" style="display: none;"></canvas>
     <img id="resultImage" alt="Generated Dialogue" style="width: 100%; max-width: 600px; display: none; margin: auto;">
@@ -27,29 +33,35 @@
         </button>
     </a>
     <p style="font-size: 1.5rem; font-weight: bold; margin-top: 50px;">Dialogue Setting</p>
-    <p style="font-size: 1.2rem;">Changing how the dialogue behaves.</p>
+    <p style="font-size: 1.2rem;">Change how the dialogue behaves.</p>
     <div class="container">
         <div class="option">
             <label class="label" for="textInput">Text Input:</label>
-            <textarea class="input-field" id="textInput" placeholder="Enter text here" rows=6 value="">[IMG=Eugene_Coli_aw]Aw, dialogue time![IMG=Vivi_neutron][CLR=RED] Reddddddddddd!![CLEAR]Andddd everything is back.</textarea>
+            <textarea class="input-field" id="textInput" placeholder="Enter text here" rows=6 value="">[IMG=Eugene_Coli_aw]Aw, dialogue time![IMG=Vivi_neutron][CLR=RED] Reddddddddddd!![CLEAR]Andddd everything is back. Time to pause for a few[P=1000] seconds.</textarea>
         </div>
 
         <div class="option">
-            <label class="label" for="speedInput">Speed (Small = Fast):</label>
+            <div>
+                <label class="label" for="speedInput">Speed</label>
+                <p style="font-size: 0.8rem;">The smaller the value (to the left side), the faster the text.</p>
+            </div>
             <div style="display: flex; align-items: center; gap: 5px;">
                 <input class="input-field" type="range" id="speedInput" min="30" max="100" step="10" value="80">
             </div>
         </div>
 
         <div class="option">
-            <label class="label" for="optimizationInput">Gif Optimization?:</label>
+            <div>
+                <label class="label" for="optimizationInput">Gif Optimization?</label>
+                <p style="font-size: 0.8rem;">There's a small chance that optimized GIF will break for some platforms, you might need to diasble this.</p>
+            </div>
             <input class="input-field" type="checkbox" id="optimizationInput" checked>
         </div>
     </div>
     <button id='generateDialogue'>Generate Dialogue!</button>
 
     <p style="font-size: 1.5rem; font-weight: bold; margin-top: 50px;">Sprite Gallery</p>
-    <p style="font-size: 1.2rem;">Click or Touch the image to get the Image Tag of that sprite.</p>
+    <p style="font-size: 1.2rem;">Click or Touch the image to get the Image tag of that sprite.</p>
     <!-- Search Panel -->
     <div style="text-align: center; margin-top: 20px;">
         <input type="text" id="searchBar" placeholder="Search for a sprite..." style="padding: 10px; font-size: 1rem; width: 80%; max-width: 600px; border-radius: 5px; margin-bottom: 20px;">
@@ -62,7 +74,7 @@
 
     <p style="font-size: 1.5rem; font-weight: bold; margin-top: 50px;">Color Picker</p>
     <p style="font-size: 1.2rem;">Click or Touch the color to get that Color tag.</p>
-    <div id="colorPicker">
+    <div id="colorPicker" style="margin-top: 20px;">
         <!-- Color pairs will be inserted dynamically here -->
     </div>
 

@@ -7,8 +7,6 @@ const originSecondaryColor = "#87588a"; // Light purple
 let primaryColor = "#27002a"; // Purple
 let secondaryColor = "#87588a"; // Light purple
 
-let speed = 75;
-
 const scaleFactor = 0.66;
 
 canvas.width = 1760;
@@ -325,34 +323,6 @@ function extractCharacterName(imageName) {
     return nameWithoutExtension.charAt(0).toUpperCase() + nameWithoutExtension.slice(1);
 }
 
-function drawText(ctx, text, x, y, maxWidth, lineHeight) {
-    ctx.font = "bold 36px NokiaFC22";
-    ctx.fillStyle = secondaryColor;
-    ctx.textAlign = "left";
-    ctx.textBaseline = "bottom";
-
-    // Wrap text function to handle multi-line text
-    const words = text.split(" ");
-    let line = "";
-    let testLine = "";
-    let testWidth = 0;
-
-    for (let i = 0; i < words.length; i++) {
-        testLine = line + words[i] + " ";
-        testWidth = ctx.measureText(testLine).width;
-
-        if (testWidth > maxWidth && i > 0) {
-            ctx.fillText(line, x, y);
-            line = words[i] + " ";
-            y += lineHeight;
-        } else {
-            line = testLine;
-        }
-    }
-
-    ctx.fillText(line, x, y);
-}
-
 // Function to clear the dialogue text area
 function clearDialogueText() {
     ctx.fillStyle = primaryColor;
@@ -369,11 +339,11 @@ function clearCharacterName() {
 function updateCharacterName(characterName) {
     // Clear the character name area and draw the new name
     clearCharacterName();
-    ctx.font = "bold 36px NokiaFC22";
+    ctx.font = "normal 36px SqueezedPixels";
     ctx.fillStyle = secondaryColor;
     ctx.textAlign = "left";
     ctx.textBaseline = "bottom";
-    ctx.fillText(characterName, 45, 45); // Display the character name at the top
+    ctx.fillText(characterName, 45, 57); // Display the character name at the top
 }
 
 // Updated processDialogueTags function to handle CLR= color changes
@@ -423,7 +393,7 @@ function processDialogueTags(dialogueText) {
     return processedText;
 }
 
-function addFrameToGif() {
+function addFrameToGif(speed) {
     // Create an offscreen canvas for resizing
     const resizedCanvas = document.createElement("canvas");
     const resizedCtx = resizedCanvas.getContext("2d");
@@ -440,7 +410,40 @@ function addFrameToGif() {
     gif.addFrame(resizedCanvas, { delay: speed, copy: true });
 }
 
-function typewriterEffect(dialogueData, originX, originY, maxWidth, lineHeight) {
+function drawText(ctx, text, x, y, maxWidth, lineHeight) {
+    ctx.font = "normal 36px NokiaFC22";
+    ctx.fillStyle = secondaryColor;
+    ctx.textAlign = "left";
+    ctx.textBaseline = "bottom";
+
+    // Split text into lines by "\n" first, then process each line separately
+    const paragraphs = text.split("\n");
+
+    for (let p = 0; p < paragraphs.length; p++) {
+        const words = paragraphs[p].trimStart().split(" "); // Trim leading space on new line
+        let line = "";
+        let testLine = "";
+        let testWidth = 0;
+
+        for (let i = 0; i < words.length; i++) {
+            testLine = line + words[i] + " ";
+            testWidth = ctx.measureText(testLine).width;
+
+            if (testWidth > maxWidth && i > 0) {
+                ctx.fillText(line, x, y);
+                line = words[i] + " ";  // Start new line with the current word
+                y += lineHeight;
+            } else {
+                line = testLine;
+            }
+        }
+
+        ctx.fillText(line, x, y);
+        y += lineHeight; // Move down for new paragraph
+    }
+}
+
+function typewriterEffect(dialogueData, originX, originY, maxWidth, lineHeight, speed) {
     let currentText = "";
     let characterName = "";
     let previousCharacterName = "";
@@ -462,9 +465,9 @@ function typewriterEffect(dialogueData, originX, originY, maxWidth, lineHeight) 
             currentText = "";
             lines = [""];
         } else if (item.type === 'pause') {
-            let pauseFrames = Math.floor(item.time / 100);
+            let pauseFrames = Math.floor(item.time / speed);
             for (let i = 0; i < pauseFrames; i++) {
-                addFrameToGif();
+                addFrameToGif(speed);
             }
         } else if (item.type === 'image') {
             const imageName = item.imageName;
@@ -478,7 +481,6 @@ function typewriterEffect(dialogueData, originX, originY, maxWidth, lineHeight) 
                 }
                 ctx.imageSmoothingEnabled = false;
                 ctx.drawImage(img, 22, 61, 169, 152);
-                addFrameToGif();
             } else {
                 console.warn(`Image "${imageName}" not loaded yet.`);
             }
@@ -491,15 +493,43 @@ function typewriterEffect(dialogueData, originX, originY, maxWidth, lineHeight) 
             }
         } else if (item.type === 'text') {
             const text = item.content;
+            let newLineFlag = false; // Flag to track when \n is encountered
+
             for (let i = 0; i < text.length; i++) {
                 let char = text[i];
-                let currentLine = lines[lines.length - 1] + char;
-                let testWidth = ctx.measureText(currentLine).width;
 
-                if (testWidth > maxWidth && char !== ' ') {
-                    lines.push(char);
+                if (char === "\n") {
+                    // Handle line breaks properly: Just reset the line, don't clear other content
+                    newLineFlag = true;
+                    lines.push(""); // Start a new line for text wrapping
                 } else {
-                    lines[lines.length - 1] = currentLine;
+                    let currentLine = lines[lines.length - 1] + char;
+                    let testWidth = ctx.measureText(currentLine).width;
+
+                    if (testWidth > maxWidth && char !== ' ') {
+                        // Word is too long, break it
+                        let splitWord = currentLine;
+                        let remainingText = splitWord;
+                        while (remainingText.length > 0) {
+                            let testWidth = ctx.measureText(remainingText).width;
+                            if (testWidth > maxWidth) {
+                                let lastSpaceIndex = remainingText.lastIndexOf(' ', maxWidth);
+                                if (lastSpaceIndex === -1) {
+                                    // Word too long, break it in the middle
+                                    lines.push(remainingText.slice(0, maxWidth));
+                                    remainingText = remainingText.slice(maxWidth);
+                                } else {
+                                    lines.push(remainingText.slice(0, lastSpaceIndex));
+                                    remainingText = remainingText.slice(lastSpaceIndex + 1);
+                                }
+                            } else {
+                                lines.push(remainingText);
+                                remainingText = "";
+                            }
+                        }
+                    } else {
+                        lines[lines.length - 1] = currentLine;
+                    }
                 }
 
                 clearDialogueText();
@@ -512,18 +542,25 @@ function typewriterEffect(dialogueData, originX, originY, maxWidth, lineHeight) 
                     drawText(ctx, line, currentX, currentY + index * lineHeight, maxWidth, lineHeight);
                 });
 
-                addFrameToGif();
+                addFrameToGif(speed);
+
+                // If a new line was triggered by \n, ensure the next line is tracked properly
+                if (newLineFlag) {
+                    newLineFlag = false; // Reset after handling the newline
+                }
             }
         }
     }
 
-    let pauseFrames = Math.floor(2000 / 100);
+    let pauseFrames = Math.floor(2000 / speed);
     for (let i = 0; i < pauseFrames; i++) {
-        addFrameToGif();
+        addFrameToGif(speed);
     }
 }
 
-async function startDialogue(dialogueText, speed) {
+async function startDialogue(dialogueText) {
+    let speed = document.getElementById("speedInput").value;
+
     if (!dialogueText.trim()) {
         alert("Please enter dialogue text before generating.");
         return;
@@ -582,9 +619,23 @@ searchBar.addEventListener('input', function() {
 
 document.getElementById("generateDialogue").addEventListener("click", async function () {
     let dialogueText = document.getElementById("textInput").value;
-    let speed = document.getElementById("speedInput").value;
 
-    await document.fonts.ready;
-    await startDialogue(dialogueText, speed);
+    // Check if both fonts are loaded
+    const font1 = "NokiaFC22";
+    const font2 = "SqueezedPixels";
+
+    const isFont1Loaded = document.fonts.check(`1em ${font1}`);
+    const isFont2Loaded = document.fonts.check(`1em ${font2}`);
+
+    if (isFont1Loaded && isFont2Loaded) {
+        await startDialogue(dialogueText);
+    } else {
+        console.log("Fonts are not loaded yet. Waiting...");
+        // Wait for both fonts to be ready
+        await document.fonts.load(`1em ${font1}`);
+        await document.fonts.load(`1em ${font2}`);
+
+        // Once both fonts are loaded, proceed with starting the dialogue
+        await startDialogue(dialogueText);
+    }
 });
-
